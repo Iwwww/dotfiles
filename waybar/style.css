@@ -39,7 +39,7 @@ window#waybar {
     border-bottom: 2px solid white;
 }
 
-#custom-clock, #battery, #cpu, #memory, #network, #pulseaudio, #custom-spotify, #tray, #mode {
+#custom-clock, #battery, #cpu, #memory, #pulseaudio, #custom-spotify, #tray, #mode {
     padding: 0 3px;
     margin: 0 9px;
 }
@@ -56,6 +56,7 @@ window#waybar {
 }
 
 #battery.charging {
+    color: #f09b41; 
 }
 
 @keyframes blink {
@@ -82,8 +83,10 @@ window#waybar {
     color: #4ea0f2; 
 }
 
+/*
 #network {
 }
+*/
 
 #network.disconnected {
     background: #f53c3c;
@@ -95,10 +98,16 @@ window#waybar {
 #pulseaudio.muted {
 }
 
+/*
 #custom-spotify {
     color: rgb(102, 220, 105);
 }
+*/
 
 #tray {
 }
 
+#language {
+    color: lightblue;
+    margin-left: 10px;
+}
