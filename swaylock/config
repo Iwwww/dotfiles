@@ -1,0 +1,6 @@
+ignore-empty-password
+daemonize
+indicator-caps-lock
+image=/path/to/img.png
+font-size=20
+#no-unlock-indicator
