@@ -7,3 +7,6 @@ i3ConfigOldFile="$HOME/Documents/i3-sway-config/i3/config"
 
 cp --backup=numbered "$i3ConfigOldFile" "i3/config.bak"
 cp "$i3ConfigNewFile" "$i3ConfigOldFile"
+
+cp --backup=numbered "dunst/dunstrc" "dunst/dunstrc.bak"
+cp "$HOME/.config/dunst/dunstrc" "dunst/dunstrc"
