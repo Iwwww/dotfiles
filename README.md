@@ -1,2 +1,4 @@
-# i3-sway-config
-My sway and polybar config
+# Dotfiles
+**List of dotfiles**:
+- [i3](i3/config)
+- [dunst](dunst/dunstrc)
