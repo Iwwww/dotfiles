@@ -427,12 +427,12 @@ mode "$mode_gaps_outer" {
 exec setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle,grp_led:scroll" &
 
 # Startup
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # My binds
 bindsym $mod+Shift+u exec firefox -new-window  https://web.whatsapp.com/
 bindsym $mod+Shift+i exec firefox -new-window https://vk.com/im/
-bindsym $mod+g exec firefox -new-window https://github.com/Iwwww?tab=repositories
+bindsym $mod+g exec qutebrowser --target tab https://github.com/Iwwww?tab=repositories
 bindsym $mod+p exec terminal -e htop 
 bindsym Print exec flameshot gui
 bindsym $mod+Shift+s exec maim -s --hidecursor | xclip -selection clipboard -t image/png
