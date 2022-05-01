@@ -10,3 +10,6 @@ cp "$i3ConfigNewFile" "$i3ConfigOldFile"
 
 cp --backup=numbered "dunst/dunstrc" "dunst/dunstrc.bak"
 cp "$HOME/.config/dunst/dunstrc" "dunst/dunstrc"
+
+cp --backup=numbered -v "picom/picom.conf" "picom/picom.conf.bak"
+cp -v "$HOME/.config/picom.conf" "picom/picom.conf"
