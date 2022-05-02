@@ -64,12 +64,14 @@ bindsym $mod+F5 exec terminal -e 'mocp'
 bindsym $mod+t exec telegram-desktop
 bindsym $mod+Ctrl+t exec --no-startup-id picom -b
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
+bindsym $mod+p exec alacritty -e sh -c 'htop'
 #bindsym Print exec --no-startup-id i3-scrot
 #bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 #bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
 bindsym $mod+Shift+Control+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
-bindsym $mod+o exec terminal -e 'lf -config /home/mikhail/.config/lf/lfrc'
+#bindsym $mod+o exec terminal -e 'lf -config /home/mikhail/.config/lf/lfrc'
+bindsym $mod+o exec alacritty -e sh -c 'lf -config /home/mikhail/.config/lf/lfrc'
 
 bindsym $mod+b exec qutebrowser
 bindsym $mod+Shift+b exec firefox
@@ -433,7 +435,6 @@ exec setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle,grp_led:scroll" &
 bindsym $mod+Shift+u exec firefox -new-window  https://web.whatsapp.com/
 bindsym $mod+Shift+i exec firefox -new-window https://vk.com/im/
 bindsym $mod+g exec qutebrowser --target tab https://github.com/Iwwww?tab=repositories
-bindsym $mod+p exec terminal -e htop 
 bindsym Print exec flameshot gui
 bindsym $mod+Shift+s exec maim -s --hidecursor | xclip -selection clipboard -t image/png
 
