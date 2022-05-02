@@ -68,7 +68,6 @@ bindsym $mod+p exec alacritty -e sh -c 'htop'
 #bindsym Print exec --no-startup-id i3-scrot
 #bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 #bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
-bindsym $mod+Shift+Control+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 #bindsym $mod+o exec terminal -e 'lf -config /home/mikhail/.config/lf/lfrc'
 bindsym $mod+o exec alacritty -e sh -c 'lf -config /home/mikhail/.config/lf/lfrc'
