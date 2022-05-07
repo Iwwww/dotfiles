@@ -38,7 +38,16 @@ case "$(file --dereference --brief --mime-type -- "$1")" in
 		[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
 		image "$CACHE.jpg" "$2" "$3" "$4" "$5" "$1"
 		;;
-	*opendocument*) odt2txt "$1" ;;
+	*opendocument*) 
+		CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
+		F="$(echo $(basename "$1") | sed 's/.odt/.pdf/' )"
+		libreoffice --headless --convert-to pdf "$1" --outdir "${XDG_CACHE_HOME:-$HOME/.cache}/lf/" 1> /dev/null
+		#FILE=$( echo -s "${XDG_CACHE_HOME:-$HOME/.cache}/lf/" "$(echo "$F" | sed "s/\.odt/\.pdf/"  )" )
+		S="${XDG_CACHE_HOME:-$HOME/.cache}/lf/"
+		FILE="$S$F"
+		[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$FILE" "$CACHE"
+		image "$CACHE.jpg" "$2" "$3" "$4" "$5" "$1";;
+	#*opendocument*) odt2txt "$1" ;;
 	application/pgp-encrypted) gpg -d -- "$1" ;;
 esac
 exit 1
