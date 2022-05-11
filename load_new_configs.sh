@@ -13,3 +13,7 @@ cp -v "$HOME/.config/dunst/dunstrc" "dunst/dunstrc"
 
 cp --backup=numbered -v "picom/picom.conf" "picom/picom.conf.bak"
 cp -v "$HOME/.config/picom.conf" "picom/picom.conf"
+
+cp -rv --backup "$HOME/.config/lf/" "."
+
+cp -rv --backup "$HOME/.config/nvim/" "."
