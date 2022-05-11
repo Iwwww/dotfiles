@@ -284,7 +284,8 @@ exec --no-startup-id clipit
 exec --no-startup-id redshift -c ~/.config/redshift/redshift.conf
 exec_always --no-startup-id sbxkb
 exec --no-startup-id start_conky_maia
-exec --no-startup-id xautolock -time 20 -locker blurlock
+exec --no-startup-id xautolock -time 15 -locker blurlock
+exec --no-startup-id xautolock -killer 'systemctl suspend' -killtime 20
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 
