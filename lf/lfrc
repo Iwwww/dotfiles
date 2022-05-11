@@ -133,6 +133,14 @@ map gd cd ~/Documents
 map gD cd ~/Downloads
 map gs cd ~/scripts
 map gp cd ~/Pictures
+map gv cd ~/Video
+map gc cd ~/.config
+map gm cd /run/media
+
 
 map <delete> delete
 map DD delete
+
+map M mkdir
+
+map XX extract
