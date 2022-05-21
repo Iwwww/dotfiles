@@ -14,8 +14,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'davidhalter/jedi-vim'
 "Plug 'sbdchd/neoformat'
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-"Plug 'junegunn/fzf.vim'
-"Plug 'jiangmiao/auto-pairs'
+" Plug 'junegunn/fzf.vim'
+Plug 'jiangmiao/auto-pairs'
 "Plug 'machakann/vim-sandwich'
 "Plug 'tpope/vim-sleuth'
 "Plug 'editorconfig/editorconfig-vim'
@@ -24,7 +24,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'ellisonleao/glow.nvim', {'branch': 'main'}
 "Plug 'onsails/lspkind.nvim'
 "Plug 'scrooloose/syntastic'
-
+" MarkDown
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 " NERDTree
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdtree' |
