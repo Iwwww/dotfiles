@@ -415,6 +415,7 @@ set incsearch
 set mouse=a
 
 " Hot keys
+inoremap <C-s> <ESC>:w<CR>
 nnoremap <C-s> :w<CR>
 nnoremap <C-q> :q<CR>
 
