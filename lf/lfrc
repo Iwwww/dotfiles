@@ -136,6 +136,7 @@ map gp cd ~/Pictures
 map gv cd ~/Video
 map gc cd ~/.config
 map gm cd /run/media
+map gl cd ~/.local/bin
 
 
 map <delete> delete
