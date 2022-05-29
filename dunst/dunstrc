@@ -143,7 +143,7 @@
     dmenu = /usr/bin/dmenu -p dunst:
 
     # browser for opening urls in context menu
-    browser = /usr/bin/firefox -new-tab
+    browser = /usr/bin/qutebrowser --target=auto
 
 [frame]
     width = 0
@@ -236,9 +236,3 @@
     appname = Amarok
     summary = "Now playing"
     urgency = low
-
-#[twitter]
-#    appname = Pidgin
-#    summary = *twitter.com*
-#    urgency = normal
-#
