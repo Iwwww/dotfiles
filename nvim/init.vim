@@ -12,8 +12,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'zchee/deoplete-jedi'
 "Plug 'davidhalter/jedi-vim'
 "Plug 'sbdchd/neoformat'
-"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/zf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
 "Plug 'machakann/vim-sandwich'
 "Plug 'tpope/vim-sleuth'
