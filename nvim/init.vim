@@ -340,8 +340,8 @@ nnoremap <silent> <C-c> :nohlsearch<CR><C-l>
 map . <Plug>(easymotion-bd-f)
 
 " Auto commands
-" autocmd BufWritePost ~/repos/dwmblocks/config.h !cd ~/repos/src/dwmblocks/; sudo -S make install && { killall -q dwmblocks;setsid dwmblocks & }
-
-" autocmd BufWritePost ~/.local/bin/dwmblocks !cd ~/.local/bin/; killall -q dwmblocks; ./dwmblocks &
-autocmd BufWinLeave *.* mkview 
-autocmd BufWinEnter *.* silent loadview
+augroup autosave_buffer
+    autocmd!
+    autocmd BufWinLeave *.* mkview
+    autocmd BufWinEnter *.* silent loadview
+augroup END
