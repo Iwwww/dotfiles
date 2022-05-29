@@ -31,8 +31,6 @@ Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
-set encoding=UTF-8
-
 " colorscheme
 syntax on
 
@@ -294,7 +292,8 @@ let g:LanguageClient_serverCommands = {
     \ }
 
 "" vim's configs
-"set cursorline 
+" set cursorline 
+set encoding=UTF-8
 set number
 set relativenumber
 set expandtab
