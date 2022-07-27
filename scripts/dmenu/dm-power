@@ -1,0 +1,51 @@
+#!/bin/sh
+
+hibernate() {
+    blurlock
+    sleep 1
+    systemctl hibernate
+}
+
+myshutdown() {
+    shutdown now
+}
+
+reboot() {
+    shutdown --reboot now
+}
+
+suspend() {
+    blurlock
+    sleep 1
+    systemctl suspend
+}
+
+sleep_hibernate() {
+    blurlock
+    sleep 1
+    systemctl suspend-then-hibernate
+}
+
+screeen_off() {
+    sleep 2
+    xset dpms force off
+}
+
+lock() {
+    blurlock
+    sleep 1
+    xset dpms force off
+}
+
+select=$(echo -e "hibernate\nsleep\nzSleep-hibernate\nShutdown\nrestart\nlock\noff" | dmenu -p power)
+echo $select
+case  $select in
+    "hibernate") hibernate ;;
+    "Shutdown") myshutdown ;;
+    "sleep") suspend ;;
+    "zSleep-hibernate") sleep_hibernate ;;
+    "restart") reboot ;;
+    "lock") lock ;;
+    "off") screeen_off;;
+esac
+

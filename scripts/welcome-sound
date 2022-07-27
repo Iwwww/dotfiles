@@ -1,0 +1,14 @@
+#!/bin/sh
+
+[ $(pamixer --get-mute) = true ] && exit
+
+threshold_volume=60
+global_volume=$(pamixer --get-volume)
+
+if [ $global_volume -gt $threshold_volume ]; then
+    pamixer --set-volume $threshold_volume
+    mpv --no-video ~/Music/composing/recordings/welcome.mp3
+    pamixer --set-volume $global_volume
+else 
+    mpv --no-video ~/Music/composing/recordings/welcome.mp3
+fi

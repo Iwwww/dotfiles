@@ -1,0 +1,3 @@
+#!/bin/sh
+
+scrcpy --max-size 1920 -t --max-fps 60 -S

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+path=/home/mikhail/Pictures/wallpaper/nature/Golden_Forest_Johannes_Plenio_6K.jpg
+
+xwallpaper --zoom $path

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if [[ $(wget -qO- eth0.me) == $VPN_IP ]]; then 
+    killall -qw deluge-web
+    deluge-web &
+fi
