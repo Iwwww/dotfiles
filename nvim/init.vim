@@ -50,7 +50,7 @@ colorscheme sonokai
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " auto-pairs
-let g:AutoPairsFlyMode = 1
+let g:AutoPairsFlyMode = 0
 let g:AutoPairsShortcutBackInsert = '<M-b>'
 
 " Enable alignment
@@ -291,13 +291,47 @@ let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start']
     \ }
 
-"" vim's configs
+"" coc-snippets
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
+
+""" Make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" vim's configs
 " set cursorline 
 set encoding=UTF-8
 set number
 set relativenumber
 set expandtab
 set tabstop=4
+let tabsize=4
 set shiftwidth=4
 set smarttab
 set autoindent
@@ -311,7 +345,7 @@ set hlsearch
 set incsearch
 
 " enable mouse
-set mouse=a
+" set mouse=a
 
 " Hot keys
 inoremap <C-s> <ESC>:w<CR>
@@ -335,9 +369,12 @@ nnoremap <A-l> :tabnext<CR>
 
 nnoremap <silent> <C-c> :nohlsearch<CR><C-l>
 
+" replace
+" nnoremap 
+
 " easymotion plugin
 " <Leader>f{char} to move to {char}
-map . <Plug>(easymotion-bd-f)
+" map . <Plug>(easymotion-bd-f)
 
 " Auto commands
 augroup autosave_buffer
@@ -345,3 +382,5 @@ augroup autosave_buffer
     autocmd BufWinLeave *.* mkview
     autocmd BufWinEnter *.* silent loadview
 augroup END
+
+autocmd BufWritePost /home/mikhail/.Xresources :silent !xrdb /home/mikhail/.Xresources
