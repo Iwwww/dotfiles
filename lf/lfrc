@@ -114,6 +114,17 @@ cmd mkdir ${{
   mkdir $ans
 }}
 
+cmd set_wallpaper ${{
+    set -f
+    xwallpaper --zoom $fx
+    path_str="path=${fx}"
+    printf $fx
+    scripts_path='/home/mikhail/scripts/'
+    sed -i "s#[\/A-z0-9\-]\+.jpg#$fx#" "${scripts_path}set_wallpaper"
+}}
+
+cmd execute
+
 # Basic vars
 set shellopts '-eu'
 set ifs "\n"
@@ -143,5 +154,5 @@ map <delete> delete
 map DD delete
 
 map M mkdir
-
 map XX extract
+map sw set_wallpaper
