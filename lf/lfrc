@@ -1,7 +1,7 @@
 set cleaner '~/.config/lf/cleaner'
 set previewer '~/.config/lf/scope'
 # Basic Settings
-#set preview true
+set preview true
 set color256 true
 set drawbox true
 set icons true
