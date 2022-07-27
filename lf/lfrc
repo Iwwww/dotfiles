@@ -147,6 +147,7 @@ map gp cd ~/Pictures
 map gv cd ~/Video
 map gc cd ~/.config
 map gm cd /run/media
+map gM cd /mnt/usb
 map gl cd ~/.local
 
 
