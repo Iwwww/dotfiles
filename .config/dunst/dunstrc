@@ -1,8 +1,8 @@
 # Config based on Kaligule/dunst-config config file
 # Thank you!
 [global]
-    /*font = Monospace 9*/
-    font = JetBrains Mono Medium 10
+    # font = Monospace 9
+    font = JetBrains Mono Regular Nerd Font 10
 
     corner_radius = 10
 

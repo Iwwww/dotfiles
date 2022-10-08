@@ -5,8 +5,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'ap/vim-css-color', {'branch': 'master'}
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'roxma/nvim-completion-manager'
 "Plug 'SirVer/ultisnips'
 "Plug 'honza/vim-snippets'
@@ -14,7 +13,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lock
 "Plug 'davidhalter/jedi-vim'
 "Plug 'sbdchd/neoformat'
 " Plug 'junegunn/zf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
 "Plug 'machakann/vim-sandwich'
 "Plug 'tpope/vim-sleuth'
@@ -30,7 +29,6 @@ Plug 'preservim/nerdtree'
             " \ Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
-Plug 'sam4llis/nvim-tundra'
 call plug#end()
 
 " colorscheme
@@ -41,7 +39,7 @@ if has('termguicolors')
 set termguicolors
 endif
 
-" " The configuration options should be placed before `colorscheme sonokai`.
+" The configuration options should be placed before `colorscheme sonokai`.
 let g:sonokai_style = 'andromeda'
 let g:sonokai_better_performance = 1
 let g:sonokai_transparent_background=1
@@ -175,8 +173,6 @@ endif
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-inoremap <silent><expr> <cr> coc#pum#visible() && coc#pum#info()['index'] != -1 ? coc#pum#confirm() : "\<C-g>u\<CR>"
-inoremap <silent><expr> <cr> coc#pum#visible() && coc#pum#info()['index'] != -1 ? coc#pum#confirm() : "\<C-g>u\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -382,43 +378,12 @@ nnoremap <silent> <C-c> :nohlsearch<CR><C-l>
 
 " Auto commands
 augroup autosave_buffer
-   autocmd!
-   autocmd BufWinLeave *.* mkview
-   autocmd BufWinEnter *.* silent loadview
+    autocmd!
+    autocmd BufWinLeave *.* mkview
+    autocmd BufWinEnter *.* silent loadview
 augroup END
 
 autocmd BufWritePost /home/mikhail/.Xresources :silent !xrdb /home/mikhail/.Xresources
 
 "assembler
 autocmd BufNew,BufRead *.asm set ft=tasm
-
-" Disable warnings
-let g:loaded_ruby_provider = 0
-let g:loaded_perl_provider = 0
-
-" FZF Preview
-nmap <Leader>f [fzf-p]
-xmap <Leader>f [fzf-p]
-
-nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
-nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
-nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
-nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
-nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
-nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
-nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
-nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
-nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
-xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
-nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
-nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
-
-" Use vim-devicons
-let g:fzf_preview_use_dev_icons = 1
-
-" devicons character width
-let g:fzf_preview_dev_icon_prefix_string_length = 1
-

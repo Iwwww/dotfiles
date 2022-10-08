@@ -116,7 +116,7 @@ cmd mkdir ${{
 
 cmd set_wallpaper ${{
     set -f
-    feh --bg-fill $fx
+    xwallpaper --zoom $fx
     printf "path='${fx}'"
     script_path="/home/mikhail/scripts/set_wallpaper"
     sed -i "3 s#'[A-Za-z0-9\/\ \.\_]*'#'${fx}'#g" $script_path
@@ -130,6 +130,13 @@ cmd drag_n_drop_all ${{
     ripdrag $(ls $PWD) --resizable --icon-size 70
     printf $(ls $PWD)
 }}
+
+# cmd execute_in_window ${{
+    # set -f
+    # printf $fx
+    # # ./$fx
+    # read -P "Press any key to contionue ..."
+# }}
 
 cmd execute
 
@@ -157,7 +164,6 @@ map gc cd ~/.config
 map gm cd /run/media
 map gM cd /mnt/usb
 map gl cd ~/.local
-map gb cd ~/builds
 
 
 map <delete> delete
@@ -165,6 +171,7 @@ map DD delete
 
 map M mkdir
 map XX extract
+# map E execute_in_window
 map sw set_wallpaper
-map a drag_n_drop_selected
-map A drag_n_drop_all
+map p drag_n_drop_selected
+map P drag_n_drop_all

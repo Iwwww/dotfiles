@@ -7,7 +7,7 @@ hibernate() {
 }
 
 myshutdown() {
-    shutdown now
+    sudo shutdown now
 }
 
 reboot() {

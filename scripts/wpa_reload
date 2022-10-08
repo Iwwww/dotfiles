@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo killall -s 9 wpa_supplicant 
+sudo wpa_supplicant -D wext -i wlp3s0 -c /etc/wpa_supplicant/example.conf &
+sudo dhclient -r
+sudo dhclient -i wlp3s0
+

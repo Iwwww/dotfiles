@@ -1,0 +1,37 @@
+#!/bin/bash
+bookmarks_file=~/.config/qutebrowser/quickmarks
+bookmarks="$(cat $bookmarks_file)"
+
+# remove 'http' or 'https' prefix
+# and pipe it to dmenu
+# also take only 2nd part from dmenu output
+input=$(cat $bookmarks_file | awk -F ' [a-z]{4,5}+://' '{print $1, $2}' | dmenu -l 5)
+
+echo $input
+
+# echo "grep: "$(echo $input | grep $bookmarks)
+
+# if [[ $(echo $input | grep -w $bookmarks_file) != 0 ]]; then 
+    # link=$(echo $input | awk -F ' ' '{print $2}')
+    # echo "is"
+# else
+    # echo "noo"
+    # link=$input
+# fi
+
+# echo "link: $link"
+
+# if [[  ]]
+
+# echo $([[ $(echo $input | grep -F S -w) == 0]])
+# if [[ $(echo $input | grep -F S -w) != 0 ]]; then
+    # search_str=$input
+# else
+    # search_str="asddsa"#$(echo $input | awk ' ' '{print $2}')
+    # search_str=$(echo $input | awk ' ' '{print $2}')
+
+# echo $search_str
+# firefox --new-window $link
+if [[ $(echo $input) != "" ]];then
+    qutebrowser --target=window "$input"
+fi

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+devices=$(lsblk -e 7,11)
+lines_count=$(lsblk -e 7,11 | wc -l)
+echo "$devices" | dmenu -l $lines_count -fn mono
