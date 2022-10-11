@@ -6,31 +6,11 @@ Plug 'ap/vim-css-color', {'branch': 'master'}
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'roxma/nvim-completion-manager'
-"Plug 'SirVer/ultisnips'
-"Plug 'honza/vim-snippets'
-"Plug 'zchee/deoplete-jedi'
-"Plug 'davidhalter/jedi-vim'
-"Plug 'sbdchd/neoformat'
-" Plug 'junegunn/zf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'jiangmiao/auto-pairs'
-"Plug 'machakann/vim-sandwich'
-"Plug 'tpope/vim-sleuth'
-"Plug 'editorconfig/editorconfig-vim'
-"Plug 'airblade/vim-gitgutter'
-"Plug 'tpope/vim-fugitive'
-"Plug 'ellisonleao/glow.nvim', {'branch': 'main'}
-"Plug 'onsails/lspkind.nvim'
-"Plug 'scrooloose/syntastic'
 " NERDTree
 Plug 'preservim/nerdtree'
-" Plug 'preservim/nerdtree' |
-            " \ Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
-Plug 'sam4llis/nvim-tundra'
 call plug#end()
 
 " colorscheme
@@ -153,11 +133,11 @@ endif
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+      " \ pumvisible() ? "\<C-n>" :
+      " \ <SID>check_back_space() ? "\<TAB>" :
+      " \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -399,7 +379,7 @@ let g:loaded_perl_provider = 0
 " FZF Preview
 nmap <Leader>f [fzf-p]
 xmap <Leader>f [fzf-p]
-
+            
 nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
 nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
 nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
