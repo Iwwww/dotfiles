@@ -1,6 +1,5 @@
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'sainnhe/sonokai'
-Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
 Plug 'ap/vim-css-color', {'branch': 'master'}
 Plug 'tpope/vim-surround'
@@ -133,16 +132,16 @@ endif
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-" inoremap <silent><expr> <TAB>
-      " \ pumvisible() ? "\<C-n>" :
-      " \ <SID>check_back_space() ? "\<TAB>" :
+ " inoremap <silent><expr> <TAB>
+      " \ pumvisible() ? \<C-n>" :
+      " \ <SID>check_back_space() ? \<TAB>" :
       " \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <expr><S-TAB> pumvisible() ? \<C-p>" : \<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+  " let col = col('.') - 1
+  " return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
@@ -234,8 +233,8 @@ endif
 
 " Use CTRL-S for selections ranges.
 " Requires 'textDocument/selectionRange' support of language server.
-nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
+nmap <silent> <C-a> <Plug>(coc-range-select)
+xmap <silent> <C-a> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocActionAsync('format')
@@ -277,16 +276,16 @@ let g:LanguageClient_serverCommands = {
 
 "" coc-snippets
 " Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
+" imap <C-l> <Plug>(coc-snippets-expand)
 
 " Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
+" vmap <C-j> <Plug>(coc-snippets-select)
 
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
+" let g:coc_snippet_next = '<TAB>'
 
 " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
+let g:coc_snippet_prev = '<S-TAB>'
 
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
@@ -295,16 +294,16 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
 """ Make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" inoremap <silent><expr> <TAB>
+      " \ pumvisible() ? coc#_select_confirm() :
+      " \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      " \ <SID>check_back_space() ? "\<TAB>" :
+      " \ coc#refresh()
+" coc-snippets-select
+" function! s:check_back_space() abort
+  " let col = col('.') - 1
+  " return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 let g:coc_snippet_next = '<tab>'
 
@@ -356,10 +355,6 @@ nnoremap <silent> <C-c> :nohlsearch<CR><C-l>
 " replace
 " nnoremap 
 
-" easymotion plugin
-" <Leader>f{char} to move to {char}
-" map . <Plug>(easymotion-bd-f)
-
 " Auto commands
 augroup autosave_buffer
    autocmd!
@@ -402,3 +397,19 @@ let g:fzf_preview_use_dev_icons = 1
 " devicons character width
 let g:fzf_preview_dev_icon_prefix_string_length = 1
 
+" фикс русского в командом режиме
+set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
+
+nmap Ж :
+nmap Н Y
+nmap з p
+nmap ф a
+nmap щ o
+nmap г u
+nmap З P
+cmap цй wq
+cmap q q
+
+nmap <silent><space>h :<C-u>CocCommand clangd.switchSourceHeader<cr>
+
+cmap Q q!
