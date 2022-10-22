@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# Simple device mount script
+# Requirements:
+# 1. udiskctl
+# 2. lsblk
+# 3. wc
+# 4. dmenu
+
+# check command line argument
+if [[ $1 = "" ]]; then
+    devices=$(lsblk -r -o TYPE,NAME,SIZE,FSTYPE,LABEL,MOUNTPOINTS | grep "^part" | awk '{print $2" "$3" "$4" "$5" "$6}' | column -t)
+    lines_count=$(lsblk -r -o TYPE | wc -l)
+    device_mount=$(echo "$devices" | dmenu -l $lines_count -fn mono | awk '{print $1}')
+else
+    device_mount=$1
+fi
+
+label=$(lsblk -r -o NAME,LABEL | grep "$device_mount" | awk '{print $2}')
+mountpoint=$(lsblk -r -o NAME,MOUNTPOINTS | grep "$device_mount" | awk '{print $2}')
+path_to_device=$(lsblk -r -o NAME,PATH | grep "$device_mount" | awk '{print $2}')
+
+echo $device_mount
+
+folder="$device_mount"
+# check if $label exists
+# and set folder name
+if [[ $label != "" ]]; then
+    folder=$label
+fi
+
+# check if alrady mounted
+if [[ $mountpoint = "" ]]; then
+    echo "not mounted"
+    msg=$(udisksctl mount -b $path_to_device) 
+    notify-send "Mount" "$msg"
+else
+    echo "alrady mounted:" $mountpoint
+    msg=$(udisksctl unmount -b $path_to_device) 
+    notify-send "Unmount" "$label\n$path_to_device"
+fi
