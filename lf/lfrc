@@ -116,10 +116,22 @@ cmd mkdir ${{
 
 cmd set_wallpaper ${{
     set -f
-    xwallpaper --zoom $fx
+    rm -rfd $HOME/.cache/wal/schemes/
+    wal -i $fx -n -q -o setup_theme &
     printf "path='${fx}'"
     script_path="/home/mikhail/scripts/set_wallpaper"
-    sed -i "3 s#'[A-Za-z0-9\/\ \.\_]*'#'${fx}'#g" $script_path
+    sed -i '3 s#^wallpaper_path=.*#wallpaper_path='\"${fx}\"'#g' $script_path
+    source ~/scripts/set_wallpaper
+}}
+
+cmd set_wallpaper_light_theme ${{
+    set -f
+    rm -rfd $HOME/.cache/wal/schemes/
+    wal -i $fx -l -n -q -o setup_theme &
+    printf "path='${fx}'"
+    script_path="/home/mikhail/scripts/set_wallpaper"
+    sed -i '3 s#^wallpaper_path=.*#wallpaper_path='\"${fx}\"'#g' $script_path
+    source ~/scripts/set_wallpaper
 }}
 
 cmd drag_n_drop_selected ${{
@@ -130,13 +142,6 @@ cmd drag_n_drop_all ${{
     ripdrag $(ls $PWD) --resizable --icon-size 70
     printf $(ls $PWD)
 }}
-
-# cmd execute_in_window ${{
-    # set -f
-    # printf $fx
-    # # ./$fx
-    # read -P "Press any key to contionue ..."
-# }}
 
 cmd execute
 
@@ -164,6 +169,7 @@ map gc cd ~/.config
 map gm cd /run/media
 map gM cd /mnt/usb
 map gl cd ~/.local
+map gb cd ~/builds
 
 
 map <delete> delete
@@ -171,7 +177,7 @@ map DD delete
 
 map M mkdir
 map XX extract
-# map E execute_in_window
 map sw set_wallpaper
-map p drag_n_drop_selected
-map P drag_n_drop_all
+map sW set_wallpaper_light_theme
+map a drag_n_drop_selected
+map A drag_n_drop_all
