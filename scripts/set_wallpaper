@@ -1,5 +1,11 @@
 #!/bin/bash
 
-wallpaper_path='/home/mikhail/Pictures/wallpaper/some_space.jpeg'
+wallpaper_path='/home/mikhail/Pictures/wallpaper/colorfull/123.jpg'
 
 feh --bg-fill "$wallpaper_path"
+
+# update qutebrowser theme by hand
+# qutebrowser :config-source :reload
+
+# update dunst notification daemon conifg
+cp $HOME/.cache/wal/colors-dunstrc $HOME/.config/dunst/dunstrc

@@ -5,10 +5,13 @@
 threshold_volume=60
 global_volume=$(pamixer --get-volume)
 
-if [ $global_volume -gt $threshold_volume ]; then
+echo $threshold_volume
+echo $global_volume
+
+if [ $global_volume -ge $threshold_volume ]; then
     pamixer --set-volume $threshold_volume
-    mpv --no-video ~/Music/composing/recordings/welcome.mp3
+    mpv --no-video ~/Music/composing/recordings/welcome.mp3 --no-resume-playback
     pamixer --set-volume $global_volume
-else 
-    mpv --no-video ~/Music/composing/recordings/welcome.mp3
+# else 
+    # mpv --no-video ~/Music/composing/recordings/welcome.mp3
 fi
