@@ -4,10 +4,15 @@ MON="eDP"    # Discover monitor name with: xrandr | grep " connected"
 
 min_brightness=$(brightnessctl m)
 current_brightness=$(brightnessctl get)
+echo $current_brightness
 
 if [[ $current_brightness -ge $max_brightness ]] then
     brightnessctl  set 10%- | grep -E -o '([0-9][0-9]%|1[0-9][0-9]%)'
-    xrandr --output $MON --brightness 1.0
+    if [[ $current_brightness -gt 254 ]] then
+        xrandr --output $MON --brightness 1.0
+    fi
 else
-    xrandr --output $MON --brightness 0.3
+    if [[ $current_brightness -eq 1 ]] then
+        xrandr --output $MON --brightness 0.3
+    fi
 fi
