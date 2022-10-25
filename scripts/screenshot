@@ -18,7 +18,7 @@
 # 1-true, 0-false
 USE_NOTIFY=1
 # TODO: check if $PIC_DIR exsists
-PIC_DIR="$HOME/Pictures/screenshots"
+PIC_DIR=$HOME/Pictures/screenshots
 
 
 gen_name() {
@@ -26,17 +26,6 @@ gen_name() {
     TIME=`date +"%H-%M-%S"`
     NAME="$TIME.png"
 }
-
-# create_path() {
-    # # $1 is directory path
-    # # args have to be in quotes
-    # TMP_PATH=""
-    # if [[ -d $1 ]]; then
-        # P_LIST=$(echo $1 | awk '{sub(/\//," ")}1')
-        # # for p in []
-        # # rewrite this if
-    # fi
-# }
 
 copy_path() {
     echo $PIC_DIR/$NAME | xclip -selection clipboard
@@ -54,7 +43,8 @@ edit_path() {
 screenshot_part() {
     rm $PIC_DIR/$NAME
     gen_name
-    maim -s --hidecursor | tee $PIC_DIR/$NAME | xclip -selection clipboard -t image/png
+    import $PIC_DIR/$NAME
+    xclip -selection clipboard -t image/png -i $PIC_DIR/$NAME
     edit_path
 }
 
@@ -63,7 +53,6 @@ view() {
 }
 
 
-create_path
 gen_name
 
 # take screenshot
