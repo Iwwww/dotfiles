@@ -1,0 +1,91 @@
+#!/bin/sh
+
+# Requirements:
+#   1. import form Xorg
+#   2. feh for view
+#   3. dmenu:
+#       patches:
+#       1) print input text     # for path edit
+
+# Menu:
+#   1. Copy path
+#   2. Edit path
+#   3. Screenshot part
+#   4. View
+
+# Configuration
+
+# 1-true, 0-false
+USE_NOTIFY=1
+# TODO: check if $PIC_DIR exsists
+PIC_DIR="$HOME/Pictures/screenshots"
+
+
+gen_name() {
+    # DATE=`date +"%Y-%m-%d"`
+    TIME=`date +"%H-%M-%S"`
+    NAME="$TIME.png"
+}
+
+create_path() {
+    # $1 is directory path
+    # args have to be in quotes
+    TMP_PATH=""
+    if [[ -d $1 ]]; then
+        P_LIST=$(echo $1 | awk '{sub(/\//," ")}1')
+        # for p in []
+        # rewrite this if
+    fi
+}
+
+copy_path() {
+    echo $PIC_DIR/$NAME | xclip -selection clipboard
+}
+
+edit_path() {
+    # dmenu '-t' flag from "print input text" patch
+    CHOICE_PATH=$(printf $PIC_DIR/$NAME | dmenu -t -p "Path >>")
+    if [[ $CHOICE_PATH != "" && $CHOICE_PATH != $PIC_DIR/$NAME ]]; then
+        cp $PIC_DIR/$NAME $CHOICE_PATH
+        rm $PIC_DIR/$NAME
+    fi
+}
+
+screenshot_part() {
+    rm $PIC_DIR/$NAME
+    gen_name
+    maim -s --hidecursor | tee $PIC_DIR/$NAME | xclip -selection clipboard -t image/png
+    edit_path
+}
+
+view() {
+    feh $PIC_DIR
+}
+
+
+create_path
+gen_name
+
+# take screenshot
+import -window root $PIC_DIR/$NAME
+# copy screenshot to clipboard
+xclip -selection clipboard -t image/png -i $PIC_DIR/$NAME
+
+CHOICE=$(printf "1. Copy path\n2. Edit path\n3. Screenshot part\n4. View" | dmenu -l 4 -p Select)
+
+case $CHOICE in
+    "1. Copy path") copy_path ;;
+    "2. Edit path") edit_path ;;
+    "3. Screenshot part") screenshot_part ;;
+    "4. View") view ;;
+    "") ;;
+esac
+
+# notify-send
+if [[ $USE_NOTIFY -eq 1 ]]; then
+    if [[ $CHOICE_PATH != "" ]]; then
+        notify-send "Saved in" "$CHOICE_PATH"
+    else
+        notify-send "Saved in" "$PIC_DIR/$NAME"
+    fi
+fi
