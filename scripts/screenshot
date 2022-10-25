@@ -27,16 +27,16 @@ gen_name() {
     NAME="$TIME.png"
 }
 
-create_path() {
-    # $1 is directory path
-    # args have to be in quotes
-    TMP_PATH=""
-    if [[ -d $1 ]]; then
-        P_LIST=$(echo $1 | awk '{sub(/\//," ")}1')
-        # for p in []
-        # rewrite this if
-    fi
-}
+# create_path() {
+    # # $1 is directory path
+    # # args have to be in quotes
+    # TMP_PATH=""
+    # if [[ -d $1 ]]; then
+        # P_LIST=$(echo $1 | awk '{sub(/\//," ")}1')
+        # # for p in []
+        # # rewrite this if
+    # fi
+# }
 
 copy_path() {
     echo $PIC_DIR/$NAME | xclip -selection clipboard
