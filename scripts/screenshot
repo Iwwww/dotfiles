@@ -48,7 +48,7 @@ screenshot_part() {
 }
 
 view() {
-    feh $PIC_DIR
+    feh $PIC_DIR/$NAME
 }
 
 
