@@ -15,8 +15,8 @@
 
 # Configuration
 
-# 1-true, 0-false
-USE_NOTIFY=1
+# 1-use, 0-do not use
+USE_NOTIFY=0
 # TODO: check if $PIC_DIR exsists
 PIC_DIR=$HOME/Pictures/screenshots
 
