@@ -17,14 +17,20 @@
 
 # 1-use, 0-do not use
 USE_NOTIFY=1
+USE_SUB_DIR=1
 # TODO: check if $PIC_DIR exsists
 PIC_DIR=$HOME/Pictures/screenshots
 
-
 gen_name() {
-    # DATE=`date +"%Y-%m-%d"`
     TIME=`date +"%H-%M-%S"`
     NAME="$TIME.png"
+    if [[ $USE_SUB_DIR -eq 1 ]]; then
+        DATE=`date +"%Y-%m-%d"`
+        FOLDER="$DATE"
+        PIC_DIR=$PIC_DIR/$FOLDER
+        mkdir -p $PIC_DIR
+        echo $PIC_DIR
+    fi
 }
 
 copy_path() {
