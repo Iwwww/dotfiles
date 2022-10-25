@@ -35,8 +35,7 @@ edit_path() {
     # dmenu '-t' flag from "print input text" patch
     CHOICE_PATH=$(printf $PIC_DIR/$NAME | dmenu -t -p "Path >>")
     if [[ $CHOICE_PATH != "" && $CHOICE_PATH != $PIC_DIR/$NAME ]]; then
-        cp $PIC_DIR/$NAME $CHOICE_PATH
-        rm $PIC_DIR/$NAME
+        mv $PIC_DIR/$NAME $CHOICE_PATH
     fi
 }
 
