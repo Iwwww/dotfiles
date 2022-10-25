@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Requirements:
 #   1. import form Xorg
@@ -34,7 +34,7 @@ copy_path() {
 edit_path() {
     # dmenu '-t' flag from "print input text" patch
     CHOICE_PATH=$(printf $PIC_DIR/$NAME | dmenu -t -p "Path >>")
-    if [ $CHOICE_PATH != "" && $CHOICE_PATH != $PIC_DIR/$NAME ]; then
+    if [[ $CHOICE_PATH != "" && $CHOICE_PATH != $PIC_DIR/$NAME ]]; then
         mv $PIC_DIR/$NAME $CHOICE_PATH
     fi
 }
@@ -70,8 +70,8 @@ case $CHOICE in
 esac
 
 # notify-send
-if [ $USE_NOTIFY != 1 ]; then
-    if [ $CHOICE_PATH != "" ]; then
+if [[ $USE_NOTIFY -eq 1 ]]; then
+    if [[ $CHOICE_PATH != "" ]]; then
         notify-send "Saved in" "$CHOICE_PATH"
     else
         notify-send "Saved in" "$PIC_DIR/$NAME"
