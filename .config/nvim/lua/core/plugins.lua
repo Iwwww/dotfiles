@@ -1,4 +1,4 @@
-local status, packer = pcall(require, "packer")
+local status, packer = pcall(require, 'packer')
 if (not status) then
   print("Packer is not installed")
   return
@@ -7,16 +7,23 @@ end
 packer.startup(function(use)
   use 'wbthomason/packer.nvim' -- plugin manager
 
-  use 'RRethy/nvim-base16' -- colorscheme
-  use 'hoob3rt/lualine.nvim' -- statusline
+  use 'wadackel/vim-dogrun'
 
-  -- complition
-  use 'onsails/lspkind-nvim' -- vscode-like pictograms
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/nvim-cmp'
+  -- Autocompletion
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', 'hrsh7th/cmp-buffer'},
+  }
 
-  use 'L3MON4D3/LuaSnip' -- snippets
+  use {
+    "folke/which-key.nvim",
+       config = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end
+  }
 
   -- colorize code syntax
   use {
@@ -24,12 +31,50 @@ packer.startup(function(use)
       run = ':TSUpdate'
   }
 
-  use 'windwp/nvim-autopairs'
-
   -- telescope
   use 'nvim-lua/plenary.nvim' -- Common utilities
-  use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-file-browser.nvim'
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {
+      'nvim-telescope/telescope-live-grep-args.nvim',
+      'nvim-telescope/telescope-file-browser.nvim',
+      -- vscode-like pictograms
+      'onsails/lspkind-nvim',
+    },
+    config = function()
+        require('telescope').load_extension('live_grep_args')
+      end
+  }
+
+  -- LSP
+    use { -- LSP Configuration & PluginsForHost
+    'neovim/nvim-lspconfig',
+    requires = {
+      -- Mason
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
+
+      -- Useful status updates for LSP
+      'j-hui/fidget.nvim',
+      -- Additional lua configuration, makes nvim stuff amazing
+      'folke/neodev.nvim',
+      -- LSP UIs
+      -- 'glepnir/lspsaga.nvim',
+      use({
+          "glepnir/lspsaga.nvim",
+          branch = "main",
+          -- config = function()
+          --     require("lspsaga").setup({})
+          -- end,
+          requires = { {"nvim-tree/nvim-web-devicons"} }
+      })
+    },
+  }
+
+  use 'hoob3rt/lualine.nvim' -- statusline
+
+  use 'windwp/nvim-autopairs'
 
   use 'kyazdani42/nvim-web-devicons' -- File icons
 
@@ -37,29 +82,26 @@ packer.startup(function(use)
 
   use 'norcalli/nvim-colorizer.lua' -- Colorize colors
 
-  use 'glepnir/lspsaga.nvim' -- LSP UIs
-
-  -- LSP
-  use 'neovim/nvim-lspconfig'
-
   use 'lewis6991/gitsigns.nvim'
 
   use 'dinhhuy258/git.nvim'
 
-  use 'nvim-tree/nvim-tree.lua' -- File tree
+  use 'lukas-reineke/indent-blankline.nvim' -- Show indents
 
-  use "lukas-reineke/indent-blankline.nvim" -- Show indents
+  use 'ray-x/lsp_signature.nvim' -- Signature hint while typing
 
-  use "ray-x/lsp_signature.nvim" -- Signature hint while typing
+  use 'numToStr/Comment.nvim' -- Comment
 
-  -- mason
-  use "williamboman/mason.nvim"
-  use "williamboman/mason-lspconfig.nvim"
-  use "WhoIsSethDaniel/mason-tool-installer.nvim"
+  use 'nmac427/guess-indent.nvim' -- Smart indent
 
-  use "numToStr/Comment.nvim" -- Comment
+  -- markdown preview
+  use({
+      'iamcco/markdown-preview.nvim',
+      run = function() vim.fn['mkdp#util#install']() end,
+  })
 
-  use "nmac427/guess-indent.nvim" -- Smart indent
+  -- use({ 'iamcco/markdown-preview.nvim', run = 'cd app && npm install', setup = function() vim.g.mkdp_filetypes = { 'markdown' } end, ft = { 'markdown' }, })
+
 end)
 
 

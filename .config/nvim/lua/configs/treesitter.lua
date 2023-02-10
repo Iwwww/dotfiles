@@ -16,7 +16,8 @@ ts.setup {
     'css',
     'python',
     'c',
-    'cpp'
+    'cpp',
+    'arduino',
   },
   autotag = {
     enable = true,

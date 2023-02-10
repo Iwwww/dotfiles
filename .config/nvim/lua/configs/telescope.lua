@@ -16,7 +16,7 @@ telescope.setup {
   },
   pickers = {
     find_files = {
-      theme = 'ivy'
+      theme = 'dropdown'
     }
     -- Default configuration for builtin pickers goes here:
     -- picker_name = {
@@ -50,7 +50,9 @@ require("telescope").load_extension "file_browser"
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
--- vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', 'gR', builtin.lsp_references, {})
+vim.keymap.set('n', 'gD', builtin.lsp_definitions, {})
 vim.api.nvim_set_keymap(
   "n",
   "<space>fb",

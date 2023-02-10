@@ -14,7 +14,17 @@ mason.setup({
 })
 
 lspconfig.setup {
-    ensure_installed = {"pyright", "clangd"}
+    ensure_installed = {"clangd"}
+}
+
+local MY_FQBN = "arduino:avr:nano"
+require'lspconfig'.arduino_language_server.setup {
+    cmd = {
+        "arduino-language-server",
+        "-cli-config", "/path/to/arduino-cli.yaml",
+        "-fqbn",
+        MY_FQBN
+    }
 }
 
 require'lspconfig'.pyright.setup{
@@ -29,5 +39,11 @@ require'lspconfig'.pyright.setup{
             }
         }
     },
+    single_file_support = true
+}
+
+require'lspconfig'.jedi_language_server.setup{
+    cmd = { "jedi-language-server" },
+    filetypes = { "python" },
     single_file_support = true
 }

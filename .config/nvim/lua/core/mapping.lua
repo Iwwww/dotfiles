@@ -17,6 +17,8 @@ keymap.set('n', '<C-l>', '<C-w>l')
 
 keymap.set('n', '<S-h>', ':tabprevious<CR>', { silent = true })
 keymap.set('n', '<S-l>', ':tabnext<CR>', { silent = true })
+keymap.set('n', '<C-Right>', ':+tabmove<CR>', { silent = true })
+keymap.set('n', '<C-Left>', ':-tabmove<CR>', { silent = true })
 
 -- Resize window
 keymap.set('n', '<C-A-h>', '5<C-w><')
@@ -30,3 +32,6 @@ vim.api.nvim_set_keymap('i', '<C-s>', '<ESC>:w<CR>', { noremap = true, silent = 
 vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-q>', ':q<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>e', ':NeoTreeShowToggle<CR>', { noremap = true, silent = true })
+
+-- run python
+vim.api.nvim_set_keymap('n', '<leader>e', "<C-c>:split<CR>:te ./%:t<CR>i", {})
