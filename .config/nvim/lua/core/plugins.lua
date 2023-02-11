@@ -45,6 +45,7 @@ packer.startup(function(use)
         require('telescope').load_extension('live_grep_args')
       end
   }
+  require("telescope").load_extension('harpoon')  -- Telescope for harpoon
 
   -- LSP
     use { -- LSP Configuration & PluginsForHost
@@ -71,6 +72,8 @@ packer.startup(function(use)
       })
     },
   }
+
+  use 'ThePrimeagen/harpoon'  -- Buffer navigation
 
   use 'hoob3rt/lualine.nvim' -- statusline
 
