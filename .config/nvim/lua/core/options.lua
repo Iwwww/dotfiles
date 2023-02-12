@@ -1,5 +1,4 @@
 vim.scriptencoding = 'utf-8'
-
 local options = {
   encoding = 'utf-8',
   fileencoding = 'utf-8',   -- File-content encoding for the current buffer
@@ -43,15 +42,12 @@ end
 
 vim.g.mapleader = " "
 
--- vim.cmd('colorscheme base16-blueish') -- require base16 plugin
--- vim.cmd('colorscheme base16-circus') -- require base16 plugin
--- vim.cmd('colorscheme noctis') -- require base16 plugin
-vim.cmd('colorscheme dogrun') -- require base16 plugin
+vim.cmd('colorscheme rose-pine')
 
 -- Transparent
--- vim.cmd('highlight Normal guifg=none guibg=none')
--- vim.cmd('highlight TabLine guifg=none guibg=none')
--- vim.cmd('highlight TabLineFill guifg=none guibg=none')
+vim.cmd('highlight Normal guifg=none guibg=none')
+vim.cmd('highlight TabLine guifg=none guibg=none')
+vim.cmd('highlight TabLineFill guifg=none guibg=none')
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {

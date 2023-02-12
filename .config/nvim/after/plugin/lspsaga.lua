@@ -1,14 +1,19 @@
 local status, saga = pcall(require, 'lspsaga')
 if (not status) then return end
 
+local border = "shadow"
+if TRANSPARENT then
+    border = "solid"
+end
+
 saga.setup({
     ui = {
     -- Currently, only the round theme exists
     theme = "round",
     -- This option only works in Neovim 0.9
-    title = true,
+    title = false,
     -- Border type can be single, double, rounded, solid, shadow.
-    border = "solid",
+    border = border,
     winblend = 0,
     expand = "",
     collapse = "",
@@ -18,7 +23,7 @@ saga.setup({
     diagnostic = "🐞",
     incoming = " ",
     outgoing = " ",
-    hover = ' ',
+    -- hover = ' ',
     kind = {},
   },
 })
@@ -35,10 +40,10 @@ keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>")
 keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
 
 -- Rename all occurrences of the hovered word for the entire file
-keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
+-- keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
 
 -- Rename all occurrences of the hovered word for the selected files
-keymap("n", "gr", "<cmd>Lspsaga rename ++project<CR>")
+-- keymap("n", "gr", "<cmd>Lspsaga rename ++project<CR>")
 
 -- Peek definition
 -- You can edit the file containing the definition in the floating window
@@ -48,7 +53,7 @@ keymap("n", "gr", "<cmd>Lspsaga rename ++project<CR>")
 keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
 
 -- Go to definition
-keymap("n","gd", "<cmd>Lspsaga goto_definition<CR>")
+keymap("n","gD", "<cmd>Lspsaga goto_definition<CR>")
 
 -- Show line diagnostics
 -- You can pass argument ++unfocus to
@@ -84,7 +89,7 @@ keymap("n","<leader>o", "<cmd>Lspsaga outline<CR>")
 -- there is no information available.
 -- To disable it just use ":Lspsaga hover_doc ++quiet"
 -- Pressing the key twice will enter the hover window
--- keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>")
+keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>")
 
 -- If you want to keep the hover window in the top right hand corner,
 -- you can pass the ++keep argument

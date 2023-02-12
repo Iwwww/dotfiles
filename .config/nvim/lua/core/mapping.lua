@@ -33,5 +33,7 @@ vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true 
 vim.api.nvim_set_keymap('n', '<C-q>', ':q<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>e', ':NeoTreeShowToggle<CR>', { noremap = true, silent = true })
 
--- run python
-vim.api.nvim_set_keymap('n', '<leader>e', "<C-c>:split<CR>:te ./%:t<CR>i", {})
+-- make executable
+vim.api.nvim_set_keymap('n', '<leader>mx', ":!chmod +x %<CR>", { silent = true })
+-- run executable
+vim.api.nvim_set_keymap('n', '<leader>me', "<C-c>:split<CR>:te ./%:t<CR>i", { silent = true })

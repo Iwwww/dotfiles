@@ -7,14 +7,27 @@ end
 packer.startup(function(use)
   use 'wbthomason/packer.nvim' -- plugin manager
 
-  use 'wadackel/vim-dogrun'
+  -- Colorscheme
+  use 'rose-pine/neovim'
 
   -- Autocompletion
   use {
     'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-nvim-lsp',
-      'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', 'hrsh7th/cmp-buffer'},
+      {
+        "L3MON4D3/LuaSnip",
+        -- follow latest release.
+        tag = "v<CurrentMajor>.*",
+        -- install jsregexp (optional!:).
+        run = "make install_jsregexp",
+        requires = {
+        use "rafamadriz/friendly-snippets"
+        }
+      },
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-buffer'
+    },
   }
 
   use {
@@ -58,10 +71,11 @@ packer.startup(function(use)
 
       -- Useful status updates for LSP
       'j-hui/fidget.nvim',
+      --
       -- Additional lua configuration, makes nvim stuff amazing
       'folke/neodev.nvim',
+      --
       -- LSP UIs
-      -- 'glepnir/lspsaga.nvim',
       use({
           "glepnir/lspsaga.nvim",
           branch = "main",
@@ -75,7 +89,10 @@ packer.startup(function(use)
 
   use 'ThePrimeagen/harpoon'  -- Buffer navigation
 
-  use 'hoob3rt/lualine.nvim' -- statusline
+  use {
+  'nvim-lualine/lualine.nvim',
+  requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
 
   use 'windwp/nvim-autopairs'
 
