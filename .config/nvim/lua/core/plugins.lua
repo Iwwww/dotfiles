@@ -58,7 +58,7 @@ packer.startup(function(use)
         require('telescope').load_extension('live_grep_args')
       end
   }
-  require("telescope").load_extension('harpoon')  -- Telescope for harpoon
+  -- require("telescope").load_extension('harpoon')  -- Telescope for harpoon
 
   -- LSP
     use { -- LSP Configuration & PluginsForHost
