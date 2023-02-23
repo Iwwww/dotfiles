@@ -16,7 +16,7 @@ local on_attach = function(client, bufnr)
   local lsp = vim.lsp
   local handlers = lsp.handlers
 
-  local pop_opts = {border = "rounded", max_width = 80}
+  local pop_opts = { border = "rounded", max_width = 80 }
   handlers["textDocument/hover"] = lsp.with(handlers.hover, pop_opts)
   handlers["textDocument/signatureHelp"] = lsp.with(handlers.signature_help, pop_opts)
 
@@ -25,7 +25,7 @@ local on_attach = function(client, bufnr)
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
   -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
   -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -60,7 +60,7 @@ nvim_lsp.lua_ls.setup {
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
+        globals = { 'vim' },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files

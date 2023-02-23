@@ -37,3 +37,5 @@ vim.api.nvim_set_keymap('n', '<leader>e', ':NeoTreeShowToggle<CR>', { noremap = 
 vim.api.nvim_set_keymap('n', '<leader>mx', ":!chmod +x %<CR>", { silent = true })
 -- run executable
 vim.api.nvim_set_keymap('n', '<leader>me', "<C-c>:split<CR>:te ./%:t<CR>i", { silent = true })
+
+vim.api.nvim_set_keymap('n', '<A-f>', ':lua vim.lsp.buf.formatting()<CR>', { noremap = true, silent = true })

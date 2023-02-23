@@ -1,6 +1,18 @@
 local status, lualine = pcall(require, 'lualine')
 if (not status) then return end
 
+local progress = {'progress'}
+local branch = {'branch'}
+local diff = {'diff'}
+local diagnostic = {'diagnostic'}
+if TRANSPARENT then
+    mode = {'mode', color={bg='none'}}
+    progress = {'progress', color={bg='none'}}
+    branch = {'branch', color={bg='none'}}
+    diff = {'diff', color={bg='none'}}
+    diagnostic = {'diagnostic', color={bg='none'}}
+end
+
 lualine.setup {
   options = {
     icons_enabled = true,
@@ -24,10 +36,10 @@ lualine.setup {
   },
   sections = {
     lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_b = {branch, diff, diagnostic},
     lualine_c = {'filename'},
     lualine_x = {'encoding'},
-    lualine_y = {'progress'},
+    lualine_y = {progress},
     lualine_z = {'location'}
   },
   inactive_sections = {
