@@ -41,14 +41,10 @@ for k, v in pairs(options) do
 	vim.opt[k] = v
 end
 
-vim.g.mapleader = " "
-
-vim.cmd("colorscheme rose-pine")
-
 -- Transparent
-vim.cmd("highlight Normal guifg=none guibg=none")
-vim.cmd("highlight TabLine guifg=none guibg=none")
-vim.cmd("highlight TabLineFill guifg=none guibg=none")
+-- vim.cmd("highlight Normal guifg=none guibg=none")
+-- vim.cmd("highlight TabLine guifg=none guibg=none")
+-- vim.cmd("highlight TabLineFill guifg=none guibg=none")
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {

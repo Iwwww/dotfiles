@@ -1,8 +1,6 @@
-local status, telescope = pcall(require, 'telescope')
-if (not status) then return end
-local actions = require('telescope.actions')
+local builtin = require('telescope.builtin')
 
-telescope.setup {
+require("telescope").setup {
   defaults = {
     -- Default configuration for telescope goes here:
     -- config_key = value,
@@ -43,11 +41,7 @@ telescope.setup {
   },
 }
 
--- To get telescope-file-browser loaded and working with telescope,
--- you need to call load_extension, somewhere after setup function:
 require("telescope").load_extension "file_browser"
-
-local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
