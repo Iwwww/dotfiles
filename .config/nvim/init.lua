@@ -5,5 +5,5 @@ require('core.highlights')
 require('core.autocommands')
 
 -- Enable TRANSPARENT
--- TRANSPARENT = false
-TRANSPARENT = true
+TRANSPARENT = false
+-- TRANSPARENT = true

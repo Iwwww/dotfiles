@@ -4,9 +4,9 @@ local keymap = vim.keymap
 --keymap.set('n', 'x', '_x')
 
 -- Tabs and split
-keymap.set('n', 'te', ':tabedit<CR>', { silent =true })
-keymap.set('n', 'ss', ':split<CR><C-w>w', { silent =true })
-keymap.set('n', 'sv', ':vsplit<CR><C-w>w', { silent =true })
+keymap.set('n', 'te', ':tabedit<CR>', { silent = true })
+keymap.set('n', 'ss', ':split<CR><C-w>w', { silent = true })
+keymap.set('n', 'sv', ':vsplit<CR><C-w>w', { silent = true })
 
 -- Movement
 keymap.set('n', '<C-Tab>', '<C-w>w')
@@ -35,7 +35,11 @@ vim.api.nvim_set_keymap('n', '<leader>e', ':NeoTreeShowToggle<CR>', { noremap = 
 
 -- make executable
 vim.api.nvim_set_keymap('n', '<leader>mx', ":!chmod +x %<CR>", { silent = true })
+-- compile with Make
+vim.api.nvim_set_keymap('n', '<leader>mb', ":!make<CR>", { silent = true })
+-- run with Make
+vim.api.nvim_set_keymap('n', '<leader>mr', "<C-c>:split<CR>:te make run<CR>:t<CR>", { silent = true })
 -- run executable
 vim.api.nvim_set_keymap('n', '<leader>me', "<C-c>:split<CR>:te ./%:t<CR>i", { silent = true })
 
-vim.api.nvim_set_keymap('n', '<A-f>', ':lua vim.lsp.buf.formatting()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<A-f>', ':lua vim.lsp.buf.format{ async = true }<CR>', { noremap = true, silent = true })

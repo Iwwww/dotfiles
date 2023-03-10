@@ -22,7 +22,7 @@ packer.startup(function(use)
         -- install jsregexp (optional!:).
         run = "make install_jsregexp",
         requires = {
-        use "rafamadriz/friendly-snippets"
+          use "rafamadriz/friendly-snippets"
         }
       },
       'saadparwaiz1/cmp_luasnip',
@@ -32,7 +32,7 @@ packer.startup(function(use)
 
   use {
     "folke/which-key.nvim",
-       config = function()
+    config = function()
       vim.o.timeout = true
       vim.o.timeoutlen = 300
     end
@@ -40,8 +40,8 @@ packer.startup(function(use)
 
   -- colorize code syntax
   use {
-      'nvim-treesitter/nvim-treesitter',
-      run = ':TSUpdate'
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
   }
 
   -- telescope
@@ -55,13 +55,13 @@ packer.startup(function(use)
       'onsails/lspkind-nvim',
     },
     config = function()
-        require('telescope').load_extension('live_grep_args')
-      end
+      require('telescope').load_extension('live_grep_args')
+    end
   }
   -- require("telescope").load_extension('harpoon')  -- Telescope for harpoon
 
   -- LSP
-    use { -- LSP Configuration & PluginsForHost
+  use { -- LSP Configuration & PluginsForHost
     'neovim/nvim-lspconfig',
     requires = {
       -- Mason
@@ -77,21 +77,21 @@ packer.startup(function(use)
       --
       -- LSP UIs
       use({
-          "glepnir/lspsaga.nvim",
-          branch = "main",
-          -- config = function()
-          --     require("lspsaga").setup({})
-          -- end,
-          requires = { {"nvim-tree/nvim-web-devicons"} }
+        "glepnir/lspsaga.nvim",
+        branch = "main",
+        -- config = function()
+        --     require("lspsaga").setup({})
+        -- end,
+        requires = { { "nvim-tree/nvim-web-devicons" } }
       })
     },
   }
 
-  use 'ThePrimeagen/harpoon'  -- Buffer navigation
+  use 'ThePrimeagen/harpoon' -- Buffer navigation
 
   use {
-  'nvim-lualine/lualine.nvim',
-  requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
 
   use 'windwp/nvim-autopairs'
@@ -116,13 +116,19 @@ packer.startup(function(use)
 
   -- markdown preview
   use({
-      'iamcco/markdown-preview.nvim',
-      run = function() vim.fn['mkdp#util#install']() end,
+    'iamcco/markdown-preview.nvim',
+    run = function() vim.fn['mkdp#util#install']() end,
   })
 
-  -- use({ 'iamcco/markdown-preview.nvim', run = 'cd app && npm install', setup = function() vim.g.mkdp_filetypes = { 'markdown' } end, ft = { 'markdown' }, })
+  use({
+    "ziontee113/color-picker.nvim",
+    config = function()
+      require("color-picker")
+    end,
+  })
 
+  use({
+    "kylechui/nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+  })
 end)
-
-
-
