@@ -1,17 +1,32 @@
 #!/bin/sh
 
-[ $(pamixer --get-mute) = true ] && exit
+# === PipeWire ===
+[ "$(wpctl get-volume  @DEFAULT_AUDIO_SINK@ | awk '{print $3}')" = "[MUTED]" ] && exit
+VOL=$(wpctl get-volume  @DEFAULT_AUDIO_SINK@ | awk '{print $2*100}')
+echo "$VOL"
+THRESHOLD_VOL=60
 
-threshold_volume=60
-global_volume=$(pamixer --get-volume)
-
-echo $threshold_volume
-echo $global_volume
-
-if [ $global_volume -ge $threshold_volume ]; then
-    pamixer --set-volume $threshold_volume
-    mpv --no-video ~/Music/composing/recordings/welcome.mp3 --no-resume-playback
-    pamixer --set-volume $global_volume
-# else 
-    # mpv --no-video ~/Music/composing/recordings/welcome.mp3
+if [ "$VOL" -ge "$THRESHOLD_VOL" ]; then
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ "$THRESHOLD_VOL%"
+    mpv ~/Music/composing/recordings/welcome.mp3 --no-video --no-resume-playback
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ "$VOL%"
+else 
+    mpv --no-video ~/Music/composing/recordings/welcome.mp3
 fi
+
+# === PulseAudio ===
+# [[ "$(pamixer --get-mute)" == "true" ]] && exit
+#
+# threshold_volume=60
+# global_volume=$(pamixer --get-volume)
+#
+# echo $threshold_volume
+# echo $global_volume
+#
+# if [ $global_volume -ge $threshold_volume ]; then
+#     pamixer --set-volume $threshold_volume
+#     mpv ~/Music/composing/recordings/welcome.mp3 --no-video --no-resume-playback
+#     pamixer --set-volume $global_volume
+# # else 
+#     # mpv --no-video ~/Music/composing/recordings/welcome.mp3
+# fi

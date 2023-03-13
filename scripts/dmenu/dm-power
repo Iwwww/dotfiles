@@ -1,43 +1,50 @@
 #!/bin/sh
 
+xscreensaver &> /dev/null &
+
 hibernate() {
-    blurlock
-    sleep 1
+    # xscreensaver-command --lock
+    # sleep 3
+    i3lock -c 000000
     systemctl hibernate
 }
 
 myshutdown() {
-    sudo shutdown now
+    systemctl poweroff
 }
 
 reboot() {
-    shutdown --reboot now
+    systemctl reboot
+    # shutdown --reboot now
 }
 
 suspend() {
-    blurlock
-    sleep 1
+    xscreensaver-command --lock
+    sleep 3
     systemctl suspend
 }
 
 sleep_hibernate() {
-    blurlock
-    sleep 1
+    xscreensaver-command --lock
+    sleep 3
     systemctl suspend-then-hibernate
 }
 
-screeen_off() {
-    sleep 2
+screen_off() {
+    xscreensaver-command --lock
+    sleep 3
     xset dpms force off
 }
 
 lock() {
-    blurlock
-    sleep 1
-    xset dpms force off
+    xscreensaver-command --lock
 }
 
-select=$(echo -e "hibernate\nsleep\nzSleep-hibernate\nShutdown\nrestart\nlock\noff" | dmenu -p power)
+"$@"
+# load theme from pywal
+. "${HOME}/.cache/wal/colors.sh"
+DMEN="dmenu -nf $color15 -nb $color0 -sb $color5 -sf $color0"
+select=$(echo -e "hibernate\nsleep\nzSleep-hibernate\nShutdown\nrestart\nlock\noff" | $DMEN -p power)
 echo $select
 case  $select in
     "hibernate") hibernate ;;
@@ -46,6 +53,6 @@ case  $select in
     "zSleep-hibernate") sleep_hibernate ;;
     "restart") reboot ;;
     "lock") lock ;;
-    "off") screeen_off;;
+    "off") screen_off;;
 esac
 

@@ -7,7 +7,6 @@
 # 3. wc
 # 4. dmenu
 #   - password path https://tools.suckless.org/dmenu/patches/password/
-#   - border path http://tools.suckless.org/dmenu/patches/border/
 
 # TODO:
 # 1. power-off
@@ -15,12 +14,15 @@
 # 3. unlock
 # 4. rewrite exit
 
+. "${HOME}/.cache/wal/colors.sh"
+DMEN="dmenu -nf $color15 -nb $color0 -sb $color5 -sf $color0"
+
 # check command line argument
 if [[ $1 = "" ]]; then
     devices=$(lsblk -r -o TYPE,NAME,SIZE,FSTYPE,LABEL,MOUNTPOINTS | grep -E "(part|disk)" | awk '{if($1=="disk"){print $2" "$3" "$4" "$5" "$6} else {print "└─" $2" "$3" "$4" "$5" "$6}}' | column -t)
     # lines_count=$(lsblk -r -o TYPE | wc -l)
     lines_count=30
-    device_mount=$(echo "$devices" | dmenu -l $lines_count -fn mono -p Devices -bw 3 | awk '{print $1}' | sed "s/^└─//g")
+    device_mount=$(echo "$devices" | $DMEN -l $lines_count -p Devices | awk '{print $1}' | sed "s/^└─//g")
 else
     device_mount=$1
 fi
@@ -50,7 +52,7 @@ else
         # request for sudo permission
         # need for non HOTPLUG devices
         if [[ $(lsblk -r -o PATH,HOTPLUG | grep $path_to_device | awk '{print $2}') != "1" ]]; then
-            msg=$(dmenu -p "Password  $path_to_device:" -P | sudo --stdin -k udisksctl mount -b $path_to_device) 
+            msg=$($DMEN -p "Password  $path_to_device:" -P | sudo --stdin -k udisksctl mount -b $path_to_device) 
             notify-send "Mount with SUDO" "$msg"
         else
             msg=$(udisksctl mount -b $path_to_device) 
@@ -62,7 +64,7 @@ else
             # request for sudo permission
             # need for non HOTPLUG devices
             if [[ $(lsblk -r -o PATH,HOTPLUG | grep "$path_to_device " | awk '{print $2}') != "1" ]]; then
-                msg=$(dmenu -p Password: -P | sudo --stdin -k udisksctl unmount -b $path_to_device) 
+                msg=$($DMEN -p Password: -P | sudo --stdin -k udisksctl unmount -b $path_to_device) 
             else
                 msg=$(udisksctl unmount -b $path_to_device) 
             fi

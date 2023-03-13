@@ -1,0 +1,4 @@
+#!/bin/bash
+
+import -window root - | xclip -selection clipboard -t image/png -i
+

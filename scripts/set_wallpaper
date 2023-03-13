@@ -1,11 +1,32 @@
 #!/bin/bash
 
-wallpaper_path='/home/mikhail/Pictures/wallpaper/colorfull/123.jpg'
+WAL_CACH="$HOME/.cache/wal"
+WALLPAPER_PATH=$(cat "$WAL_CACH/wal")
 
-feh --bg-fill "$wallpaper_path"
+# set wallpaper
+feh --bg-fill "$WALLPAPER_PATH"
+
+# udpate dwm with xrdb
+cp "$WAL_CACH/colors.Xresourses" "$HOME/.Xresourses" && \
+    xrdb "$HOME/.Xresourses" && \
+    xdotool key super+shift+F5
 
 # update qutebrowser theme by hand
 # qutebrowser :config-source :reload
 
+# update firefox theme
+pywalfox update
+
 # update dunst notification daemon conifg
-cp $HOME/.cache/wal/colors-dunstrc $HOME/.config/dunst/dunstrc
+cp "$WAL_CACH/colors.dunstrc" "$HOME/.config/dunst/dunstrc" &&
+    killall dunst ; setsid dunst &
+
+# set dmenu
+# . "${HOME}/.cache/wal/colors.sh"
+# DMEN="dmenu -nf $color15 -nb $color0 -sb $color5 -sf $color0"
+
+
+# tty colors in $HOME/.profile
+# xrdb "$HOME/.Xresourses"
+
+wal-telegram --wal -g 0x16
