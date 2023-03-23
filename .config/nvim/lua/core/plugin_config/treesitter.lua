@@ -4,7 +4,7 @@ require'nvim-treesitter.configs'.setup {
   sync_install = false,
   -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
   auto_install = true,
-  ignore_install = { "javascript" },
+  -- ignore_install = { "javascript" },
   highlight = {
     enable = true,
     -- Disable slow treesitter highlight for large files

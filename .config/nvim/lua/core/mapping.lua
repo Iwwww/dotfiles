@@ -28,7 +28,6 @@ keymap.set('n', '<C-A-j>', '5<C-w>-')
 keymap.set('n', '<C-A-k>', '5<C-w>+')
 keymap.set('n', '<C-A-l>', '5<C-w>>')
 
-vim.api.nvim_set_keymap('i', 'jk', '<ESC>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<C-c>', ':noh<CR>:echomsg ""<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<C-s>', '<ESC>:w<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = true })

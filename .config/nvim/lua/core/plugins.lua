@@ -8,9 +8,10 @@ packer.startup(function(use)
     use "wbthomason/packer.nvim" -- plugin manager
 
     -- Colorscheme
-    -- use({ "rose-pine/neovim", as = "rose-pine" })
+    use({ "rose-pine/neovim", as = "rose-pine" })
     -- use({ "dracula/vim", as = "dracula" })
     use "ellisonleao/gruvbox.nvim"
+    use "navarasu/onedark.nvim"
 
     use "ryanoasis/vim-devicons"
     use {
@@ -32,6 +33,13 @@ packer.startup(function(use)
     }
 
     use {
+        'Kasama/nvim-custom-diagnostic-highlight',
+        config = function()
+            require('nvim-custom-diagnostic-highlight').setup {}
+        end
+    }
+
+    use {
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
@@ -44,6 +52,55 @@ packer.startup(function(use)
         require = { "neovim/nvim-lspconfig" },
     }
 
+    use {
+        "smjonas/inc-rename.nvim",
+        config = function()
+            require("inc_rename").setup()
+        end,
+    }
+
+    use "folke/neodev.nvim"
+
+    -- use "p00f/clangd_extensions.nvim"
+
     use "numToStr/Comment.nvim"
+
+    use({
+        "iamcco/markdown-preview.nvim",
+        run = function() vim.fn['mkdp#util#install']() end,
+    })
+
+    use({
+        "ziontee113/color-picker.nvim",
+        config = function()
+            require("color-picker")
+        end,
+    })
+
+    -- use({
+    --     "kylechui/nvim-surround",
+    --     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    -- })
+
+    -- Web Dev
+    use "AndrewRadev/tagalong.vim"
+    use 'ap/vim-css-color'
+    use 'norcalli/nvim-colorizer.lua'
+
+
+    -- UI
     use "folke/which-key.nvim"
+    use({
+        "folke/noice.nvim",
+        requires = {
+            "MunifTanjim/nui.nvim",
+        }
+    })
+    use "echasnovski/mini.indentscope"
+    use "echasnovski/mini.surround"
+    use 'aveplen/ruscmd.nvim'
+    use "mhinz/vim-startify"
+    use "RRethy/vim-illuminate"
+
+    use "lewis6991/impatient.nvim"
 end)

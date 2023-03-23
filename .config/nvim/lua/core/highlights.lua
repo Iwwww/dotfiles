@@ -4,7 +4,6 @@ local highlight = {
   winblend = 0,
   wildoptions = 'pum',
   pumblend = 5,
-  -- background = 'dark',
 }
 
 for k, v in pairs(highlight) do

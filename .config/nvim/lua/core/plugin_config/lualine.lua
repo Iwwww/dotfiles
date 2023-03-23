@@ -1,16 +1,33 @@
-require('lualine').setup {
+local status, lualine = pcall(require, 'lualine')
+if (not status) then return end
+
+local progress = {'progress'}
+local branch = {'branch'}
+local diff = {'diff'}
+local diagnostic = {'diagnostic'}
+if TRANSPARENT then
+    mode = {'mode', color={bg='none'}}
+    progress = {'progress', color={bg='none'}}
+    branch = {'branch', color={bg='none'}}
+    diff = {'diff', color={bg='none'}}
+    diagnostic = {'diagnostic', color={bg='none'}}
+end
+
+lualine.setup {
   options = {
     icons_enabled = true,
     theme = 'auto',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    -- component_separators = { left = '', right = ''},
+    -- section_separators = { left = '', right = ''},
     disabled_filetypes = {
       statusline = {},
       winbar = {},
     },
     ignore_focus = {},
     always_divide_middle = true,
-    globalstatus = false,
+    globalstatus = true,
     refresh = {
       statusline = 1000,
       tabline = 1000,
@@ -19,10 +36,10 @@ require('lualine').setup {
   },
   sections = {
     lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_b = {branch, diff, diagnostic},
     lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
-    lualine_y = {'progress'},
+    lualine_x = {'encoding'},
+    lualine_y = {progress},
     lualine_z = {'location'}
   },
   inactive_sections = {
@@ -46,3 +63,4 @@ vim.cmd('highlight lualine_a_visual gui=none')
 vim.cmd('highlight lualine_a_command gui=none')
 vim.cmd('highlight lualine_a_inactive gui=none')
 vim.cmd('highlight lualine_a_replace gui=none')
+
