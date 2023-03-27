@@ -8,6 +8,7 @@ require('core.plugin_config.comment')
 require('core.plugin_config.color-picker')
 require('core.plugin_config.impatient')
 require('core.plugin_config.mini')
+require('core.plugin_config.gitsigns')
 
 -- Web Dev
 require('core.plugin_config.colorizer')
