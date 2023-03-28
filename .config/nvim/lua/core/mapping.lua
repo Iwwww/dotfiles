@@ -44,3 +44,7 @@ vim.api.nvim_set_keymap('n', '<leader>mr', "<C-c>:split<CR>:te make run<CR>:t<CR
 vim.api.nvim_set_keymap('n', '<leader>me', "<C-c>:split<CR>:te ./%:t<CR>i", { silent = true })
 
 vim.api.nvim_set_keymap('n', '<A-f>', ':lua vim.lsp.buf.format{ async = true }<CR>', { noremap = true, silent = true })
+
+-- add new line upper current line
+vim.api.nvim_set_keymap('n', '<A-CR>', 'O<ESC>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<A-CR>', '<ESC>O', { noremap = true, silent = true })

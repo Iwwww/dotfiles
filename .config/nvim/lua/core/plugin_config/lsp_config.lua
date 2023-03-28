@@ -1,33 +1,20 @@
 require("neodev").setup({})
 
 require("mason").setup()
-require("mason-lspconfig").setup({
-    ensure_installed = { "lua_ls" },
-    -- The first entry (without a key) will be the default handler
-    -- and will be called for each installed server that doesn't have
-    -- a dedicated handler.
-    function(server_name) -- default handler (optional)
-        require("lspconfig")[server_name].setup {}
-    end,
-    -- Next, you can provide a dedicated handler for specific servers.
-    -- For example, a handler override for the `rust_analyzer`:
-    -- ["rust_analyzer"] = function ()
-    --     require("rust-tools").setup {}
-    -- end
-})
-
--- local api = vim.api
-
--- -- Define a function to open the definition in a new tab if it's in another file
--- function lsp_definition()
---   local definition = vim.lsp.buf.definition()
---   if definition and definition.uri ~= vim.uri_from_bufnr(0) then
---     vim.api.nvim_command("tabnew")
---     vim.lsp.util.jump_to_location(definition)
---   else
---     vim.lsp.buf.definition()
---   end
--- end
+-- require("mason-lspconfig").setup({
+--     ensure_installed = { "lua_ls" },
+--     -- The first entry (without a key) will be the default handler
+--     -- and will be called for each installed server that doesn't have
+--     -- a dedicated handler.
+--     function(server_name) -- default handler (optional)
+--         require("lspconfig")[server_name].setup {}
+--     end,
+--     -- Next, you can provide a dedicated handler for specific servers.
+--     -- For example, a handler override for the `rust_analyzer`:
+--     ["rust_analyzer"] = function ()
+--         require("rust-tools").setup {}
+--     end
+-- })
 
 -- Map the function to a key binding
 vim.api.nvim_set_keymap("n", "<Leader>gd", "<cmd>lua lsp_definition()<CR>", { noremap = true, silent = true })

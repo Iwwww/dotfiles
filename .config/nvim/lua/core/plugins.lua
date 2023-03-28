@@ -79,16 +79,10 @@ packer.startup(function(use)
 
     use 'lewis6991/gitsigns.nvim'
 
-    -- use({
-    --     "kylechui/nvim-surround",
-    --     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-    -- })
-
     -- Web Dev
     use "AndrewRadev/tagalong.vim"
     use 'ap/vim-css-color'
     use 'norcalli/nvim-colorizer.lua'
-
 
     -- UI
     use "folke/which-key.nvim"
@@ -107,4 +101,10 @@ packer.startup(function(use)
     use "lewis6991/impatient.nvim"
 
     use 'simrat39/rust-tools.nvim'
+
+    -- vim in browser
+    use {
+        'glacambre/firenvim',
+        run = function() vim.fn['firenvim#install'](0) end
+    }
 end)
