@@ -4,11 +4,11 @@ require('core.plugin_config.telescope')
 require('core.plugin_config.complitions')
 require('core.plugin_config.luasnip')
 require('core.plugin_config.comment')
--- require('core.plugin_config.clangd_extensions')
 require('core.plugin_config.color-picker')
 require('core.plugin_config.impatient')
 require('core.plugin_config.mini')
 require('core.plugin_config.gitsigns')
+require('core.plugin_config.autopairs')
 
 -- Web Dev
 require('core.plugin_config.colorizer')
@@ -21,3 +21,7 @@ require('core.plugin_config.lualine')
 require('core.plugin_config.which_key')
 require('core.plugin_config.noice')
 require('core.plugin_config.illuminate')
+
+-- Language specific
+-- require('core.plugin_config.clangd_extensions')
+-- require('core.plugin_config.rust_tools')

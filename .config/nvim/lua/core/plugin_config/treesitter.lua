@@ -1,5 +1,5 @@
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "c", "lua", "vim", "help", "query" },
+  ensure_installed = { "c", "lua", "vim", "help", "query", "rust", "toml" },
 
   sync_install = false,
   -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
@@ -16,4 +16,10 @@ require'nvim-treesitter.configs'.setup {
         end
     end,
   },
+  ident = { enable = true }, 
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  }
 }

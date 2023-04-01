@@ -1,35 +1,36 @@
-require("neodev").setup({})
+-- require("neodev").setup({})
 
-require("mason").setup()
--- require("mason-lspconfig").setup({
---     ensure_installed = { "lua_ls" },
---     -- The first entry (without a key) will be the default handler
---     -- and will be called for each installed server that doesn't have
---     -- a dedicated handler.
---     function(server_name) -- default handler (optional)
---         require("lspconfig")[server_name].setup {}
---     end,
---     -- Next, you can provide a dedicated handler for specific servers.
---     -- For example, a handler override for the `rust_analyzer`:
---     ["rust_analyzer"] = function ()
---         require("rust-tools").setup {}
---     end
--- })
-
--- Map the function to a key binding
-vim.api.nvim_set_keymap("n", "<Leader>gd", "<cmd>lua lsp_definition()<CR>", { noremap = true, silent = true })
-
--- Map the function to a key binding
-vim.api.nvim_set_keymap("n", "<Leader>gd", "<cmd>lua lsp_definition()<CR>",
-    { noremap = true, silent = true, desc = "LSP definition" })
-
-local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+require("mason").setup({
+    ui = {
+        -- Whether to automatically check for new versions when opening the :Mason window.
+        check_outdated_packages_on_open = true,
+        -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
+        border = "rounded",
+        -- Width of the window. Accepts:
+        -- - Integer greater than 1 for fixed width.
+        -- - Float in the range of 0-1 for a percentage of screen width.
+        width = 0.7,
+        -- Height of the window. Accepts:
+        -- - Integer greater than 1 for fixed height.
+        -- - Float in the range of 0-1 for a percentage of screen height.
+        height = 0.85,
+    },
+})
 
 local on_attach = function(client, bufnr)
+    -- Map the function to a key binding
+    vim.api.nvim_set_keymap("n", "<Leader>gd", "<cmd>lua lsp_definition()<CR>", { noremap = true, silent = true })
+
+    -- Map the function to a key binding
+    vim.api.nvim_set_keymap("n", "<Leader>gd", "<cmd>lua lsp_definition()<CR>",
+        { noremap = true, silent = true, desc = "LSP definition" })
+
+    local opts = { noremap = true, silent = true }
+    vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '[e', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']e', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -81,71 +82,87 @@ require("mason-lspconfig").setup_handlers {
     end,
     -- Next, you can provide a dedicated handler for specific servers.
     -- For example, a handler override for the `rust_analyzer`:
-    ["rust_analyzer"] = function()
-        require("rust-tools").setup {}
+    -- ["rust_analyzer"] = function()
+    --     local rt = require("rust-tools")
+    --     rt.setup {
+    --         server = {
+    --             on_attach = function(_, bufnr)
+    --                 -- Hover actions
+    --                 vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+    --                 -- Code action groups
+    --                 vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+    --             end,
+    --         }
+    --     }
+    -- end,
+
+    ["clangd"] = function()
+        require("lspconfig").clangd.setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+            root_dir = require("lspconfig").util.root_pattern('.git', '.clangd-format', '.gitignore'),
+            cmd = { 'clangd', '--fallback-style=chromium' },
+            log_file = '/tmp/clangd.log',
+            log_level = 5,
+        }
+    end,
+
+    ["lua_ls"] = function()
+        require('lspconfig').lua_ls.setup {
+            settings = {
+                Lua = {
+                    runtime = {
+                        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                        version = 'LuaJIT',
+                    },
+                    diagnostics = {
+                        -- Get the language server to recognize the `vim` global
+                        globals = { 'vim' },
+                    },
+                    workspace = {
+                        -- Make the server aware of Neovim runtime files
+                        library = vim.api.nvim_get_runtime_file("", true),
+                    },
+                    -- Do not send telemetry data containing a randomized but unique identifier
+                    telemetry = {
+                        enable = false,
+                    },
+                },
+            },
+        }
     end
 }
 
--- require('lspconfig').lua_ls.setup {
---     settings = {
---         Lua = {
---             runtime = {
---                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
---                 version = 'LuaJIT',
---             },
---             diagnostics = {
---                 -- Get the language server to recognize the `vim` global
---                 globals = { 'vim' },
---             },
---             workspace = {
---                 -- Make the server aware of Neovim runtime files
---                 library = vim.api.nvim_get_runtime_file("", true),
---             },
---             -- Do not send telemetry data containing a randomized but unique identifier
---             telemetry = {
---                 enable = false,
---             },
---         },
---     },
--- }
---
--- require("lspconfig").clangd.setup {
---     on_attach = on_attach,
---     capabilities = capabilities,
---     filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
---     -- cmd = { "clangd" },
---     cmd = { 'clangd', '--background-index', '--inlay-hints' },
---     log_file = '/tmp/clangd.log',
---     log_level = 5,
--- }
---
---
--- require('lspconfig').pylsp.setup {
---     on_attach = on_attach,
---     capabilities = capabilities,
---     settings = {
---         pylsp = {
---             plugins = {
---                 pycodestyle = {
---                     ignore = { 'W391' },
---                     maxLineLength = 100
---                 }
---             }
---         }
---     }
--- }
---
--- require('lspconfig').pyright.setup {
---     on_attach = on_attach,
---     capabilities = capabilities,
--- }
---
--- require 'lspconfig'.bashls.setup {
---     on_attach = on_attach,
---     capabilities = capabilities,
--- }
---
--- require'lspconfig'.phpactor.setup{
---     on_attach = on_attach,
---     capabilities = capabilities,
--- }
+-- LSP Diagnostics Options Setup
+local sign = function(opts)
+    vim.fn.sign_define(opts.name, {
+        texthl = opts.name,
+        text = opts.text,
+        numhl = ''
+    })
+end
+
+sign({ name = 'DiagnosticSignError', text = '' })
+sign({ name = 'DiagnosticSignWarn', text = '' })
+sign({ name = 'DiagnosticSignHint', text = '' })
+sign({ name = 'DiagnosticSignInfo', text = '' })
+
+vim.diagnostic.config({
+    virtual_text = false,
+    signs = true,
+    update_in_insert = true,
+    underline = true,
+    severity_sort = false,
+    float = {
+        border = 'rounded',
+        source = 'always',
+        header = '',
+        prefix = '',
+    },
+})
+
+vim.cmd([[
+set signcolumn=yes
+autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+]])
