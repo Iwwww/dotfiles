@@ -3,9 +3,11 @@
 xscreensaver &> /dev/null &
 
 hibernate() {
+    st &
     # xscreensaver-command --lock
     # sleep 3
     i3lock -c 000000
+    sleep 1
     systemctl hibernate
 }
 

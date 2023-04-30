@@ -5,11 +5,9 @@ do
     BLUETOOTH_DEVICES=$(bluetooth.sh)
     WIFI_CON=$(net.sh)
     VOL=$(volume.sh)
-    BAT=$(cat /sys/class/power_supply/BAT1/capacity)
-    ACAD=$(if [[ $(cat /sys/class/power_supply/ACAD/online) == 1 ]]; then echo " "; else echo ""; fi)
-    # ACAD=$(cat /sys/class/power_supply/ACAD/online)
+    BAT=$(battery.sh)
     TIME=$(date +%H:%M)
-    xsetroot -name "$WIFI_CON$BLUETOOTH_DEVICES$VOL | $ACAD$BAT% | $TIME " &> /dev/null
-    # echo "$BLUETOOTH_DEVICES $VOL | $ACAD$BAT% | $TIME"
+    xsetroot -name " $WIFI_CON|$BLUETOOTH_DEVICES$VOL | $BAT | $TIME " &> /dev/null
+    # echo " $WIFI_CON|$BLUETOOTH_DEVICES$VOL | $BAT | $TIME " 
     sleep 1
 done

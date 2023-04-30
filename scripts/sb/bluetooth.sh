@@ -12,7 +12,7 @@ power_on() {
 # Checks if a device is connected
 device_connected() {
     device_info=$(bluetoothctl info "$1")
-    if echo "$device_info" | grep -F -q "Connected: yes"; then
+    if printf "$device_info" | grep -F -q "Connected: yes"; then
         return 0
     else
         return 1
@@ -28,19 +28,19 @@ if power_on; then
     IFS=$'\n'
     for d in $devices; do
         # Get device name and mac address
-        device_name="$(echo "$d" | cut -d ' ' -f 3-)"
-        mac="$(echo "$d" | cut -d ' ' -f 2)"
+        device_name="$(printf "$d" | cut -d ' ' -f 3-)"
+        mac="$(printf "$d" | cut -d ' ' -f 2)"
 
         # Add connected devices to status
         if device_connected "$mac"; then
-            status=$(echo "$status  $device_name ")
+            status=$(printf "$status  $device_name ")
         fi
     done
 
     if [[ "$status" == "" ]]; then
-        echo "  on "
+        printf "  on "
     fi
-    printf "$status| "
+    printf "$status|"
 # else
-#     echo ""
+#     printf ""
 fi

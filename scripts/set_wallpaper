@@ -21,6 +21,8 @@ pywalfox update
 cp "$WAL_CACH/colors.dunstrc" "$HOME/.config/dunst/dunstrc" &&
     killall dunst ; setsid dunst &
 
+cp "$WAL_CACH/colors-rofi-dark.rasi" "$HOME/.config/rofi/" #&&
+
 # set dmenu
 # . "${HOME}/.cache/wal/colors.sh"
 # DMEN="dmenu -nf $color15 -nb $color0 -sb $color5 -sf $color0"

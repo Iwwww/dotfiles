@@ -58,6 +58,8 @@ else
             msg=$(udisksctl mount -b $path_to_device) 
             notify-send "Mount" "$msg"
         fi
+        # copy mountpoint path
+        echo $msg | awk '{print $4}' | xclip -selection clipboard
     else
         # check exit
         if [[ $(echo $path_to_device | grep -c "^PATH .*") -eq 0 ]]; then

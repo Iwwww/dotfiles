@@ -20,66 +20,67 @@ USE_NOTIFY=1
 USE_SUB_DIR=1
 # TODO: check if $PIC_DIR exsists
 PIC_DIR=$HOME/Pictures/screenshots
-
-gen_name() {
-    TIME=`date +"%H-%M-%S"`
-    NAME="$TIME.png"
-    if [[ $USE_SUB_DIR -eq 1 ]]; then
-        DATE=`date +"%Y-%m-%d"`
-        FOLDER="$DATE"
-        PIC_DIR=$PIC_DIR/$FOLDER
-        mkdir -p $PIC_DIR
-        echo $PIC_DIR
-    fi
-}
-
-copy_path() {
-    echo $PIC_DIR/$NAME | xclip -selection clipboard
-}
-
-edit_path() {
-    # dmenu '-t' flag from "print input text" patch
-    CHOICE_PATH=$(printf $PIC_DIR/$NAME | dmenu -t -p "Path >>")
-    if [[ $CHOICE_PATH != "" && $CHOICE_PATH != $PIC_DIR/$NAME ]]; then
-        mv $PIC_DIR/$NAME $CHOICE_PATH
-    fi
-}
-
-screenshot_part() {
-    rm $PIC_DIR/$NAME
-    gen_name
-    import $PIC_DIR/$NAME
-    xclip -selection clipboard -t image/png -i $PIC_DIR/$NAME
-    edit_path
-}
-
-view() {
-    feh $PIC_DIR/$NAME
-}
-
-
-gen_name
-
-# take screenshot
-import -window root $PIC_DIR/$NAME
-# copy screenshot to clipboard
-xclip -selection clipboard -t image/png -i $PIC_DIR/$NAME
-
-CHOICE=$(printf "1. Copy path\n2. Edit path\n3. Screenshot part\n4. View" | dmenu -l 4 -p Select)
-
-case $CHOICE in
-    "1. Copy path") copy_path ;;
-    "2. Edit path") edit_path ;;
-    "3. Screenshot part") screenshot_part ;;
-    "4. View") view ;;
-    "") ;;
-esac
-
-# notify-send
-if [[ $USE_NOTIFY -eq 1 ]]; then
-    if [[ $CHOICE_PATH != "" ]]; then
-        notify-send "Saved in" "$CHOICE_PATH"
-    else
-        notify-send "Saved in" "$PIC_DIR/$NAME"
-    fi
-fi
+flameshot gui
+#
+# gen_name() {
+#     TIME=`date +"%H-%M-%S"`
+#     NAME="$TIME.png"
+#     if [[ $USE_SUB_DIR -eq 1 ]]; then
+#         DATE=`date +"%Y-%m-%d"`
+#         FOLDER="$DATE"
+#         PIC_DIR=$PIC_DIR/$FOLDER
+#         mkdir -p $PIC_DIR
+#         echo $PIC_DIR
+#     fi
+# }
+#
+# copy_path() {
+#     echo $PIC_DIR/$NAME | xclip -selection clipboard
+# }
+#
+# edit_path() {
+#     # dmenu '-t' flag from "print input text" patch
+#     CHOICE_PATH=$(printf $PIC_DIR/$NAME | dmenu -t -p "Path >>")
+#     if [[ $CHOICE_PATH != "" && $CHOICE_PATH != $PIC_DIR/$NAME ]]; then
+#         mv $PIC_DIR/$NAME $CHOICE_PATH
+#     fi
+# }
+#
+# screenshot_part() {
+#     rm $PIC_DIR/$NAME
+#     gen_name
+#     import $PIC_DIR/$NAME
+#     xclip -selection clipboard -t image/png -i $PIC_DIR/$NAME
+#     edit_path
+# }
+#
+# view() {
+#     feh $PIC_DIR/$NAME
+# }
+#
+#
+# gen_name
+#
+# # take screenshot
+# import -window root $PIC_DIR/$NAME
+# # copy screenshot to clipboard
+# xclip -selection clipboard -t image/png -i $PIC_DIR/$NAME
+#
+# CHOICE=$(printf "1. Copy path\n2. Edit path\n3. Screenshot part\n4. View" | dmenu -l 4 -p Select)
+#
+# case $CHOICE in
+#     "1. Copy path") copy_path ;;
+#     "2. Edit path") edit_path ;;
+#     "3. Screenshot part") screenshot_part ;;
+#     "4. View") view ;;
+#     "") ;;
+# esac
+#
+# # notify-send
+# if [[ $USE_NOTIFY -eq 1 ]]; then
+#     if [[ $CHOICE_PATH != "" ]]; then
+#         notify-send "Saved in" "$CHOICE_PATH"
+#     else
+#         notify-send "Saved in" "$PIC_DIR/$NAME"
+#     fi
+# fi

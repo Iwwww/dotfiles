@@ -1,4 +1,5 @@
 #!/bin/bash
 
-import -window root - | xclip -selection clipboard -t image/png -i
+# import -window root - | xclip -selection clipboard -t image/png -i
+flameshot gui
 
