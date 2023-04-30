@@ -4,13 +4,13 @@ require('core.plugin_config.telescope')
 require('core.plugin_config.complitions')
 require('core.plugin_config.luasnip')
 require('core.plugin_config.comment')
-require('core.plugin_config.color-picker')
 require('core.plugin_config.impatient')
 require('core.plugin_config.mini')
 require('core.plugin_config.gitsigns')
 require('core.plugin_config.autopairs')
 
 -- Web Dev
+require('core.plugin_config.color-picker')
 require('core.plugin_config.colorizer')
 
 -- UI

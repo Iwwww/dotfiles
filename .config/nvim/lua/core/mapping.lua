@@ -24,7 +24,7 @@ keymap.set('n', '<C-Left>', ':-tabmove<CR>', { silent = true })
 
 -- Insert mode Movement
 -- go forward
-vim.api.nvim_set_keymap('i', '<C-f>', '<C-o>l', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<C-f>', '<ESC>la', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<C-A-f>', '<ESC>Ea', { noremap = true, silent = true })
 -- go backward
 vim.api.nvim_set_keymap('i', '<C-b>', '<C-o>h', { noremap = true, silent = true })

@@ -29,7 +29,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
     vim.keymap.set('n', '[e', vim.diagnostic.goto_prev, opts)
     vim.keymap.set('n', ']e', vim.diagnostic.goto_next, opts)
-    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+    vim.keymap.set('n', '<space>q', ":Telescope diagnostics<CR>", opts)
 
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -82,19 +82,32 @@ require("mason-lspconfig").setup_handlers {
     end,
     -- Next, you can provide a dedicated handler for specific servers.
     -- For example, a handler override for the `rust_analyzer`:
-    -- ["rust_analyzer"] = function()
-    --     local rt = require("rust-tools")
-    --     rt.setup {
-    --         server = {
-    --             on_attach = function(_, bufnr)
-    --                 -- Hover actions
-    --                 vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-    --                 -- Code action groups
-    --                 vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-    --             end,
-    --         }
-    --     }
-    -- end,
+    ["rust_analyzer"] = function()
+        local rt = require("rust-tools")
+        rt.setup {
+            tools = {
+                runnables = {
+                    use_telescope = true,
+                },
+                inlay_hints = {
+                    auto = true,
+                    show_parameter_hints = false,
+                    parameter_hints_prefix = "",
+                    other_hints_prefix = "",
+                },
+            },
+            server = {
+                on_attach = on_attach,
+                capabilities = capabilities,
+                -- on_attach = function(_, bufnr)
+                --     -- Hover actions
+                --     vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+                --     -- Code action groups
+                --     vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+                -- end,
+            }
+        }
+    end,
 
     ["clangd"] = function()
         require("lspconfig").clangd.setup {
@@ -131,7 +144,15 @@ require("mason-lspconfig").setup_handlers {
                 },
             },
         }
-    end
+    end,
+
+    ["tsserver"] = function()
+        require 'lspconfig'.tsserver.setup {
+            filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+            root_dir = function() return vim.loop.cwd() end -- run lsp for javascript in any directory
+        }
+    end,
+
 }
 
 -- LSP Diagnostics Options Setup

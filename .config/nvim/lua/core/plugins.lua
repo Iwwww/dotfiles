@@ -55,19 +55,20 @@ packer.startup(function(use)
     use "numToStr/Comment.nvim"
     use({
         "iamcco/markdown-preview.nvim",
-        run = function() vim.fn['mkdp#util#install']() end,
+        run = function() vim.fn["mkdp#util#install"]() end,
     })
     use "echasnovski/mini.surround"
     use "windwp/nvim-autopairs"
     use "lewis6991/impatient.nvim"
+    use "chaoren/vim-wordmotion"
 
     -- Git
-    use 'lewis6991/gitsigns.nvim'
+    use "lewis6991/gitsigns.nvim"
 
     -- Web Dev
     use "AndrewRadev/tagalong.vim"
-    use 'ap/vim-css-color'
-    use 'norcalli/nvim-colorizer.lua'
+    use "ap/vim-css-color"
+    use "norcalli/nvim-colorizer.lua"
     use({
         "ziontee113/color-picker.nvim",
         config = function()
@@ -84,9 +85,10 @@ packer.startup(function(use)
         }
     })
     use "echasnovski/mini.indentscope"
-    use 'aveplen/ruscmd.nvim'
+    use "aveplen/ruscmd.nvim"
     use "mhinz/vim-startify"
     use "RRethy/vim-illuminate"
+    use "MunifTanjim/nui.nvim"
 
     -- Language specific
     use "simrat39/rust-tools.nvim"
