@@ -1,6 +1,6 @@
+set ratios 1:2:3
 set cleaner '~/.config/lf/cleaner'
-set previewer '~/.config/lf/scope'
-# Basic Settings
+set previewer '~/.config/lf/scope' # Basic Settings
 set preview true
 set color256 true
 set drawbox true
@@ -116,26 +116,22 @@ cmd mkdir ${{
 
 cmd set_wallpaper ${{
     set -f
-    rm -rfd $HOME/.cache/wal/schemes/
-    wal -i $fx -n -q -o setup_theme &
+    feh --bg-fill $fx
     printf "path='${fx}'"
-    script_path="/home/mikhail/scripts/set_wallpaper"
-    sed -i '3 s#^wallpaper_path=.*#wallpaper_path='\"${fx}\"'#g' $script_path
-    source ~/scripts/set_wallpaper
+    script_path="/home/mikhail/.local/scripts/set_wallpaper"
+    wal -i $fx -o $script_path --backend schemer2
 }}
 
-cmd set_wallpaper_light_theme ${{
+cmd set_wallpaper_other ${{
     set -f
-    rm -rfd $HOME/.cache/wal/schemes/
-    wal -i $fx -l -n -q -o setup_theme &
+    feh --bg-fill $fx
     printf "path='${fx}'"
-    script_path="/home/mikhail/scripts/set_wallpaper"
-    sed -i '3 s#^wallpaper_path=.*#wallpaper_path='\"${fx}\"'#g' $script_path
-    source ~/scripts/set_wallpaper
+    script_path="/home/mikhail/.local/scripts/set_wallpaper"
+    wal -i $fx -o $script_path --backend wal
 }}
 
 cmd drag_n_drop_selected ${{
-    ripdrag  $fx --resizable --and-exit --icon-size 70
+    ripdrag  $fx --resizable --icon-size 70
 }}
 
 cmd drag_n_drop_all ${{
@@ -152,8 +148,10 @@ set scrolloff 10
 set icons
 set period 1
 set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
-set cleaner '~/.config/lf/cleaner'
-set previewer '~/.config/lf/scope'
+# set cleaner '~/.config/lf/cleaner'
+# set previewer '~/.config/lf/scope'
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/cleaner
 
 # Hotkeys
 map <c-t> :!terminal &
@@ -178,6 +176,6 @@ map DD delete
 map M mkdir
 map XX extract
 map sw set_wallpaper
-map sW set_wallpaper_light_theme
+map sW set_wallpaper_other
 map a drag_n_drop_selected
 map A drag_n_drop_all
