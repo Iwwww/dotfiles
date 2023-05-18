@@ -1,6 +1,6 @@
+set ratios 1:2:3
 set cleaner '~/.config/lf/cleaner'
-set previewer '~/.config/lf/scope'
-# Basic Settings
+set previewer '~/.config/lf/scope' # Basic Settings
 set preview true
 set color256 true
 set drawbox true
@@ -118,12 +118,20 @@ cmd set_wallpaper ${{
     set -f
     feh --bg-fill $fx
     printf "path='${fx}'"
-    script_path="/home/mikhail/scripts/set_wallpaper"
-    sed -i "3 s#'[A-Za-z0-9\/\ \.\_\-]*'#'${fx}'#g" $script_path
+    script_path="/home/mikhail/.local/scripts/set_wallpaper"
+    wal -i $fx -o $script_path --backend schemer2
+}}
+
+cmd set_wallpaper_other ${{
+    set -f
+    feh --bg-fill $fx
+    printf "path='${fx}'"
+    script_path="/home/mikhail/.local/scripts/set_wallpaper"
+    wal -i $fx -o $script_path --backend wal
 }}
 
 cmd drag_n_drop_selected ${{
-    ripdrag  $fx --resizable --and-exit --icon-size 70
+    ripdrag  $fx --resizable --icon-size 70
 }}
 
 cmd drag_n_drop_all ${{
@@ -140,8 +148,10 @@ set scrolloff 10
 set icons
 set period 1
 set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
-set cleaner '~/.config/lf/cleaner'
-set previewer '~/.config/lf/scope'
+# set cleaner '~/.config/lf/cleaner'
+# set previewer '~/.config/lf/scope'
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/cleaner
 
 # Hotkeys
 map <c-t> :!terminal &
@@ -152,7 +162,7 @@ map gd cd ~/Documents
 map gD cd ~/Downloads
 map gs cd ~/scripts
 map gp cd ~/Pictures
-map gv cd ~/Video
+map gv cd ~/Viedeos
 map gc cd ~/.config
 map gm cd /run/media
 map gM cd /mnt/usb
@@ -166,5 +176,6 @@ map DD delete
 map M mkdir
 map XX extract
 map sw set_wallpaper
+map sW set_wallpaper_other
 map a drag_n_drop_selected
 map A drag_n_drop_all

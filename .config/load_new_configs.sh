@@ -11,3 +11,4 @@
 # cp -rv --backup "$HOME/.config/lf/" "."
 
 cp -rv "$HOME/.config/nvim/" "."
+cp -rv "$HOME/.config/lf/" "."

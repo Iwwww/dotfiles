@@ -1,0 +1,3 @@
+#!/bin/bash
+
+trayer --width 10 --edge right --alpha 255 --transparent true

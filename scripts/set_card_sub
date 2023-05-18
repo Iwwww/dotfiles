@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Choose video card you want to use via nvidia-optimus
+# Sript use startx to relad Xorg session
+# Require run as sudo
+#
+# Script requirements:
+# - dmenu
+# - dunst (notify-send)
+
+# CURRENT_CARD=$(prime-offload &> /dev/null && optimus-manager --status | grep -i "Current GPU mode : " | awk '{print $5}')
+CURRENT_CARD=$(prime-offload &> /dev/null && optimus-manager --status | grep -i "Current GPU mode : " | awk '{print $5}')
+CHOOSE=$(echo -e "integrated\nnvidia\nhybrid" | dmenu -l 3 -p "Choose video card ($CURRENT_CARD):")
+
+case "$CHOOSE" in
+    integrated) CHOOSE_CARD="integrated"
+    ;;
+    nvidia) CHOOSE_CARD="nvidia"
+    ;;
+    hybrid) CHOOSE_CARD="hybrid"
+    ;;
+    *) CHOOSE_CARD="error"
+    ;;
+esac
+
+if [[ "$CHOOSE_CARD" != "error" ]]; then
+    CURRENT_CARD=$(prime-offload &> /dev/null && optimus-manager --status | grep -i "Current GPU mode : " | awk '{print $5}')
+    if [[ "$CHOOSE_CARD" == "$CURRENT_CARD" ]]; then
+        echo "You have alrady use $CHOOSE_CARD mode"
+        notify-send "You have alrady use $CHOOSE_CARD mode"
+    else
+
+        PASSWORD=$(dmenu -l 2 -p "ARE YOU REALY WANT TO LOGOUT THIS XORG SESSION? | Enter sudo password: " -P)
+
+        # Check if the sudo password was entered correctly?
+        echo $PASSWORD | sudo --stdin -k ls
+        if [[ $(echo $PASSWORD | sudo --stdin -k ls /) ]]; then
+            echo "Correct sudo password"
+            notify-send "Changing to $CHOOSE_CARD mode"
+
+            if [[ "$CHOOSE_CARD" != "error" ]]; then
+                prime-offload && optimus-manager --switch $CHOOSE_CARD --no-confirm && echo $PASSWORD | sudo --stdin -k prime-switch && prime-offload && sleep 2
+                nohup startx &
+
+                sleep 2
+                CURRENT_CARD=$(optimus-manager --status | grep -i "Current GPU mode : " | awk '{print $5}')
+                sleep 3 && notify-send "You are using $CURRENT_CARD mode"
+            fi
+        else
+            echo "Incorrect sudo password"
+        fi
+    fi
+fi

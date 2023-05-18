@@ -26,7 +26,7 @@ or             # ORPHAN
 tw      t       # STICKY_OTHER_WRITABLE
 ow             # OTHER_WRITABLE
 st      t       # STICKY
-di             # DIR
+di             # DIR
 pi      p       # FIFO
 so      s       # SOCK
 bd      b       # BLK
@@ -54,6 +54,7 @@ fi             # FILE
 *.json          
 *.webmanifest   
 *.js            
+*.ino           
 *.mjs           
 *.jsx           
 *.rb            
@@ -307,12 +308,12 @@ Vagrantfile             
 *.pcx   
 *.mov   
 *.mpg   
-*.mpeg  
+*.mpeg  
 *.m2v   
-*.mkv   
-*.webm  
+*.mkv   
+*.webm  
 *.ogm   
-*.mp4   
+*.mp4   
 *.m4v   
 *.mp4v  
 *.vob   
@@ -323,7 +324,7 @@ Vagrantfile             
 *.rm    
 *.rmvb  
 *.flc   
-*.avi   
+*.avi   
 *.fli   
 *.flv   
 *.gl    
@@ -337,22 +338,22 @@ Vagrantfile             
 *.ogx   
 
 # audio formats (extensions from dircolors defaults)
-*.aac   
-*.au    
-*.flac  
-*.m4a   
+*.aac   
+*.au    
+*.flac  
+*.m4a   
 *.mid   
 *.midi  
 *.mka   
-*.mp3   
+*.mp3   
 *.mpc   
-*.ogg   
+*.ogg   
 *.ra    
-*.wav   
+*.wav   
 *.oga   
 *.opus  
 *.spx   
 *.xspf  
 
 # other formats
-*.pdf   
+*.pdf   

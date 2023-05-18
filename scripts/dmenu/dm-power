@@ -1,6 +1,6 @@
 #!/bin/sh
 
-xscreensaver &> /dev/null &
+xscreensaver -no-splash &> /dev/null &
 
 hibernate() {
     st &
@@ -12,11 +12,11 @@ hibernate() {
 }
 
 myshutdown() {
-    systemctl poweroff
+    systemctl poweroff -i
 }
 
 reboot() {
-    systemctl reboot
+    systemctl reboot -i
     # shutdown --reboot now
 }
 
