@@ -52,29 +52,61 @@ cmd open ${{
     esac
 }}
 
-# define a custom 'rename' command without prompt for overwrite
-# cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
-# map r push :rename<space>
+# require trash-cli package
+cmd trash ${{
+    set -f
+    printf "$fx\n"
+    printf "trash? [Y/N]"
+    read ans
+    [ $ans = "y" ] || [ $ans = "Y" ] && trash-put $fx
+}}
 
-# make sure trash folder exists
-# %mkdir -p ~/.trash
+# require archivemount package
+cmd open ${{
+    case "$f" in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2|*.tar.gz|*.tgz|*.tar.xz|*.txz|*.zip|*.rar|*.iso)
+            mntdir="$f-archivemount"
+            if [ ! -d "$mntdir" ]; then
+                mkdir "$mntdir"
+                archivemount "$f" "$mntdir"
+                echo "$mntdir" >> "/tmp/__lf_archivemount_$id"
+            fi
+            mntdir="$(printf '%s' "$mntdir" | sed 's/\\/\\\\/g;s/"/\\"/g')"
+            lf -remote "send $id cd \"$mntdir\""
+            lf -remote "send $id reload"
+            ;;
+        *)
+            for f in $fx; do
+                $OPENER $f > /dev/null 2> /dev/null &
+            done;;
+    esac
+}}
 
-# move current file or selected files to trash folder
-# (also see 'man mv' for backup/overwrite options)
-cmd trash %set -f; mv $fx ~/.trash
-
-# define a custom 'delete' command
-#cmd delete ${{
-    #set -f
-    #printf "$fx\n"
-    #printf "delete?[y/n]"
-    #read ans
-    #[ $ans = "y" ] && rm -rf $fx
-#}}
-
-# use '<delete>' key for either 'trash' or 'delete' command
-# map <delete> trash
-#map <delete> delete
+# unmount archivemount
+lfcd () {
+    tmp="$(mktemp)"
+    fid="$(mktemp)"
+    lf -command '$printf $id > '"$fid"'' -last-dir-path="$tmp" "$@"
+    id="$(cat "$fid")"
+    archivemount_dir="/tmp/__lf_archivemount_$id"
+    if [ -f "$archivemount_dir" ]; then
+        cat "$archivemount_dir" | \
+            while read -r line; do
+                sudo umount "$line"
+                rmdir "$line"
+            done
+        rm -f "$archivemount_dir"
+    fi
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        if [ -d "$dir" ]; then
+            if [ "$dir" != "$(pwd)" ]; then
+                cd "$dir"
+            fi
+        fi
+    fi
+}
 
 # extract the current file with the right command
 # (xkcd link: https://xkcd.com/1168/)
@@ -88,6 +120,35 @@ cmd extract ${{
         *.rar) unrar x $f;;
         *.7z) 7z x $f;;
     esac
+}}
+
+# require exa (eza) package
+cmd on-select &{{
+    lf -remote "send $id set statfmt \"$(exa -ld --color=always "$f")\""
+}}
+
+cmd fzf_jump ${{
+    res="$(find . -maxdepth 4 | fzf --reverse --header='Jump to location')"
+    if [ -n "$res" ]; then
+        if [ -d "$res" ]; then
+            cmd="cd"
+        else
+            cmd="select"
+        fi
+        res="$(printf '%s' "$res" | sed 's/\\/\\\\/g;s/"/\\"/g')"
+        lf -remote "send $id $cmd \"$res\""
+    fi
+}}
+
+cmd fzf_search ${{
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    res="$(
+        FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
+            fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+            --ansi --layout=reverse --header 'Search in files' \
+            | cut -d':' -f1 | sed 's/\\/\\\\/g;s/"/\\"/g'
+    )"
+    [ -n "$res" ] && lf -remote "send $id select \"$res\""
 }}
 
 # compress current file or selected files with tar and gunzip
@@ -131,7 +192,7 @@ cmd set_wallpaper_other ${{
 }}
 
 cmd drag_n_drop_selected ${{
-    ripdrag  $fx --resizable --icon-size 70
+        ripdrag  $fx --resizable --icon-size 70 -x
 }}
 
 cmd drag_n_drop_all ${{
@@ -162,16 +223,15 @@ map gd cd ~/Documents
 map gD cd ~/Downloads
 map gs cd ~/scripts
 map gp cd ~/Pictures
-map gv cd ~/Viedeos
+map gv cd ~/Videos
 map gc cd ~/.config
 map gm cd /run/media
 map gM cd /mnt/usb
 map gl cd ~/.local
 map gb cd ~/builds
 
-
-map <delete> delete
-map DD delete
+map <delete> trash
+map DD trash
 
 map M mkdir
 map XX extract
@@ -179,3 +239,6 @@ map sw set_wallpaper
 map sW set_wallpaper_other
 map a drag_n_drop_selected
 map A drag_n_drop_all
+
+map <c-f> :fzf_jump
+map <c-g> :fzf_search
