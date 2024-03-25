@@ -1,4 +1,0 @@
-#!/bin/bash
-
-rofi -show drun -show-icons -font "h 15"
-# rofi -show drun -font "hack 15" -show-icons -theme ~/.config/rofi/colors-rofi-dark.rasi

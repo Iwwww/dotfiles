@@ -1,0 +1,230 @@
+#!/bin/sh
+# https://codeberg.org/tplasdio/scripts/scripts/drag
+
+# @(#) Drag files into a directory
+
+# TODO:
+# - Better arg parser?
+# - Option for notifications
+# - Option for clipboard copy
+# - More selection commands
+# - why 3 processes of this script appear?
+# - maybe validate that directory to operate on exists?
+
+# what to do with filenames with linebreak? drag should have an
+# option to separate by nullbyte. Surprisingly using curl works
+# but linebreak gets replaced by encoding %0A, maybe decode it?
+
+VERSION=0.1.0
+
+drag_cmd() {
+	"$DRAG" -t "$@" 2>/dev/null
+}
+
+is_local_file() {
+	local_path="${1#file://}"
+	if ! [ -e "$local_path" ]; then
+		>&2 echo "File doesn't exist: $local_path"
+		return 2
+	fi
+}
+
+rp() {
+	realpath -- "$1" || readlink -f -- "$1"
+}
+
+replace_It() {
+	_i=1
+	for arg do
+		[ "$_i" ] && { unset -v _i; set -- ;}
+		case "$arg" in
+		("${PlaceHolder:-"{}"}") set -- "$@" "$It" ;;
+		(*) set -- "$@" "$arg" ;;
+		esac
+	done
+
+	if [ "$Opt_bg" ]; then
+		"$@" &
+	else
+		"$@"
+	fi
+}
+
+# Notification + clipboard callback
+notify_and_clip_It() {
+	"$@"
+	# Requires my xclipns script
+	xclipns <<-EOF
+	$(rp "${It##*/}")
+	EOF
+}
+
+# Check if file exists callback
+is_It_local_file() {
+	is_local_file "$It" || return
+	"$@"
+}
+
+xargs_It() {
+	# Reimplementation of xargs -I in shell so I
+	# can decorate it (use callback functions)
+	# Maybe put callbacks as options?
+
+	case "$1" in
+	(-I)
+		PlaceHolder="${2:-"{}"}"
+		shift 2
+	esac
+
+	while IFS= read -r It; do
+		replace_It "$@"
+	done
+}
+
+download_url_to_dir() {
+	if type curl >/dev/null 2>&1; then
+		curl -O "$1" --output-dir "$2"
+	elif type wget >/dev/null 2>&1; then
+		wget "$1" -P "$2"  # doesn't support file:// scheme
+	else
+		>&2 echo "Nor wget or curl found, can't download"
+		return 2
+	fi
+}
+
+usage() {
+	_0="${0##*/}"
+	cat <<EOF
+Drag files into a directory
+
+Usage:
+  $_0 [-b] [-f] [--drag] [SUBCOMMAND] [<dir>]
+  $_0 [-b] [-f] [--drag] cmd [<drag_args>...] -- [<callback_cmd>...] [{}]
+
+Options:
+ -b, --background            Execute subcommand as background job
+ -f, --fork                  Leave window as forked process
+     --drag                  Drag program to use. Default: dragon-drag-and-drop
+ -V, --version               Show version
+ -h, --help                  Show this help
+
+Subcommands:
+  fzf, ''                    Menu selection in fzf of other subcommands
+  mv, move                   Move file to directory. Default: \$PWD
+  cp, copy                   Copy file to directory. Default: \$PWD
+  dl, download               Download file, with curl or wget. Default: \$PWD
+  x, cmd, exec               Execute a command every time a file is dragged
+                             into, {} is placeholder for the drag output
+
+Examples:
+  $_0 mv         # Drag cut local files into current directory
+  $_0 cp <dir>   # Drag copy local files into certain directory
+  $_0 -b dl      # Drag download URLs at the same time into certain directory
+EOF
+}
+
+parse_subcmds() {
+	case "$1" in
+	(cmd | command | x | exec)
+		# This is too similar to just:
+		# dragon -t "$@" | xargs -I {} commands
+		# but with global -b, is similar to `parallel`
+		drag_cmd_args() {
+			eval "set -- $drag_args"
+			"$DRAG" -t "$@"
+		}
+		shift
+
+		_c=1
+		for _arg do
+			case "$_arg" in
+			(--) break ;;
+			# here -I should be parsed for the placeholder
+			(*) drag_args="${drag_args} "'"${'"$_c"'}"'
+			esac
+			_c=$((_c+1))
+		done
+		# TODO: validation of # of args
+		drag_cmd_args "$@" | {
+			shift "$_c"
+			xargs_It "$@"
+		}
+	;;
+	(move | mv)
+		drag_cmd -p \
+			| xargs_It is_It_local_file mv -- {} "${2:-"$PWD"}"
+	;;
+	(copy | cp)
+		drag_cmd -p \
+			| xargs_It is_It_local_file cp -R -- {} "${2:-"$PWD"}"
+	;;
+	(download | dl)
+		drag_cmd \
+			| xargs_It notify_and_clip_It download_url_to_dir {} "${2:-"${XDG_DOWNLOAD_DIR:-"$PWD"}"}"
+		# FIXME: doesn't download to xdg dir
+	;;
+	('' | fzf)
+		[ $# -ne 0 ] && shift
+		subcmd=$(fzf\
+	--prompt "Operation: "\
+	--header "Operation will put file(s) into current directory" "$@" <<-EOF
+	mv (move)
+	cp (copy)
+	dl (download)
+	EOF
+	) || return 2
+		parse_subcmds "${subcmd%% *}" "$PWD"
+	;;
+	(*)
+		{
+		echo "Not a valid subcommand: $1"
+		usage
+		} >&2
+		return 22
+	esac
+}
+
+main() {
+	for _arg do
+		case "$_arg" in
+		(-h | --help)
+			usage
+			exit
+		;;
+		(-V | --version)
+			printf -- "%s\n" "$VERSION"
+			exit
+		;;
+		(-f | --fork)
+			# TODO:
+			# - This currently needs to be passed as first option
+			# - what to do when no subcommand (menu) was passed?
+			shift
+			(exec "$0" "$@" >/dev/null 2>&1&)
+			exit
+		;;
+		(-b | --bg | --background)
+			Opt_bg=1
+			shift
+		;;
+		(--drag)
+			# TODO: validation of # of args
+			Opt_drag="$2"
+			shift 2
+		;;
+		(-*)
+			>&2 echo "Unexpected option: $1"
+			return 22
+		;;
+		(*)
+			break  # not global option: subcommand
+		esac
+	done
+
+	# dragon implementation, I know there's one in Gtk3 and other compatible in Gtk4 `ripdrag`
+	DRAG="${Opt_drag:-"${DRAG:-"dragon-drag-and-drop"}"}"
+
+	parse_subcmds "$@" || return $?
+}
+
+main "$@" || exit $?

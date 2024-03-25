@@ -18,4 +18,5 @@ if ! nmcli general status | grep -q "asleep"; then
             printf "󰤯 "
         fi
     fi
+    printf "|"
 fi

@@ -304,10 +304,15 @@ original_args=("$@")
 # dmenu command to pipe into. Extra arguments to dmenu-bluetooth are passed through to dmenu. This
 # allows the user to set fonts, sizes, colours, etc.
 # Load scheme colors
-. "${HOME}/.cache/wal/colors.sh"
+pywalcolors="${HOME}/.cache/wal/colors.sh"
 
 run_dmenu() {
-    dmenu "${original_args[@]}" -i -p "$1" -l 25 -nf $color15 -nb $color0 -sb $color5 -sf $color0
+if [ -f "$pywalcolors" ]; then
+  . "${HOME}/.cache/wal/colors.sh"
+    dmenu "${original_args[@]}" -p "$1" -l 25 -nf $color15 -nb $color0 -sb $color5 -sf $color0 -i
+  else
+    dmenu "${original_args[@]}" -p "$1" -l 25 -i
+fi
 }
 
 case "$1" in

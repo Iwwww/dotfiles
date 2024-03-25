@@ -7,10 +7,12 @@ if [[ "$(xinput list | grep Touchpad | awk '{print $5}')" == "Touchpad" ]]; then
         echo "Touchpad disabled"
         logger "Touchpad disabled"
         xinput disable "$tp_id"
+        notify-send 'TouchPad disabled'
     else
         echo "Touchpad enabled"
         logger "Touchpad enabled"
         xinput enable "$tp_id"
+        notify-send 'TouchPad enabled'
     fi
 else
     echo "Touchpad not found"

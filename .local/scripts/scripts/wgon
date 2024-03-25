@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# nmcli connection up mikhail_pc
+lxqt-sudo wg-quick up ~/Documents/security/vpn/mikhail_pc.conf     
+notify-send "VPN is on"

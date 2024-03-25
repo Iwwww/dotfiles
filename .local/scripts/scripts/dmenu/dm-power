@@ -2,40 +2,34 @@
 
 xscreensaver -no-splash &> /dev/null &
 
+run_via_nohup() {
+    nohup $1 > /dev/null
+}
+
 hibernate() {
-    st &
-    # xscreensaver-command --lock
-    # sleep 3
-    i3lock -c 000000
-    sleep 1
-    systemctl hibernate
+    run_via_nohup "systemctl hibernate"
 }
 
 myshutdown() {
-    systemctl poweroff -i
+    run_via_nohup "systemctl poweroff -i"
+    screen_off
 }
 
 reboot() {
-    systemctl reboot -i
-    # shutdown --reboot now
+    run_via_nohup "systemctl reboot -i"
 }
 
 suspend() {
-    xscreensaver-command --lock
-    sleep 3
-    systemctl suspend
+    run_via_nohup "systemctl suspend"
 }
 
 sleep_hibernate() {
-    xscreensaver-command --lock
-    sleep 3
-    systemctl suspend-then-hibernate
+    run "systemctl suspend-then-hibernate"
 }
 
 screen_off() {
-    xscreensaver-command --lock
-    sleep 3
     xset dpms force off
+    killall dmenu
 }
 
 lock() {
@@ -46,7 +40,7 @@ lock() {
 # load theme from pywal
 . "${HOME}/.cache/wal/colors.sh"
 DMEN="dmenu -nf $color15 -nb $color0 -sb $color5 -sf $color0"
-select=$(echo -e "hibernate\nsleep\nzSleep-hibernate\nShutdown\nrestart\nlock\noff" | $DMEN -p power)
+select=$(echo -e "Shutdown\nlock\nrestart\nhibernate\nsleep" | $DMEN -p power)
 echo $select
 case  $select in
     "hibernate") hibernate ;;
@@ -58,3 +52,4 @@ case  $select in
     "off") screen_off;;
 esac
 
+killall dmenu

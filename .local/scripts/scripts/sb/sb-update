@@ -3,11 +3,12 @@
 while :
 do
     BLUETOOTH_DEVICES=$(bluetooth.sh)
+    VPN=$(vpn.sh)
     WIFI_CON=$(net.sh)
     VOL=$(volume.sh)
     BAT=$(battery.sh)
     TIME=$(date +%H:%M)
-    xsetroot -name " $WIFI_CON|$BLUETOOTH_DEVICES$VOL | $BAT | $TIME " &> /dev/null
+    xsetroot -name " $VPN$WIFI_CON$BLUETOOTH_DEVICES$VOL | $BAT | $TIME " &> /dev/null
     # echo " $WIFI_CON|$BLUETOOTH_DEVICES$VOL | $BAT | $TIME " 
     sleep 1
 done
