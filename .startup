@@ -1,0 +1,18 @@
+#!/bin/bash
+
+once() {
+    if [ -z "$(pgrep "$1")" ]; then
+        $1 &
+        echo "run $1"
+    fi
+}
+
+set_frame_rate_on_current_governor
+once dunst
+once flameshot
+once sb-update
+once set_wallpaper
+once redshift
+once "unclutter --start-hidden --timeout 20"
+once "xscreensaver -no-splash"
+once "fcitx -d"

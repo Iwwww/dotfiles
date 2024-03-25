@@ -1,0 +1,49 @@
+!! Transparency (0-1):
+! st.alpha: 0.92
+! st.alphaOffset: 0.3
+
+!! Set a default font and font size as below:
+! st.font: Monospace-11;
+
+! st.termname: st-256color
+! st.borderpx: 3
+
+!! Global colors
+*.color0:       {color0}
+*.color1:       {color1}
+*.color2:       {color2}
+*.color3:       {color3}
+*.color4:       {color4}
+*.color5:       {color5}
+*.color6:       {color6}
+*.color7:       {color7}
+*.color8:       {color8}
+*.color9:       {color9}
+*.color10:      {color10}
+*.color11:      {color11}
+*.color12:      {color12}
+*.color13:      {color13}
+*.color14:      {color14}
+*.color15:      {color15}
+
+!! DWM
+dwm.normbgcolor:        {color0}
+dwm.normfgcolor:        {color15}
+dwm.normbordercolor:    {color0}
+dwm.selbordercolor:     {color7}
+dwm.selbgcolor:         {color5}
+dwm.selfgcolor:         {color0}
+
+!dmenu.SchemeNorm = #bbbbbb
+!, "#222222"
+!dmenu.SchemeSel = #00ff00
+!"#005577"
+!dmenu.SchemeOut  =  "#000000", "#00ffff"
+!dmenu.SchemeBorder =  "#000000", "#005577"
+!dmenu.SchemeHp   =  "#bbbbbb", "#333333"
+!dmenu.SchemeHover  =  "#ffffff", "#353D4B"
+!dmenu.SchemeGreen  =  "#ffffff", "#52E067"
+!dmenu.SchemeRed    =  "#ffffff", "#e05252"
+!dmenu.SchemeYellow =  "#ffffff", "#e0c452"
+!dmenu.SchemeBlue   =  "#ffffff", "#5280e0"
+!dmenu.SchemePurple =  "#ffffff", "#9952e0"

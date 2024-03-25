@@ -1,4 +1,4 @@
-function P --wraps=pacman --description 'alias P=pacman'
-  pacman $argv
+function P --wraps='sudo pacman' --description 'alias P=sudo pacman'
+  sudo pacman $argv
         
 end

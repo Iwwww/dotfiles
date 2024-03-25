@@ -163,8 +163,8 @@ mime_preview() {
 		CCt='	' \
 		bytes=$(du -sb "$1") bytes="${bytes%%"$CCt"*}"
 		if [ "$bytes" -lt 150000 ]; then
-			# odt2txt "$1"
-            docx2txt "$1"
+			odt2txt "$1"
+            # docx2txt "$1"
 		else
 			printf "file too big too preview quickly\n"
 		fi
@@ -174,7 +174,7 @@ mime_preview() {
 		bytes=$(du -sb "$1") bytes="${bytes%%"$CCt"*}"
 		if [ "$bytes" -lt 150000 ]; then
 			# odt2txt "$1"
-            docx2txt "$1"
+            docx2txt "$1" -
 		else
 			printf "file too big too preview quickly\n"
 		fi

@@ -1,126 +1,147 @@
-set ratios 1:2:3
+# based on https://codeberg.org/tplasdio/lf-config
+# To get image previews, you need these 4 steps:
+# 1. Install ueberzug
+# 2. The previewer file (~/.config/lf/previewer for me), must have a command
+#    similar to mine to generate ueberzug images.
+# 3. A `set cleaner` line as below is a cleaner script.
+# 4. lf should be started through a wrapper script (~/.local/bin/lfub for me)
+#    that creates the environment for ueberzug. This command can be be aliased
+#    in your shellrc (`alias lf="lfub").
+
+# Main options
+set icons
+set period 1
+# set hidden!
+set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
 set cleaner '~/.config/lf/cleaner'
-set previewer '~/.config/lf/scope' # Basic Settings
-set preview true
-set color256 true
-set drawbox true
-set icons true
-set ignorecase true
-
-# interpreter for shell commands
-set shell sh
-
-# set '-eu' options for shell commands
-# These options are used to have safer shell commands. Option '-e' is used to
-# exit on error and option '-u' is used to give error for unset variables.
-# Option '-f' disables pathname expansion which can be useful when $f, $fs, and
-# $fx variables contain names with '*' or '?' characters. However, this option
-# is used selectively within individual commands as it can be limiting at
-# times.
+set previewer '~/.config/lf/previewer'
+set promptfmt "
+\033[48;2;35;38;39;38;2;28;220;156m  
+\033[38;2;35;38;39;48;2;202;31;31m
+\033[38;2;202;31;31;48;2;40;47;62m
+\033[38;2;255;255;255m %w 
+\033[38;2;40;47;62;48;2;58;67;89m
+\033[38;2;255;255;255m %f 
+\033[;38;2;58;67;89;49m\033[m"
+set incsearch
+set incfilter
+# set globsearch on
+# set ratios 2:3:4 # 2:3:7:7
+set ratios 2:6:9
+set truncatechar "…"
+set waitmsg "\033[1;31m⏎\033[m"
+set timefmt "02/01/2006 15:04:05 "
+set infotimefmtnew '02/01 15:04'
+set infotimefmtold '02/01/06'
+set errorfmt "\033[1;31m"
+set numberfmt "\033[38;2;75;87;116m"
+set dircounts
+set tabstop 4
+set scrolloff 5
+set wrapscroll
 set shellopts '-eu'
-
-# set internal field separator (IFS) to "\n" for shell commands
-# This is useful to automatically split file names in $fs and $fx properly
-# since default file separator used in these variables (i.e. 'filesep' option)
-# is newline. You need to consider the values of these options and create your
-# commands accordingly.
 set ifs "\n"
+set shell "bash"
+set ruler 'df:acc:progress:selection:filter:ind'
+set cursorpreviewfmt "\033[7m"
 
-# leave some space at the top and the bottom of the screen
-set scrolloff 10
+source '~/.config/lf/opener'
 
-# use enter for shell commands
-map <enter> shell
+%test $LF_LEVEL -eq 1 || >&2 printf "Warning: You're in a nested lf instance!"
 
-# execute current file (must be executable)
-map x $$f
-map X !$f
-
-# dedicated keys for file opener actions
-map o &mimeopen $f
-map O $mimeopen --ask $f
-
-# define a custom 'open' command
-# This command is called when current file is not a directory. You may want to
-# use either file extensions and/or mime types here. Below uses an editor for
-# text files and a file opener for the rest.
-cmd open ${{
-    test -L $f && f=$(readlink -f $f)
-    case $(file --mime-type $f -b) in
-        text/*) nvim $fx;;
-        *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
-    esac
+cmd mkdir ${{
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
 }}
 
 # require trash-cli package
 cmd trash ${{
-    set -f
-    printf "$fx\n"
-    printf "trash? [Y/N]"
-    read ans
-    [ $ans = "y" ] || [ $ans = "Y" ] && trash-put $fx
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf -- "%s\n" $fx
+	printf "\t\033[1;34mTrash? \033[37m[\033[32my\033[37m/\033[31mN\033[37m]\033[m "
+	read -r REPLY
+
+	case "$REPLY" in
+		[yYsS]) trash-put $(echo $fx | sed 's/\n/n &/g') ;;
+	esac
 }}
 
-# require archivemount package
-cmd open ${{
-    case "$f" in
-        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2|*.tar.gz|*.tgz|*.tar.xz|*.txz|*.zip|*.rar|*.iso)
-            mntdir="$f-archivemount"
-            if [ ! -d "$mntdir" ]; then
-                mkdir "$mntdir"
-                archivemount "$f" "$mntdir"
-                echo "$mntdir" >> "/tmp/__lf_archivemount_$id"
-            fi
-            mntdir="$(printf '%s' "$mntdir" | sed 's/\\/\\\\/g;s/"/\\"/g')"
-            lf -remote "send $id cd \"$mntdir\""
-            lf -remote "send $id reload"
-            ;;
-        *)
-            for f in $fx; do
-                $OPENER $f > /dev/null 2> /dev/null &
-            done;;
-    esac
-}}
 
-# unmount archivemount
-lfcd () {
-    tmp="$(mktemp)"
-    fid="$(mktemp)"
-    lf -command '$printf $id > '"$fid"'' -last-dir-path="$tmp" "$@"
-    id="$(cat "$fid")"
-    archivemount_dir="/tmp/__lf_archivemount_$id"
-    if [ -f "$archivemount_dir" ]; then
-        cat "$archivemount_dir" | \
-            while read -r line; do
-                sudo umount "$line"
-                rmdir "$line"
-            done
-        rm -f "$archivemount_dir"
-    fi
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        rm -f "$tmp"
-        if [ -d "$dir" ]; then
-            if [ "$dir" != "$(pwd)" ]; then
-                cd "$dir"
-            fi
-        fi
-    fi
-}
+cmd delete ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf -- "%s\n" $fx | sed 's|'"$HOME"'||'
+	printf "\t\033[1;33mRemove? \033[37m[\033[32ms\033[37m/\033[31mN\033[37m]\033[m "
+	read -r REPLY
+	case "$REPLY" in
+		[yYsS]) rm -rf -- $fx ;;
+	esac
+}}
 
 # extract the current file with the right command
-# (xkcd link: https://xkcd.com/1168/)
 cmd extract ${{
-    set -f
-    case $f in
-        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
-        *.tar.gz|*.tgz) tar xzvf $f;;
-        *.tar.xz|*.txz) tar xJvf $f;;
-        *.zip) unzip $f;;
-        *.rar) unrar x $f;;
-        *.7z) 7z x $f;;
-    esac
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf -- "%s\n" $fx
+	printf "\t\033[1;34mExtract? \033[37m[\033[32my\033[37m/\033[31mN\033[37m]\033[m "
+	read -r REPLY
+	case "$REPLY" in
+		[yYsS]) case $fx in
+            *) unar $f ;;
+            # *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+            # *.tar.gz|*.tgz) tar xzvf $f;;
+            # *.tar.xz|*.txz) tar xJvf $f;;
+            # *.zip) unar $f;;
+            # *.rar) unar $f;;
+            # *.7z) 7z x $f;;
+        esac
+	esac
 }}
+
+cmd broot ${{
+	# You need to manually close broot printing the
+	# selected path with :print-path or :pp. You may
+	# want to configure broot keybindings
+	selected="$(broot)"
+	if [ -d "$selected" ]; then
+		lf -remote "send ${id} cd \"${selected}\""
+	elif [ -e "$selected" ]; then
+		lf -remote "send ${id} select \"${selected}\""
+	else
+		>&2 printf "Could not select %s\n" "${selected}"
+	fi
+}}
+
+cmd paste_link %{{
+	IFS='
+'
+	# TODO: reescribir no con los marcados a copiar/pegar,
+	# sino con los seleccionados: $fs
+	set -- $(cat ~/.local/share/lf/files)
+	mode="$1"
+	shift
+	if [ $# -lt 1 ]; then
+		lf -remote "send $id echo no files to link"
+		exit 1
+	fi
+	case "$mode" in
+		# symbolically copy mode is indicating a soft link
+		copy) ln -sr -t . -- "$@";;
+		# while a move mode is indicating a hard link
+		move) ln -t . -- "$@";;
+	esac \
+		|| exit $?
+	rm ~/.local/share/lf/files
+	lf -remote "send clear"
+}}
+
+cmd follow_link %{{
+	lf -remote "send ${id} select \"$(readlink $f)\""
+}}
+
+cmd setbg "$1"
 
 # require exa (eza) package
 cmd on-select &{{
@@ -151,36 +172,12 @@ cmd fzf_search ${{
     [ -n "$res" ] && lf -remote "send $id select \"$res\""
 }}
 
-# compress current file or selected files with tar and gunzip
-cmd tar ${{
-    set -f
-    mkdir $1
-    cp -r $fx $1
-    tar czf $1.tar.gz $1
-    rm -rf $1
-}}
-
-# compress current file or selected files with zip
-cmd zip ${{
-    set -f
-    mkdir $1
-    cp -r $fx $1
-    zip -r $1.zip $1
-    rm -rf $1
-}}
-
-cmd mkdir ${{
-  printf "Directory Name: "
-  read ans
-  mkdir $ans
-}}
-
 cmd set_wallpaper ${{
     set -f
     feh --bg-fill $fx
     printf "path='${fx}'"
     script_path="/home/mikhail/.local/scripts/set_wallpaper"
-    wal -i $fx -o $script_path --backend schemer2
+    wal -i $fx -o $script_path --backend schemer2 --saturate 0.8
 }}
 
 cmd set_wallpaper_other ${{
@@ -188,11 +185,14 @@ cmd set_wallpaper_other ${{
     feh --bg-fill $fx
     printf "path='${fx}'"
     script_path="/home/mikhail/.local/scripts/set_wallpaper"
-    wal -i $fx -o $script_path --backend wal
+    wal -i $fx -o $script_path --backend wal --saturate 0.8
 }}
 
 cmd drag_n_drop_selected ${{
-        ripdrag  $fx --resizable --icon-size 70 -x
+        files=$(echo -e $fx|  awk -F '\\n' '{print $0}')
+        $files=$(echo "$files")
+        # printf $files
+        # ripdrag  $fx --resizable --icon-size 70 -x
 }}
 
 cmd drag_n_drop_all ${{
@@ -200,27 +200,12 @@ cmd drag_n_drop_all ${{
     printf $(ls $PWD)
 }}
 
-cmd execute
-
-# Basic vars
-set shellopts '-eu'
-set ifs "\n"
-set scrolloff 10
-set icons
-set period 1
-set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
-# set cleaner '~/.config/lf/cleaner'
-# set previewer '~/.config/lf/scope'
-set previewer ~/.config/lf/preview
-set cleaner ~/.config/lf/cleaner
-
-# Hotkeys
-map <c-t> :!terminal &
-
-# cd Functions
+# Movement
 map gr cd ~/repos
 map gd cd ~/Documents
 map gD cd ~/Downloads
+map gn cd ~/Documents/notes
+map gw cd ~/Documents/wiki
 map gs cd ~/scripts
 map gp cd ~/Pictures
 map gv cd ~/Videos
@@ -229,16 +214,23 @@ map gm cd /run/media
 map gM cd /mnt/usb
 map gl cd ~/.local
 map gb cd ~/builds
+map gt cd ~/.local/share/Trash
 
 map <delete> trash
 map DD trash
 
 map M mkdir
-map XX extract
+map EE extract
 map sw set_wallpaper
 map sW set_wallpaper_other
-map a drag_n_drop_selected
-map A drag_n_drop_all
+map a &dragon -x -T $fx && printf # Drag from selected files
+map A &dragon -a -x -T $fx  # Drag all selected files and exit
 
-map <c-f> :fzf_jump
+map <c-f> broot
 map <c-g> :fzf_search
+
+# New forked terminal in current directory
+map W &{ nohup "${TERMINAL:-st}" >/dev/null 2>&1& }
+
+# Copy selected file names
+map Y $printf "%s" "$fx" | xclip -selection clipboard
