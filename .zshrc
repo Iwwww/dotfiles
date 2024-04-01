@@ -113,6 +113,8 @@ alias cal='cal -m3'
 
 alias clips='rlwrap clips'
 
+alias dfh='df -h | grep "^/dev/"'
+
 lfcd () { # `command` is needed in case `lfcd` is aliased to `lf`
     cd "$(command lfub -print-last-dir "$@")"
 }
