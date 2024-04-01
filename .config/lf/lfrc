@@ -16,7 +16,7 @@ set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
 set cleaner '~/.config/lf/cleaner'
 set previewer '~/.config/lf/previewer'
 set promptfmt "
-\033[48;2;35;38;39;38;2;28;220;156m  
+\033[48;2;35;38;39;38;2;28;220;156m 󰣇 
 \033[38;2;35;38;39;48;2;202;31;31m
 \033[38;2;202;31;31;48;2;40;47;62m
 \033[38;2;255;255;255m %w 
@@ -38,7 +38,7 @@ set numberfmt "\033[38;2;75;87;116m"
 set dircounts
 set tabstop 4
 set scrolloff 5
-set wrapscroll
+# set wrapscroll
 set shellopts '-eu'
 set ifs "\n"
 set shell "bash"
@@ -177,7 +177,7 @@ cmd set_wallpaper ${{
     feh --bg-fill $fx
     printf "path='${fx}'"
     script_path="/home/mikhail/.local/scripts/set_wallpaper"
-    wal -i $fx -o $script_path --backend schemer2 --saturate 0.8
+    wal -i $fx -o $script_path --backend schemer2 --saturate 0.6
 }}
 
 cmd set_wallpaper_other ${{

@@ -24,6 +24,8 @@ set -C -f
 IFS='
 '
 
+FILE_SIZE_THRESHOLD=1024000
+
 # Display an image with certain path, width, height, x, y
 # Usage: image "$path_to_image" "$width" "$height" "$x" "$y" "$fallback_path"
 image() {
@@ -100,11 +102,10 @@ mime_preview() {
 		;;
 		(*)
             batorcat "$1"
-			# bat --terminal-width "$(($4*7/9))" -f "$1" --style=numbers
 		esac
 	;;
 	(text/*,0 | */xml,0 | application/javascript,0 | application/x-subrip,0 )
-		# bat --terminal-width "$(($4*7/9))" -f "$1" --style=numbers
+        # glowormdcat "$1"
         batorcat "$1"
 	;;
 	( application/x-pie-executable,0 | application/x-executable,0 | \
@@ -118,7 +119,6 @@ mime_preview() {
 		(ipynb)
 			# Needs my fork of ipynb-py-convert
 			ipynb-py-convert --stdout "$1" \
-				# | bat --terminal-width "$(($4*7/9))" --color=always -l python --style=numbers
                 batorcat --language=python "$1"
 		;;
 		(*) jq -C < "$1" ;;
@@ -162,9 +162,8 @@ mime_preview() {
 	(*opendocument*,0) # .odt, .ods
 		CCt='	' \
 		bytes=$(du -sb "$1") bytes="${bytes%%"$CCt"*}"
-		if [ "$bytes" -lt 150000 ]; then
+		if [ "$bytes" -lt $FILE_SIZE_THRESHOLD ]; then
 			odt2txt "$1"
-            # docx2txt "$1"
 		else
 			printf "file too big too preview quickly\n"
 		fi
@@ -172,8 +171,7 @@ mime_preview() {
 	(application/vnd.openxmlformats-officedocument.wordprocessingml.document,0) # .docx
 		CCt='	' \
 		bytes=$(du -sb "$1") bytes="${bytes%%"$CCt"*}"
-		if [ "$bytes" -lt 150000 ]; then
-			# odt2txt "$1"
+		if [ "$bytes" -lt $FILE_SIZE_THRESHOLD ]; then
             docx2txt "$1" -
 		else
 			printf "file too big too preview quickly\n"
@@ -181,7 +179,6 @@ mime_preview() {
 	;;
 	(*ms-excel,0)  # .xls
 		xls2csv -- "$1" \
-			# | bat --terminal-width "$(($4*7/9))" --color=always -l csv --style=numbers
             batorcat --language=csv
 	;;
 	#(application/vnd.openxmlformats-officedocument.spreadsheetml.sheet)  # .xslx
