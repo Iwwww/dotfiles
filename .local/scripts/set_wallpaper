@@ -4,12 +4,13 @@ WAL_CACH="$HOME/.cache/wal"
 WALLPAPER_PATH=$(cat "$WAL_CACH/wal")
 
 # set wallpaper
-feh --bg-fill "$WALLPAPER_PATH"
+# feh --bg-fill "$WALLPAPER_PATH"
+swaybg --mode fill --image "$WALLPAPER_PATH"
 
 # udpate dwm with xrdb
-cp "$WAL_CACH/colors.Xresourses" "$HOME/.Xresourses" && \
-    xrdb "$HOME/.Xresourses" && \
-    xdotool key super+shift+F5
+# cp "$WAL_CACH/colors.Xresourses" "$HOME/.Xresourses" && \
+#     xrdb "$HOME/.Xresourses" && \
+#     xdotool key super+shift+F5
 
 # update qutebrowser theme by hand
 # qutebrowser :config-source :reload

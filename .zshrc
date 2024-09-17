@@ -15,7 +15,7 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to use case-sensitive completion.
-CASE_SENSITIVE="true"
+CASE_SENSITIVE="false"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
@@ -51,7 +51,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # PATH
-export PATH=$PATH:~/.local/scripts:/home/mikhail/.local/share/gem/ruby/3.0.0/bin:/home/mikhail/.local/scripts/record:/home/mikhail/.local/scripts/sb:/home/mikhail/.cargo/bin:/home/mikhail/yandex-cloud/bin:/home/mikhail/.local/bin/spotify/usr/bin:/home/mikhail/go/bin:/home/mikhail/.local/scripts/dmenu:/home/mikhail/.local/scripts:/home/mikhail/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/mikhail/.dotnet/tools:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/scripts
+export PATH=$PATH:~/.local/scripts:/home/mikhail/.local/share/gem/ruby/3.0.0/bin:/home/mikhail/.local/scripts/record:/home/mikhail/.local/scripts/sb:/home/mikhail/.cargo/bin:/home/mikhail/yandex-cloud/bin:/home/mikhail/.local/bin/spotify/usr/bin:/home/mikhail/go/bin:/home/mikhail/.local/scripts/dmenu:/home/mikhail/.local/scripts:/home/mikhail/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/home/mikhail/.dotnet/tools:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/scripts:~/.npm-global/bin:$PATH
 
 export LANG=en_US.UTF-8
 export EDITOR=/usr/local/bin/nvim
@@ -59,11 +59,11 @@ export BROWSER=/usr/bin/firefox
 export PARGER=/usr/bin/bat
 export READER=/usr/bin/zathura
 export MANPATH=/usr/bin/man:/usr/local/man:/usr/share/man
-export TERM=st
-export TERMINAL=st
+export TERM=foot
+export TERMINAL=foot
 
-export IMAGE_VIEWER=/usr/bin/feh
-export FILE_MANAGER=~/.local/bin/lfub
+export IMAGE_VIEWER=/usr/bin/imv
+export FILE_MANAGER=~/.local/bin/lf
 export AUDIO_PLAYER=/usr/bin/mpv
 export VIDEO_PLAYER=/usr/bin/mpv
 
@@ -84,8 +84,9 @@ alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g v='nvim'
 alias -g vs='nvim -S Session.vim'
-alias -g copy='xclip -selection clipboard'
-alias -g pwdc='pwd | xclip -selection clipboard'
+# alias -g copy='xclip -selection clipboard'
+alias -g copy='wl-copy'
+alias -g pwdc='pwd | wl-copy'
 alias -g g='git'
 alias -g lg='lazygit'
 alias -g p='python'
@@ -112,14 +113,19 @@ alias se='sudoedit '
 alias cal='cal -m3'
 
 alias clips='rlwrap clips'
+alias fz_clips='rlwrap fz_clips'
 
 alias dfh='df -h | grep "^/dev/"'
+
+alias ssh='TERM="xterm" ssh'
 
 lfcd () { # `command` is needed in case `lfcd` is aliased to `lf`
     cd "$(command lfub -print-last-dir "$@")"
 }
 
-alias lf='lfcd'
+# alias lf='lfcd'
+
+alias sctl="systemctl"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

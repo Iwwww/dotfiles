@@ -30,7 +30,7 @@
 dwm.normbgcolor:        {color0}
 dwm.normfgcolor:        {color15}
 dwm.normbordercolor:    {color0}
-dwm.selbordercolor:     {color7}
+dwm.selbordercolor:     {color15}
 dwm.selbgcolor:         {color5}
 dwm.selfgcolor:         {color0}
 

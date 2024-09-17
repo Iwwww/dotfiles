@@ -4,15 +4,18 @@ vim.g.mapleader = " "
 local keymap = vim.keymap -- for conciseness
 
 function make_run()
-    -- local current_file = vim.fn.expand('%')
-    -- local make_command = "make run MAIN=\"" .. current_file .. "\""
-    -- vim.cmd("split")
-    -- vim.cmd("wincmd K")
-    local current_file = vim.fn.expand("%")
-    local make_command = 'make run MAIN="' .. current_file .. '"'
-    vim.cmd(make_command)
-    -- vim.cmd("wincmd c")
+  -- local current_file = vim.fn.expand('%')
+  -- local make_command = "make run MAIN=\"" .. current_file .. "\""
+  -- vim.cmd("split")
+  -- vim.cmd("wincmd K")
+  local current_file = vim.fn.expand("%")
+  local make_command = 'make run MAIN="' .. current_file .. '"'
+  vim.cmd(make_command)
+  -- vim.cmd("wincmd c")
 end
+
+keymap.set("i", "<C-space>", "", { silent = true })
+keymap.set("n", "<C-space>", "", { silent = true })
 
 -- Tabs and split
 keymap.set("n", "te", ":tabedit<CR>", { silent = true })
@@ -70,3 +73,6 @@ keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
 -- delete single character without copying into register
 keymap.set("n", "x", '"_x')
+
+keymap.set("n", "<leader>s", ":%w !wl-copy<CR><CR>", { desc = "Copy file to clipboard", silent = true })
+keymap.set("n", "<leader>x", ":r !wl-paste<CR><CR>", { desc = "past from clipboard", silent = true })

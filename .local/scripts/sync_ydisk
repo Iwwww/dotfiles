@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rclone sync ~/Documents/university/ YDisk:University/

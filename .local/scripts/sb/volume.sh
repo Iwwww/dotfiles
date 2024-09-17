@@ -4,10 +4,10 @@
 # Pulseaudio
 if [[ $(pamixer --get-mute) == "false" ]]; then
     vol=$(pulsemixer --get-volume | awk '{print ($1 + $2) / 2}')
-    if [[ $vol > 100 ]]; then
-        printf " 󰕾 " 
-    else
+    if [[ $vol -gt 100 ]]; then
         printf " 󱄠 " 
+    else
+        printf " 󰕾 " 
     fi
     echo $vol
 else

@@ -73,10 +73,10 @@ cmd delete ${{
 	clear; tput cup $(($(tput lines)/3)); tput bold
 	set -f
 	printf -- "%s\n" $fx | sed 's|'"$HOME"'||'
-	printf "\t\033[1;33mRemove? \033[37m[\033[32ms\033[37m/\033[31mN\033[37m]\033[m "
+	printf "\t\033[1;33mRemove? \033[37m[\033[32my\033[37m/\033[31mN\033[37m]\033[m "
 	read -r REPLY
 	case "$REPLY" in
-		[yYsS]) rm -rf -- $fx ;;
+		[yY]) rm -rf -- $fx ;;
 	esac
 }}
 
@@ -174,7 +174,6 @@ cmd fzf_search ${{
 
 cmd set_wallpaper ${{
     set -f
-    feh --bg-fill $fx
     printf "path='${fx}'"
     script_path="/home/mikhail/.local/scripts/set_wallpaper"
     wal -i $fx -o $script_path --backend schemer2 --saturate 0.6
@@ -182,7 +181,6 @@ cmd set_wallpaper ${{
 
 cmd set_wallpaper_other ${{
     set -f
-    feh --bg-fill $fx
     printf "path='${fx}'"
     script_path="/home/mikhail/.local/scripts/set_wallpaper"
     wal -i $fx -o $script_path --backend wal --saturate 0.8
@@ -217,6 +215,7 @@ map gb cd ~/builds
 map gt cd ~/.local/share/Trash
 
 map <delete> trash
+map DE delete
 map DD trash
 
 map M mkdir

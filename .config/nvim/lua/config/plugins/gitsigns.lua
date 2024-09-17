@@ -31,9 +31,6 @@ return {
         row = 0,
         col = 1,
       },
-      yadm = {
-        enable = false,
-      },
     })
 
     vim.keymap.set("n", "<leader>gl", "<cmd>Gitsigns toggle_linehl<cr>", { desc = "Git toggle lines diff highlight" })
@@ -45,12 +42,17 @@ return {
     )
     vim.keymap.set("n", "<leader>gd", "<cmd>Gitsigns toggle_deleted<cr>", { desc = "Git toggle deleted" })
     vim.keymap.set("n", "<leader>gD", "<cmd>Gitsigns diffthis<cr>", { desc = "Git toggle deleted" })
-    vim.keymap.set("n", "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<cr>", { desc = "Git toggle current line blame" })
-    vim.keymap.set({"n", "v"}, "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>", { desc = "Git stage hunk" })
-    vim.keymap.set({"n", "v"}, "<leader>gS", "<cmd>Gitsigns undo_stage_hunk<cr>", { desc = "Git undo stage hunk" })
+    vim.keymap.set(
+      "n",
+      "<leader>gb",
+      "<cmd>Gitsigns toggle_current_line_blame<cr>",
+      { desc = "Git toggle current line blame" }
+    )
+    vim.keymap.set({ "n", "v" }, "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>", { desc = "Git stage hunk" })
+    vim.keymap.set({ "n", "v" }, "<leader>gS", "<cmd>Gitsigns undo_stage_hunk<cr>", { desc = "Git undo stage hunk" })
     vim.keymap.set("n", "<leader>g]", "<cmd>Gitsigns next_hunk<cr>", { desc = "Git next hunk" })
     vim.keymap.set("n", "<leader>g[", "<cmd>Gitsigns prev_hunk<cr>", { desc = "Git previous hunk" })
     vim.keymap.set("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Git preview hunk" })
-    vim.keymap.set({"n", "v"}, "<leader>gR", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Git reset hunk" })
+    vim.keymap.set({ "n", "v" }, "<leader>gR", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Git reset hunk" })
   end,
 }

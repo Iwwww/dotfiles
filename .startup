@@ -7,12 +7,15 @@ once() {
     fi
 }
 
-set_frame_rate_on_current_governor
+# once "xset r rate 250 30"
+# set_frame_rate_on_current_governor
 once dunst
-once flameshot
-once sb-update
-once set_wallpaper
-once redshift
+# once flameshot
+# once sb-update
+once ~/.screenlayout/setup.sh
+# once redshift
+once gammastep
 once "unclutter --start-hidden --timeout 20"
-once "xscreensaver -no-splash"
-once "fcitx -d"
+# once "xscreensaver -no-splash"
+# once "fcitx -d"
+once set_wallpaper

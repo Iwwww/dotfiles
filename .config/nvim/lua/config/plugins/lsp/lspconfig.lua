@@ -211,5 +211,17 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
     })
+
+    -- configure jinja server
+    lspconfig["jinja_lsp"].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
+
+    -- configure SQL server
+    lspconfig["sqlls"].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
   end,
 }

@@ -19,8 +19,8 @@ local options = {
   cmdheight = 0,
 
   -- tabs & indentation
-  tabstop = 4, -- 4 spaces for tabs (prettier default)
-  shiftwidth = 4, -- 4 spaces for indent width
+  tabstop = 2, -- 4 spaces for tabs (prettier default)
+  shiftwidth = 2, -- 4 spaces for indent width
   expandtab = true, -- expand tab to spaces
   autoindent = true, -- copy indent from current line when starting new one
   smartindent = true,
