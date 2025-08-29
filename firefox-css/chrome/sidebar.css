@@ -1,0 +1,388 @@
+/* mimicfox 🔥🦊 */
+/* sidebar.css */
+:root {
+  --sidebar-box-size: calc(4em);
+  --sidebar-tab-audio-size: 12px;
+}
+
+/* bigger sidebar for small screen */
+@media screen and (max-width: 1280px) {
+  :root {
+    --sidebar-box-size: calc(5em);
+  }
+}
+
+:root[sidebar-expand-on-hover] #sidebar-main {
+  background-color: var(--sidebar-background-color) !important;
+  border-radius: var(--uc-tweak-rounded-corners-radius) !important;
+  margin: var(--uc-tweak-rounded-corners-padding) !important;
+}
+
+#sidebar-panel-header {
+  display: none;
+}
+
+/* fix big audio icon */
+.tab-icon-overlay {
+  #tabbrowser-tabs[orient="vertical"]:not([expanded]) &:not([crashed]),
+  &[pinned]:not([crashed]) {
+    &[soundplaying] {
+      width: var(--sidebar-tab-audio-size) !important;
+      height: var(--sidebar-tab-audio-size) !important;
+    }
+  }
+}
+
+/* smooooth animation on sidebar size change */
+#sidebar-box {
+  /* larger the value greater the damping */
+  transition: width 30ms ease;
+}
+
+/* prevent drag */
+browser#sidebar {
+  -moz-window-dragging: no-drag;
+}
+
+/* dynamic padding sidebar */
+@media -moz-pref("uc.tweak.rounded-corners") {
+  #main-window[sizemode="maximized"] #vertical-tabs {
+    margin-right: 0 !important;
+  }
+}
+
+#vertical-pinned-tabs-container-separator {
+  margin-bottom: -2px;
+}
+
+#vertical-spacer {
+  display: none;
+}
+
+/* fix sidebar separator length  */
+#main-window:not([sizemode="maximized"])
+  #vertical-pinned-tabs-container-separator {
+  display: block;
+  border-bottom: var(--tabstrip-inner-border);
+  margin-left: var(--tab-inner-inline-margin) !important;
+  margin-right: calc(var(--tab-inner-inline-margin) + 3px) !important;
+}
+
+/* hide sidebar tab overflow shadow */
+@media -moz-pref("uc.tweak.remove-overflow-indicator") {
+  spacer[part="overflow-start-indicator"],
+  spacer[part="overflow-end-indicator"] {
+    display: none;
+  }
+}
+
+/* hide sidebar config button */
+@media -moz-pref("uc.tweak.remove-sidebar-config-button") {
+  button-group.tools-and-extensions.actions-list[orientation="vertical"]
+    moz-button[view="viewCustomizeSidebar"] {
+    display: none !important;
+  }
+
+  button-group.tools-and-extensions.actions-list {
+    padding-bottom: var(--space-small) !important;
+  }
+
+  #tabbrowser-tabs[orient="vertical"] {
+    &[overflow]::after {
+      border-bottom: none !important;
+    }
+  }
+
+  box#vertical-tabs {
+    margin-bottom: calc(-1 * var(--space-small));
+  }
+}
+
+/* hide sidebar button-group */
+@media -moz-pref("uc.tweak.remove-sidebar-button-group") {
+  button-group.tools-and-extensions.actions-list {
+    display: none !important;
+  }
+
+  #tabbrowser-tabs[orient="vertical"] {
+    &[overflow]::after {
+      border-bottom: 0 !important;
+    }
+  }
+}
+
+/* dynamic hide native tabbar when sidebery enabled */
+@media -moz-pref("uc.tweak.dynamic-tabbar") {
+  /* horizontal tabs */
+  #main-window #TabsToolbar > .toolbar-items {
+    transition: height 150ms ease;
+  }
+  /*  initial height  */
+  #main-window[uidensity="touch"] #TabsToolbar > .toolbar-items {
+    height: 3.35em !important;
+  }
+  #main-window[uidensity="compact"] #TabsToolbar > .toolbar-items {
+    height: 2.7em !important;
+  }
+  #main-window[titlepreface*="sidebery"] #TabsToolbar > .toolbar-items {
+    height: 0 !important;
+  }
+
+  #main-window[titlepreface*="sidebery"] #tabbrowser-tabs {
+    z-index: 0 !important;
+  }
+  #main-window[titlepreface*="sidebery"] #TabsToolbar .titlebar-spacer,
+  #main-window[titlepreface*="sidebery"]
+    #TabsToolbar
+    .titlebar-buttonbox-container {
+    display: none !important;
+  }
+
+  /* vertical tabs */
+  #sidebar-box {
+    padding-bottom: 0 !important;
+    overflow: hidden !important;
+    min-width: var(--sidebar-box-size) !important;
+    opacity: 1;
+  }
+  #main-window[titlepreface*="sidebery"] #sidebar-main,
+  #sidebar-button {
+    display: none;
+  }
+  #nav-bar-customization-target {
+    padding-left: var(--toolbar-start-end-padding);
+  }
+}
+
+@media -moz-pref("uc.tweak.rounded-corners") {
+  #sidebar-box {
+    border-radius: var(--uc-tweak-rounded-corners-radius);
+    box-shadow: var(--uc-tweak-rounded-corners-shadow);
+    padding-right: 0 !important;
+    &[positionend] {
+      margin-inline-start: 0 !important;
+      margin-inline-end: var(--uc-tweak-rounded-corners-padding) !important;
+    }
+  }
+}
+
+#main-window #TabsToolbar > .toolbar-items {
+  overflow: hidden;
+  transition: height 0.3s 0.3s !important;
+}
+
+/* mimicfox 🔥🦊 */
+/* mimic native styles */
+
+:root {
+  background: transparent !important;
+  --tab-selected-shadow:
+    0 0.125px 0.25px light-dark(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)),
+    0 1px 2px light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8));
+  --tab-selected-shadow-size: 2px;
+  --tab-size: max(32px, calc(1.7 * 1em));
+  --tab-button-size: 16px;
+}
+
+/* auto zoom for small screen */
+@media (min-width: 60px) {
+  :root {
+    --tab-size: 41px;
+    /* --tab-size: max(32px, calc(1.7 * 2em)); */
+  }
+}
+
+#root.root {
+  --tabs-pinned-height: var(--tab-size);
+}
+#root.root {
+  --tabs-pinned-width: var(--tab-size);
+}
+#root.root {
+  --tabs-height: var(--tab-size);
+}
+#root.root {
+  --tabs-indent: 12px;
+}
+#root.root {
+  --tabs-inner-gap: 5px;
+}
+#root.root {
+  --frame-bg: transparent;
+}
+#root.root {
+  --general-border-radius: 8px;
+}
+#root.root {
+  --tabs-normal-bg: color-mix(
+    in srgb,
+    var(--tabs-activated-bg) 50%,
+    transparent
+  );
+}
+#root.root {
+  --ntb-btn-height: var(--tab-size);
+}
+#root.root {
+  --general-margin: 9px;
+}
+
+/* fancy animation */
+.Tab {
+  transition: all 300ms ease;
+}
+.new-tab-btns {
+  transition: all 300ms ease;
+}
+
+.Notifications + .main-box .central-box {
+  margin-top: 5px !important;
+}
+
+/* remove tabs background */
+.TabsPanel.panel .Tab[data-active="false"] .body {
+  background-color: transparent;
+}
+
+/* add shadow to active tab */
+.Tab[data-active="true"] .body {
+  box-shadow: var(--tab-selected-shadow);
+}
+
+/* add background to pinned tabs */
+.PinnedTabsBar .Tab[data-active="false"] .body {
+  background-color: var(--tabs-normal-bg) !important;
+}
+
+/* hide overflow tabs */
+.AnimatedTabList {
+  overflow: hidden;
+}
+
+/* change close button*/
+.Tab .close {
+  top: auto !important;
+  width: var(--tab-button-size);
+  height: var(--tab-button-size);
+  border-radius: 4px;
+  margin-right: 4px;
+  box-shadow: var(--tab-selected-shadow);
+  background-color: light-dark(#f7f7f7, #2b2b2b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Tab .close:hover,
+.Tab[data-active="true"] .close:hover {
+  /* hover color */
+  background-color: light-dark(#e5e5e5, #5b5b5c);
+}
+.close-icon {
+  /* brighter icon */
+  fill: light-dark(black, white) !important;
+}
+
+@media (max-width: 100px) {
+  /* add native like separator */
+  .PinnedTabsBar[data-empty="false"] ~ .panel-box::before {
+    content: "" !important;
+    display: block !important;
+    border-bottom: 1px solid color-mix(in srgb, currentColor 25%, transparent) !important;
+    margin-inline: calc(3 * 0.267rem) !important;
+  }
+  .PinnedTabsBar[data-empty="false"] ~ .panel-box .TabsPanel.panel {
+    padding-top: 10px;
+  }
+
+  /* center tab */
+  .Tab,
+  .tab-wrapper {
+    margin: auto;
+    width: var(--tab-size);
+    padding-inline: 0;
+  }
+  .fav {
+    margin: auto !important;
+  }
+  .t-box {
+    /* remove text box */
+    display: none;
+  }
+
+  /* move close button to upper left*/
+  .Tab .close {
+    top: -8px !important;
+    right: -8px;
+
+    /* uncomment this line to move close button to left*/
+    /* left: -8px; !important */
+  }
+
+  /* audio button hover color */
+  .Tab .audio {
+    height: 16px !important;
+    width: 16px !important;
+    border-radius: 99px;
+  }
+  .Tab .audio:hover {
+    background: var(--tabs-activated-bg);
+  }
+  .Tab[data-pin="true"] .audio {
+    box-shadow: 0 !important;
+    background: none !important;
+  }
+  .Tab[data-pin="true"] .audio:hover {
+    background: var(--tabs-activated-bg) !important;
+  }
+  /* move audio button to lower right */
+  .Tab[data-pin="false"] .audio {
+    top: calc(1em + var(--tabs-inner-gap));
+    left: calc(1em + var(--tabs-inner-gap));
+  }
+  .Tab[data-pin="true"] .audio {
+    top: 16px !important;
+    left: calc(8px + var(--tabs-inner-gap));
+  }
+  @media (min-width: 60px) {
+    .Tab[data-pin="false"] .audio {
+      top: calc(1.3em + var(--tabs-inner-gap));
+      left: calc(1.3em + var(--tabs-inner-gap));
+    }
+    .Tab[data-pin="true"] .audio {
+      top: calc(1.3em + var(--tabs-inner-gap)) !important;
+      left: calc(1.3em + var(--tabs-inner-gap));
+    }
+  }
+
+  /* new tab button */
+  .TabsPanel .new-tab-btns {
+    margin: auto;
+    width: var(--tab-size) !important;
+    padding-inline: 0;
+    padding-left: 0px !important;
+  }
+}
+@media (min-width: 101px) {
+  /* make pinned tabs act like native grid */
+  .PinnedTabsBar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tabs-margin);
+    padding: 0 var(--tabs-margin) var(--tabs-margin);
+  }
+  .PinnedTabsBar .tab-wrapper {
+    flex: 1 1 0;
+  }
+  .PinnedTabsBar .tab-wrapper .Tab {
+    min-width: var(--tab-size) !important;
+    width: auto !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* hide empty space under tab bar */
+.TabsPanel.panel .bottom-space {
+  display: none;
+}

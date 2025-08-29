@@ -1,0 +1,507 @@
+/* mimicfox 🔥🦊 */
+/* urlbar.css */
+/* OG https://github.com/bmFtZQ/edge-frfox */
+
+:root {
+  --urlbarView-item-inline-padding: calc(
+    1px + var(--uc-urlbar-inline-padding) + var(--uc-urlbar-icon-inline-padding)
+  ) !important;
+  --urlbar-icon-border-radius: 99px !important;
+  --urlbar-icon-padding: calc(var(--toolbarbutton-inner-padding) - 2px) !important;
+  --urlbar-margin-inline: 6px !important;
+  --identity-box-margin-inline: 6px !important;
+  --uc-urlbar-icon-inline-padding: var(--uc-toolbarbutton-inner-inline-padding);
+  --uc-urlbar-inline-padding: 8px;
+  --uc-urlbar-shadow: 0 0 4px rgb(0 0 0 / 0.1);
+  --urlbarView-rich-suggestion-default-icon-size: 32px !important;
+  --uc-urlbar-open-border-radius: 8px !important;
+  --dot-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><svg fill="context-fill" width="13px" height="12px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M20.25 16c0 2.347-1.903 4.25-4.25 4.25s-4.25-1.903-4.25-4.25c0-2.347 1.903-4.25 4.25-4.25s4.25 1.903 4.25 4.25zM20.25 27c0 2.347-1.903 4.25-4.25 4.25s-4.25-1.903-4.25-4.25c0-2.347 1.903-4.25 4.25-4.25s4.25 1.903 4.25 4.25zM20.25 5c0 2.347-1.903 4.25-4.25 4.25s-4.25-1.903-4.25-4.25c0-2.347 1.903-4.25 4.25-4.25s4.25 1.903 4.25 4.25z"></path></svg>');
+
+  & #urlbar {
+    --urlbar-toolbar-height: calc(8px + 16px + var(--toolbarbutton-inner-padding) * 2) !important;
+    --urlbar-height: calc(16px + var(--toolbarbutton-inner-padding) * 2) !important;
+    --urlbar-min-height: calc(16px + var(--toolbarbutton-inner-padding) * 2) !important;
+  }
+
+  /* Spacing for urlbar suggestion icons. */
+  .urlbarView-row {
+    --urlbarView-icon-margin-start: 0px !important;
+    --urlbarView-icon-margin-end: calc(
+      var(--uc-urlbar-icon-inline-padding) + var(--identity-box-margin-inline)
+    ) !important;
+  }
+}
+
+/* show-tab-close-button on hover on tab */
+@media not -moz-pref("uc.tweak.always-show-tab-close-button") {
+  /* show close button on hover */
+  .tabbrowser-tab:not([pinned]) .tab-close-button {
+    display: none !important;
+  }
+  .tabbrowser-tab:not([pinned]):hover .tab-close-button {
+    display: inline-flex !important;
+  }
+}
+
+/* urlbar focus border size */
+#urlbar[focused] > #urlbar-background {
+  outline: 1px solid var(--focus-outline-color) !important;
+  outline-offset: -1px !important;
+}
+
+/* .urlbar-icon {
+  fill: accentColor !important;
+} */
+
+/* bookmark star as accent color */
+#star-button[starred] {
+  fill: accentColor !important;
+}
+
+#urlbar-background,
+#searchbar {
+  border-radius: calc(var(--urlbar-icon-border-radius) + 2px) !important;
+
+  /* Shadow for urlbar, only appears in light mode. */
+  :root:not([lwtheme]) #nav-bar:not([brighttext]) & {
+    box-shadow: var(--uc-urlbar-shadow, none);
+  }
+
+  /* Appearance when the urlbar is expanded. */
+  #urlbar[open] & {
+    border-radius: var(--uc-urlbar-open-border-radius) !important;
+    border-color: transparent !important;
+    box-shadow: 0 10px 16px rgb(0 0 0 / 0.18), 0 3px 5px rgb(0 0 0 / 0.33) !important;
+    outline: 0.5px solid var(--arrowpanel-border-color) !important;
+
+    :root:not([lwtheme]) & {
+      outline-color: var(--panel-separator-color) !important;
+    }
+  }
+}
+
+/* Add padding to sides of urlbar. */
+:is(#urlbar-input-container, .urlbar-input-container),
+#searchbar {
+  padding-inline: var(--uc-urlbar-inline-padding) !important;
+}
+
+/* urlbar suggestions container. */
+.urlbarView {
+  margin-inline: 0 !important;
+  width: 100% !important;
+  border-inline: 0 !important;
+  padding-block: 0 !important;
+
+  & .urlbarView-body-inner {
+    width: 100% !important;
+    margin-inline: 0 !important;
+  }
+
+  /* Remove padding from top of urlbar results, not needed as urlbar input already has padding. */
+  & .urlbarView-results {
+    padding-block-start: 0 !important;
+  }
+}
+
+/* margin search engine button */
+.search-panel-one-offs {
+  margin-inline-start: 8px !important;
+}
+
+/* ----------- urlbar ----------- */
+/* Keep urlbar in place when expanding. */
+#urlbar[breakout][breakout-extend] {
+  /* Firefox < v133 */
+  &:not([style*="--urlbar-width"]) {
+    left: 0 !important;
+    width: 100% !important;
+  }
+  /* Firefox >= v133 */
+  &[style*="--urlbar-width"] {
+    margin-left: 0 !important;
+    width: var(--urlbar-width) !important;
+  }
+}
+
+/* Search engine selector */
+.search-one-offs:not([hidden]) {
+  padding-block: 6px !important;
+
+  & .searchbar-engine-one-off-item {
+    min-width: 30px !important;
+    height: 30px !important;
+  }
+
+  .urlbarView:not([noresults]) > & {
+    border-color: var(--urlbarView-separator-color) !important;
+  }
+
+  #urlbar-anon-search-settings {
+    margin-inline-end: 8px !important;
+  }
+}
+#urlbar-search-mode-indicator {
+  :root:not([lwtheme]) & {
+    background-color: var(--urlbar-box-hover-bgcolor) !important;
+  }
+
+  & #urlbar-search-mode-indicator-title {
+    font-size: 0.9em !important;
+  }
+}
+
+/* Remove border between urlbar input and suggestions. */
+#urlbar[open] .urlbarView-body-inner {
+  border-top: 0 !important;
+}
+
+/* ----------- urlbar item ----------- */
+/* Remove empty space from tabs bar */
+.urlbarView-row {
+  padding-block: 0 !important;
+  /* Vertically align search suggestion thumbnail images. */
+  &[rich-suggestion] > .urlbarView-row-inner > .urlbarView-favicon {
+    margin-inline-start: calc(
+      var(--urlbarView-icon-margin-start) + (16px - var(--urlbarView-rich-suggestion-default-icon-size)) / 2
+    ) !important;
+    margin-inline-end: calc(
+      var(--urlbarView-icon-margin-end) + (16px - var(--urlbarView-rich-suggestion-default-icon-size)) / 2
+    ) !important;
+  }
+}
+.urlbarView-row:hover {
+  background-color: var(--urlbar-box-hover-bgcolor) !important;
+}
+.urlbarView-row[selected] .urlbarView-row-inner {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* search item winui3 identical */
+.urlbarView-row[selected] .urlbarView-row-inner::before {
+  content: "";
+  width: 0 !important;
+  display: block !important;
+  position: absolute !important;
+  background-color: AccentColor !important;
+  border-radius: 99px;
+  padding: 0.7em 2px !important;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ----------- urlbar buttons ----------- */
+/* search mode button border radius*/
+#searchmode-switcher-chicklet {
+  border-start-end-radius: var(--urlbar-icon-border-radius) !important;
+}
+
+/* Hide blocked permission icons, see it when pressing permission button */
+#blocked-permissions-container {
+  display: none !important;
+}
+
+/* brighter when hover */
+#identity-box::after,
+#page-action-buttons::before {
+  opacity: 0.3;
+  transition: opacity 50ms ease;
+  pointer-events: none;
+}
+#identity-box:hover::after,
+#page-action-buttons:hover::before {
+  opacity: 0.8 !important;
+}
+
+/* animations */
+#identity-box.extensionPage #identity-icon-box #identity-icon-label {
+  transition: opacity 0.3s ease;
+}
+
+/* Create visual dots on both sides */
+#urlbar:is(:not([usertyping]), :not([focused])):not([persistsearchterms]) #identity-box::after,
+#urlbar:is(:not([usertyping]), :not([focused])):not([persistsearchterms]) #page-action-buttons::before {
+  position: relative;
+  content: var(--dot-image);
+  pointer-events: none;
+  -moz-context-properties: fill, fill-opacity;
+  fill: var(--toolbarbutton-icon-fill) !important;
+  transition: opacity 100ms ease;
+  align-self: center;
+  font-size: 1.25rem;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#page-action-buttons .urlbar-page-action {
+  margin-inline-end: calc(-16px - 2 * var(--urlbar-icon-padding)) !important;
+  opacity: 0 !important;
+  transition: margin-inline-end 150ms ease-in-out, opacity 100ms ease-in-out;
+}
+
+/* padding tracking-protection-icon */
+:fullscreen #tracking-protection-icon-container {
+  margin-inline-end: calc(-17px - 2 * var(--urlbar-icon-padding)) !important;
+}
+#tracking-protection-icon-container {
+  margin-inline-start: calc(-17px - 1em);
+  padding-inline: var(--toolbarbutton-inner-padding) !important;
+}
+
+/* padding other button in left */
+#identity-icon-box {
+  margin-inline-start: calc(-16px - 1em);
+  padding-left: 2px;
+}
+#identity-permission-box {
+  margin-inline-start: calc(-12px - 1em);
+}
+
+#tracking-protection-icon-container,
+#identity-icon-box,
+#identity-permission-box {
+  /* Initial hidden state for the elements */
+  /* persistsearchterms - is when you see globe in search */
+  #urlbar & {
+    transition: margin-inline-start 250ms ease-in-out, opacity 100ms ease-in-out;
+    transition-delay: 100ms;
+  }
+
+  /* Specific rules to keep the elements shown when hovering */
+  #urlbar:has(#identity-box:hover) &,
+  #urlbar:has(#tracking-protection-icon-container:hover) & {
+    margin-inline-start: initial !important;
+    transition: margin-inline-start 100ms ease, opacity 100ms ease;
+    transition-delay: 100ms;
+  }
+
+  #urlbar &:hover:active,
+  #urlbar &[open="true"] {
+    margin-inline-start: initial !important;
+  }
+}
+#translations-button-locale {
+  color: white !important;
+  border-radius: 99px !important;
+}
+#translations-button-icon {
+  margin-right: 6px;
+}
+
+#page-action-buttons #translations-button[translationsactive="true"] {
+  margin-inline-end: initial !important;
+  opacity: 1 !important;
+}
+
+#page-action-buttons #reader-mode-button[readeractive] {
+  margin-inline-end: initial !important;
+  opacity: 1 !important;
+}
+
+#page-action-buttons:hover > .urlbar-page-action,
+#page-action-buttons .urlbar-page-action[open],
+#page-action-buttons .urlbar-page-action[open] ~ .urlbar-page-action {
+  opacity: 1 !important;
+  margin-inline-end: initial !important;
+  transition: margin-inline-end 100ms ease, opacity 100ms ease;
+}
+
+/* show all buttons */
+@media -moz-pref("uc.tweak.urlbar-button",0) {
+  #urlbar:is(:not([usertyping]), :not([focused])):not([persistsearchterms]) #page-action-buttons::before,
+  #urlbar:is(:not([usertyping]), :not([focused])):not([persistsearchterms]) #identity-box::after {
+    display: none;
+  }
+
+  #tracking-protection-icon-container {
+    margin-inline-start: 0;
+    /*! margin-inline-end: 2px; */
+    padding-inline: 0 !important;
+  }
+  #identity-icon-box {
+    margin-inline-start: 0;
+    padding-left: 0px;
+  }
+  #identity-permission-box {
+    margin-inline-start: 0;
+  }
+  #notification-popup-box {
+  }
+  #tracking-protection-icon-container,
+  #identity-icon-box,
+  #identity-permission-box {
+    #urlbar:has(#identity-box:hover) &,
+    #urlbar:has(#tracking-protection-icon-container:hover) & {
+      margin-inline-start: 0 !important;
+    }
+
+    #urlbar &:hover:active,
+    #urlbar &[open="true"] {
+      margin-inline-start: 0 !important;
+    }
+  }
+  #page-action-buttons .urlbar-page-action {
+    margin-inline-end: 0 !important;
+    opacity: 1 !important;
+  }
+  #page-action-buttons #translations-button[translationsactive="true"] {
+    margin-inline-end: 0 !important;
+    opacity: 1 !important;
+  }
+
+  #page-action-buttons #reader-mode-button[readeractive] {
+    margin-inline-end: 0 !important;
+    opacity: 1 !important;
+  }
+
+  #page-action-buttons:hover > .urlbar-page-action,
+  #page-action-buttons .urlbar-page-action[open],
+  #page-action-buttons .urlbar-page-action[open] ~ .urlbar-page-action {
+    opacity: 1 !important;
+    margin-inline-end: initial !important;
+    transition: margin-inline-end 100ms ease, opacity 100ms ease;
+  }
+}
+
+/* hide left buttons */
+@media -moz-pref("uc.tweak.urlbar-button",1) {
+  /* Create visual dots on left sides */
+  #urlbar:is(:not([usertyping]), :not([focused])):not([persistsearchterms]) #page-action-buttons::before {
+    display: none;
+  }
+  #page-action-buttons .urlbar-page-action {
+    margin-inline-end: 0 !important;
+    opacity: 1 !important;
+  }
+  #page-action-buttons #translations-button[translationsactive="true"] {
+    margin-inline-end: 0 !important;
+    opacity: 1 !important;
+  }
+
+  #page-action-buttons #reader-mode-button[readeractive] {
+    margin-inline-end: 0 !important;
+    opacity: 1 !important;
+  }
+
+  #page-action-buttons:hover > .urlbar-page-action,
+  #page-action-buttons .urlbar-page-action[open],
+  #page-action-buttons .urlbar-page-action[open] ~ .urlbar-page-action {
+    opacity: 1 !important;
+    margin-inline-end: initial !important;
+    transition: margin-inline-end 100ms ease, opacity 100ms ease;
+  }
+}
+
+/* hide right buttons */
+@media -moz-pref("uc.tweak.urlbar-button",2) {
+  /* Visual dots on right side only */
+  #urlbar:is(:not([usertyping]), :not([focused])):not([persistsearchterms]) #identity-box::after {
+    display: none;
+  }
+
+  #tracking-protection-icon-container {
+    margin-inline-start: 0;
+    /*! margin-inline-end: 2px; */
+    padding-inline: 0 !important;
+  }
+  #identity-icon-box {
+    margin-inline-start: 0;
+    padding-left: 0px;
+  }
+  #identity-permission-box {
+    margin-inline-start: 0;
+  }
+  #notification-popup-box {
+  }
+  #tracking-protection-icon-container,
+  #identity-icon-box,
+  #identity-permission-box {
+    #urlbar:has(#identity-box:hover) &,
+    #urlbar:has(#tracking-protection-icon-container:hover) & {
+      margin-inline-start: 0 !important;
+    }
+
+    #urlbar &:hover:active,
+    #urlbar &[open="true"] {
+      margin-inline-start: 0 !important;
+    }
+  }
+}
+
+#identity-box.extensionPage #identity-icon-box:not([open]) #identity-icon-label {
+  opacity: 0;
+  visibility: collapse;
+}
+
+#urlbar #identity-box[pageproxystate="valid"] {
+  &.weakCipher,
+  &.mixedDisplayContent,
+  &.mixedDisplayContentLoadedActiveBlocked,
+  &.certUserOverridden,
+  &.certErrorPage,
+  &.notSecureText {
+    & #identity-icon-box {
+      margin-inline-start: initial !important;
+      opacity: 1 !important;
+    }
+  }
+
+  &.notSecure,
+  &.mixedActiveContent,
+  &.httpsOnlyErrorPage {
+    & #identity-icon-box {
+      margin-inline-start: initial !important;
+      opacity: 1 !important;
+    }
+  }
+}
+
+#urlbar #identity-box[pageproxystate="valid"]:is(.chromeUI, .extensionPage) > #identity-icon-box {
+  margin-inline-start: initial !important;
+  opacity: 1 !important;
+}
+
+#urlbar:not([persistsearchterms]) .urlbar-input-container .urlbar-input-box {
+  padding-inline-start: 3px !important;
+}
+#urlbar:not(.searchButton) > .urlbar-input-container > #identity-box[pageproxystate="invalid"] > .identity-box-button {
+  padding-inline: var(--urlbar-icon-padding) !important;
+}
+
+#urlbar:is(:not([usertyping]), :not([focused])):not([persistsearchterms]) #page-action-buttons {
+  padding-inline-start: 6px;
+}
+
+#identity-box::after {
+  left: 2px;
+}
+
+#page-action-buttons::before {
+  right: 2px;
+}
+
+#identity-box[pageproxystate="invalid"]::after,
+.urlbar-input-container[pageproxystate="invalid"] > #page-action-buttons::before {
+  opacity: 0 !important;
+  transition: opacity 50ms ease;
+}
+
+/* Linux changes for visual dots */
+@media (-moz-platform: linux) {
+  #identity-box::after,
+  #page-action-buttons::before {
+    content: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><svg fill="context-fill" width="13px" height="12px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M20.25 16c0 2.347-1.903 4.25-4.25 4.25s-4.25-1.903-4.25-4.25c0-2.347 1.903-4.25 4.25-4.25s4.25 1.903 4.25 4.25zM20.25 27c0 2.347-1.903 4.25-4.25 4.25s-4.25-1.903-4.25-4.25c0-2.347 1.903-4.25 4.25-4.25s4.25 1.903 4.25 4.25zM20.25 5c0 2.347-1.903 4.25-4.25 4.25s-4.25-1.903-4.25-4.25c0-2.347 1.903-4.25 4.25-4.25s4.25 1.903 4.25 4.25z"></path></svg>') !important;
+    transform: none !important;
+    font-size: unset !important;
+  }
+
+  #page-action-buttons::before {
+    right: 2px;
+  }
+
+  #identity-box::after {
+    left: 2px;
+  }
+}
