@@ -1,0 +1,171 @@
+[
+  {
+    "position": "right",
+    "modules-left": ["dwl/tags", "waybar-dwl-layout", "group/title"],
+    "modules-right": [
+      "group/stat",
+      "pulseaudio",
+      "power-profiles-daemon",
+      "group/hardware",
+      "tray",
+      "clock",
+    ],
+    "mpris": {
+      "format": "{player_icon} {dynamic}",
+      "format-paused": "{status_icon} <i>{dynamic}</i>",
+      "player-icons": {
+        "default": "▶",
+        "mpv": "",
+        "spotify": "",
+        "firefox": "󰈹",
+        "chromium": "",
+      },
+      "status-icons": {
+        "paused": "",
+      },
+      "title-len": 40,
+      "album-len": 15,
+      "artist-len": 10,
+      "dynamic-len": 40,
+      "interval": 10,
+      "rotate": 270,
+    },
+    "dwl/tags": {
+      "hide-vacant": true,
+      "num-tags": 17,
+    },
+    "group/title": {
+        "orientation": "horizontal",
+        "modules": [
+            "dwl/window",
+			"mpris"
+        ]
+    },
+    "group/hardware": {
+        "orientation": "horizontal",
+        "modules": [
+			"backlight",
+            "battery"
+        ]
+    },
+    "group/stat": {
+        "orientation": "vertical",
+        "modules": [
+            // "temperature",
+            // "cpu",
+            // "memory",
+            "network1",
+            "network2"
+        ]
+    },
+    "dwl/window": {
+      "format": "{}",
+      "max-length": 30,
+      "hide-inactive": false,
+      "hide-empty": false,
+      "align": 0,
+      "rewrite": {
+        "(.*) - Mozilla Firefox": "🌎 $1",
+        "(.*) - zsh": "> [$1]",
+      },
+      "rotate": 270,
+    },
+    "idle_inhibitor": {
+      "format": "{icon}",
+      "format-icons": {
+        "activated": "",
+        "deactivated": "",
+      },
+    },
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": "default",
+        "performance": "󰎪",
+        "balanced": "󰎧",
+        "power-saver": "󰎤",
+      },
+    },
+    "tray": {
+      "icon-size": 21,
+      "spacing": 10,
+    },
+    "clock": {
+      // "format": "{:%H:%M}",
+      "format": "{:%I\n<span overline=\"single\">%M</span>}",
+      "tooltip": false,
+    },
+    "cpu": {
+      "format": " {usage}%",
+      "rotate": 270,
+    },
+    "memory": {
+      "format": "  {}%",
+      "rotate": 270,
+    },
+    "temperature": {
+      "thermal-zone": 2,
+      "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
+      "critical-threshold": 89,
+      "format-critical": "{icon} {temperatureC}°C",
+      "format": "{icon} {temperatureC}°C",
+      "format-icons": ["", "", "", ""],
+      "rotate": 270,
+    },
+    "backlight": {
+      "scroll-step": 5, // %, can be a float
+      "format": "{icon}",
+      "format-icons": ["", "", "", "", "", "", "", "", ""],
+    },
+    "battery": {
+      "states": {
+        "good": 95,
+        "warning": 20,
+        "critical": 10,
+      },
+      "format": "{icon} {capacity}",
+      "format-charging": "󰂄 {capacity}",
+      "format-plugged": "󰂄",
+      "format-alt": "{icon} {time}",
+      "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    },
+    "network1": {
+      "format-wifi": "  {essid}",
+      "format-ethernet": "󰛳 Ethernet",
+      "format-linked": " {ifname} (No IP)",
+      "format-disconnected": "Disconnected ⚠ {ifname}",
+      "format-alt": "{ifname}: ({ipaddr}/{cidr}) [{bandwidthTotalBytes} 󰓅 ]",
+      "tooltip-format": "{ipaddr} [{bandwidthTotalBytes} 󰓅 ]",
+      "rotate": 270,
+    },
+    "network2": {
+      "format-wifi": "  {essid}",
+      "format-ethernet": "󰛳 Ethernet",
+      "format-linked": " {ifname} (No IP)",
+      "format-disconnected": "Disconnected ⚠ {ifname}",
+      "format-alt": "{ifname}: ({ipaddr}/{cidr}) [{bandwidthTotalBytes} 󰓅 ]",
+      "tooltip-format": "{ipaddr} [{bandwidthTotalBytes} 󰓅 ]",
+      "rotate": 270,
+    },
+    "pulseaudio": {
+      "scroll-step": 5, // %, can be a float
+      "format": "{icon} {volume}%",
+      "format-bluetooth": " {icon} {volume}%",
+      "format-bluetooth-muted": "  {icon} {format_source}",
+      "format-muted": " ",
+      "format-icons": {
+        "headphone": "󰋋",
+        "hands-free": "󰋋",
+        "headset": "󰋋",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["󰕿", "󰖀", "󰕾", "󱄠"],
+      },
+      "on-click": "pavucontrol",
+      "on-click-right": "foot -a pw-top pw-top",
+    },
+  },
+]

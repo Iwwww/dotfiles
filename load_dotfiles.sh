@@ -13,6 +13,7 @@ cp -rv "$HOME/.config/i3" ".config/"
 cp -rv "$HOME/.config/wal" ".config/"
 cp -rv "$HOME/.config/zathura" ".config/"
 cp -rv "$HOME/.config/mimeapps.list" ".config/"
+cp -rv "$HOME/.config/waybar" ".config/"
 
 cp -rv "$HOME/.startup" "."
 
