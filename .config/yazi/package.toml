@@ -1,0 +1,64 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "8945e54"
+hash = "ae9e1d0c6bfd68cdebc98cc684c22b45"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:max-preview"
+rev = "8945e54"
+hash = "15b2ff7f6563c14d5b2e93b3e9da35de"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "8945e54"
+hash = "771f18427fb75fb19990ce602bb322f4"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:hide-preview"
+rev = "8945e54"
+hash = "55904f17e1053cfb91dacd9015a99f9d"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:chmod"
+rev = "8945e54"
+hash = "f28138c2e11e87962b66d583fef724c3"
+
+[[plugin.deps]]
+use = "Lil-Dank/lazygit"
+rev = "9f924e3"
+hash = "2b0c33928986f126d5c5a4cac31a6b46"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-filter"
+rev = "8945e54"
+hash = "b482f4f2d3c4e0aa3f8db89a95699439"
+
+[[plugin.deps]]
+use = "imsi32/yatline"
+rev = "9328205"
+hash = "3e51d1fd8a2e481fcfa8eab1251d1c5f"
+
+[[plugin.deps]]
+use = "sharklasers996/eza-preview"
+rev = "7ca4c25"
+hash = "d1efd1931dd738af0d6e4f41dd491313"
+
+[[plugin.deps]]
+use = "Reledia/glow"
+rev = "5ce76dc"
+hash = "52e5f5c602962e7cbf874da28f52ba45"
+
+[[plugin.deps]]
+use = "AnirudhG07/nbpreview"
+rev = "f8879b3"
+hash = "d378328e5d0a1b9fb9f04ab3aade4575"
+
+[[plugin.deps]]
+use = "kirasok/torrent-preview"
+rev = "169cafc"
+hash = "3d01b0e54ed4e79c6db69fd80402efeb"
+
+[[flavor.deps]]
+use = "dangooddd/kanagawa"
+rev = "d98f0c3"
+hash = "cada780385f75abbcfbf5343256b441"

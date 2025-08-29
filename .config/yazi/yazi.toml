@@ -1,0 +1,20 @@
+[plugin]
+prepend_previewers = [
+  { name = "*.md", run = "glow" },
+]
+# [plugin]
+# prepend_previewers = [
+#   { name = "*.ipynb", run = "nbpreview" },
+# ]
+# [plugin]
+# prepend_previewers = [
+#     { mime = "text/csv", run = "miller"},
+# ]
+[mgr]
+linemode = "size_and_mtime"
+
+[preview]
+wrap = "yes"
+image_delay = 0
+max_width = 2160
+max_height = 1440

@@ -1,0 +1,11 @@
+[Unit]
+Description=dwl Wayland Compositor
+BindsTo=graphical-session.target
+
+[Service]
+ExecStart=/usr/local/bin/dwl
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

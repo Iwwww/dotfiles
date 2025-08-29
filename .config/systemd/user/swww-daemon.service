@@ -1,0 +1,15 @@
+[Unit]
+Description=Swww Daemon
+Documentation=man:swww-daemon(1)
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/swww-daemon
+ExecStop=/usr/bin/swww kill
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

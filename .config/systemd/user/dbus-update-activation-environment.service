@@ -1,0 +1,10 @@
+[Unit]
+Description=Update D-Bus Activation Environment
+After=default.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/dbus-update-activation-environment --all
+
+[Install]
+WantedBy=default.target

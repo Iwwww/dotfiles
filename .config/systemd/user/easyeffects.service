@@ -1,0 +1,13 @@
+[Unit]
+Description=EasyEffects Audio Effects Manager
+After=default.target
+
+[Service]
+Environment=DISPLAY=:0
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+Environment=XDG_SESSION_TYPE=wayland
+ExecStart=/usr/bin/easyeffects --gapplication-service
+Restart=always
+
+[Install]
+WantedBy=default.target

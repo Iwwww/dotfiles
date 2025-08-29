@@ -1,0 +1,10 @@
+[Unit]
+Description=Auto Pause Media Players
+After=default.target
+
+[Service]
+ExecStart=/home/mikhail/.local/bin/auto-pause.sh
+Restart=always
+
+[Install]
+WantedBy=default.target

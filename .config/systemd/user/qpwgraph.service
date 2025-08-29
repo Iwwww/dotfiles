@@ -1,0 +1,15 @@
+[Unit]
+Description=Qpwgraph - Graphical Audio Manager for PipeWire
+After=pipewire.service
+Wants=pipewire.service
+
+[Service]
+ExecStart=/usr/bin/qpwgraph -am
+Restart=always
+RestartSec=3
+Environment=WAYLAND_DISPLAY=wayland-0
+Environment=DISPLAY=:0
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=default.target

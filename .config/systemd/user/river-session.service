@@ -1,0 +1,13 @@
+[Unit]
+Description=River Session
+After=graphical-session.target
+Wants=graphical-session.target
+BindsTo=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
