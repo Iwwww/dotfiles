@@ -1,0 +1,180 @@
+[
+  {
+    "position": "right",
+    "modules-left": ["river/layout", "river/tags", "mpris"],
+    "modules-right": [
+      "group/stat",
+      "pulseaudio",
+      "power-profiles-daemon",
+      "group/hardware",
+      "tray",
+      "clock",
+    ],
+    "mpris": {
+      "format": "{player_icon} {dynamic}",
+      "format-paused": "{status_icon} <i>{dynamic}</i>",
+      "player-icons": {
+        "default": "▶",
+        "mpv": "",
+        "spotify": "",
+        "firefox": "󰈹",
+        "chromium": "",
+      },
+      "status-icons": {
+        "paused": "",
+      },
+      "title-len": 40,
+      "album-len": 15,
+      "artist-len": 10,
+      "dynamic-len": 40,
+      // "interval": 10,
+      "rotate": 270,
+    },
+    "river/tags": {
+      "hide-vacant": true,
+      "num-tags": 20,
+    },
+    "river/layout": {
+        "format": "{}",
+    },
+    "group/hardware": {
+        "orientation": "horizontal",
+        "modules": [
+			"backlight",
+            "battery"
+        ]
+    },
+    "group/stat": {
+        "orientation": "vertical",
+        "modules": [
+            "network",
+            "cpu",
+            "memory",
+            "temperature",
+        ]
+    },
+    "dwl/window": {
+      "format": "{}",
+      "max-length": 30,
+      "hide-inactive": false,
+      "hide-empty": false,
+      "align": 0,
+      "rewrite": {
+        "(.*) - Mozilla Firefox": "🌎 $1",
+        "(.*) - zsh": "> [$1]",
+      },
+      "rotate": 270,
+    },
+    "idle_inhibitor": {
+      "format": "{icon}",
+      "format-icons": {
+        "activated": "",
+        "deactivated": "",
+      },
+    },
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip": false,
+      "format-icons": {
+        "default": "default",
+        "performance": "󰎪",
+        "balanced": "󰎧",
+        "power-saver": "󰎤",
+      },
+    },
+    "tray": {
+      "icon-size": 21,
+      "spacing": 10,
+    },
+    "clock": {
+      "format": "{:%H\n<span overline=\"single\">%M</span>\n<span color='gray'>%d</span>}",
+      "tooltip-format": "<tt>{calendar}</tt>",
+                "calendar": {
+                     "mode"          : "month",
+                     "mode-mon-col"  : 3,
+                     "weeks-pos"     : "right",
+                     "on-scroll"     : 1,
+                     "on-click-right": "mode",
+                     "format": {
+                          "months":     "<span color='#ffead3'><b>{}</b></span>",
+                          "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                          "weeks":      "<span color='#99ff6d'><b>W{}</b></span>",
+                          "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                          "today":      "<span color='#dfdfdf' background='#cf4699'><b><u>{}</u></b></span>"
+                     }
+                },
+      "tooltip": true,
+    },
+    "cpu": {
+      "states": {
+          "warning": 70,
+          "critical": 90
+      },
+      "align": 0,
+      "format": "  {usage}",
+    },
+    "memory": {
+      "states": {
+          "warning": 70,
+          "critical": 90
+      },
+      "align": 0,
+      "format": "  {}",
+    },
+    "temperature": {
+      "thermal-zone": 2,
+      "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
+      "critical-threshold": 89,
+      "format-critical": "{icon} {temperatureC}",
+      "format": "{icon} {temperatureC}",
+      "format-icons": ["", "", "", ""],
+    },
+    "backlight": {
+      "scroll-step": 5,
+      "format": "{icon}",
+      "format-icons": ["", "", "", "", "", "", "", "", ""],
+      "tooltip-format": "{icon} {percent}%",
+    },
+    "battery": {
+      "states": {
+        "good": 95,
+        "warning": 20,
+        "critical": 10,
+      },
+      "format": "{icon}",
+      "format-charging": "{capacity}",
+      "format-plugged": "󰂄",
+      "format-alt": "{capacity}",
+      "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+      "tooltip-format": "{capacity}%\n{time}",
+      "full-at": 98,
+    },
+    "network": {
+      "format-wifi": "{icon} {essid}",
+      "format-ethernet": "󰛳 Ethernet",
+      "format-linked": " {ifname} (No IP)",
+      "format-disconnected": "󰤭 ",
+      "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+      "max-lenght": 5,
+      "rotate": 270,
+    },
+    "pulseaudio": {
+      "scroll-step": 5, // %, can be a float
+      "format": "{icon} {volume}",
+      "format-bluetooth": " {icon} {volume}%",
+      "format-bluetooth-muted": "  {icon} {format_source}",
+      "format-muted": " ",
+      "format-icons": {
+        "headphone": "󰋋",
+        "hands-free": "󰋋",
+        "headset": "󰋋",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["󰕿", "󰖀", "󰕾", "󱄠"],
+      },
+      "on-click": "pavucontrol",
+      "on-click-right": "foot -a pw-top pw-top",
+    },
+  },
+]
