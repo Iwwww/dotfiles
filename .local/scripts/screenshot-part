@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# import -window root - | xclip -selection clipboard -t image/png -i
-# flameshot gui
-# slurp | grim -g - - | wl-copy
-grim -g "$(slurp)" - | swappy -f -

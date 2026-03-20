@@ -1,4 +1,0 @@
-#!/bin/sh
-
-killall -qw picom
-picom --config ~/.config/picom/picom.conf --experimental-backends
