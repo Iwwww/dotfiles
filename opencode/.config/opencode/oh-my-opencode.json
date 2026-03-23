@@ -2,54 +2,54 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "opencode/big-pickle"
+      "model": "opencode-go/kimi-k2.5"
     },
     "oracle": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode-go/glm-5"
     },
     "librarian": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode-go/minimax-m2.5"
     },
     "explore": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode-go/minimax-m2.5"
     },
     "multimodal-looker": {
-      "model": "opencode/mimo-v2-omni-free"
+      "model": "opencode-go/kimi-k2.5"
     },
     "prometheus": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode-go/glm-5"
     },
     "metis": {
-      "model": "opencode/mimo-v2-pro-free"
+      "model": "opencode-go/glm-5"
     },
     "momus": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode-go/glm-5"
     },
     "atlas": {
-      "model": "opencode/big-pickle"
+      "model": "opencode-go/kimi-k2.5"
     },
     "sisyphus-junior": {
-      "model": "opencode/big-pickle"
+      "model": "opencode-go/kimi-k2.5"
     }
   },
   "categories": {
     "visual-engineering": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode-go/glm-5"
     },
     "ultrabrain": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode-go/glm-5"
     },
     "quick": {
-      "model": "opencode/minimax-m2.5-free"
+      "model": "opencode-go/minimax-m2.5"
     },
     "unspecified-low": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode-go/kimi-k2.5"
     },
     "unspecified-high": {
-      "model": "opencode/nemotron-3-super-free"
+      "model": "opencode-go/kimi-k2.5"
     },
     "writing": {
-      "model": "opencode/big-pickle"
+      "model": "opencode-go/kimi-k2.5"
     }
   }
 }
