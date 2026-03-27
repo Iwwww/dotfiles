@@ -1,5 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+  "auto_update": true,
+  "sisyphus_agent": {
+    "default_builder_enabled": true,
+    "replace_plan": false
+  },
   "agents": {
     "sisyphus": {
       "model": "opencode-go/kimi-k2.5"
