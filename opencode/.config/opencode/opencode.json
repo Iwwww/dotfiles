@@ -1,14 +1,81 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    "@tarquinen/opencode-dcp",
-    "opencode-helicone-session",
-    "@knikolov/opencode-plugin-simple-memory",
-    "opencode-vibeguard",
-    "@franlol/opencode-md-table-formatter@latest",
-    "oh-my-opencode@latest"
-  ],
-    "instructions": [
+  "instructions": [
     "~/.config/opencode/plugin/shell-strategy/shell_strategy.md"
-  ]
+  ],
+  "plugin": [
+    //"@tarquinen/opencode-dcp",
+    //"opencode-helicone-session",
+    //"opencode-vibeguard",
+    //"@franlol/opencode-md-table-formatter@latest"
+  ],
+  "provider": {
+    "ollama": {
+      "npm": "ollama-ai-provider-v2",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://firpc-1:11434/api"
+      },
+      "models": {
+        "yolo0perris/Qwen3.5-27B-UD-IQ3_XXS:latest": {
+          "name": "yolo0perris/Qwen3.5-27B-UD-IQ3_XXS:latest",
+          "tool_call": true,
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "gemma4:e4b": {
+          "name": "gemma4:e4b",
+          "tool_call": true,
+          "reasoning": true,
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "gemma4:26b": {
+          "name": "gemma4:26b",
+          "tool_call": true,
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "gemma4:31b": {
+          "name": "gemma4:31b",
+          "tool_call": true,
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "gemma4:latest": {
+          "name": "gemma4:latest",
+          "tool_call": true,
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "qwen2.5-coder:14b": {
+          "name": "qwen2.5-coder:14b",
+          "tool_call": true,
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+        "qwen2.5:7b-instruct": {
+          "name": "qwen2.5:7b-instruct",
+          "tool_call": true,
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        },
+
+      }
+    },
+  }
 }
