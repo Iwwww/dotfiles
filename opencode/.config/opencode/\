@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "~/.config/opencode/plugin/shell-strategy/shell_strategy.md"
+  ],
+  "plugin": [
+    //"@tarquinen/opencode-dcp",
+    //"opencode-helicone-session",
+    //"opencode-vibeguard",
+    //"@franlol/opencode-md-table-formatter@latest"
+  ],
+  "provider": {
+    "ollama": {
+      "npm": "ollama-ai-provider-v2",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://firpc-1:11434/api"
+      },
+      "models":{
+        "gemma4:e4b-agent": {
+          "name": "gemma4:e4b-agent",
+          "tool_call": true,
+          "reasoning": true,
+          "limit": {
+            "context": 120000,
+            "output": 20000
+          }
+        }
+      }
+    }
+  }
+}

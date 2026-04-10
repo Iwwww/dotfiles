@@ -1,81 +1,99 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": [
-    "~/.config/opencode/plugin/shell-strategy/shell_strategy.md"
-  ],
+  "default_agent": "plan",
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 8192
+  },
   "plugin": [
-    //"@tarquinen/opencode-dcp",
-    //"opencode-helicone-session",
-    //"opencode-vibeguard",
-    //"@franlol/opencode-md-table-formatter@latest"
+    "opencode-helicone-session",
+    "opencode-vibeguard",
+    "@franlol/opencode-md-table-formatter@latest",
+    "opencode-agent-skills",
+    "@tarquinen/opencode-dcp@latest",
+    "@mohak34/opencode-notifier@latest"
   ],
   "provider": {
     "ollama": {
-      "npm": "ollama-ai-provider-v2",
       "name": "Ollama",
+      "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "http://firpc-1:11434/api"
+        "baseURL": "http://firpc-1:11434/v1"
       },
       "models": {
-        "yolo0perris/Qwen3.5-27B-UD-IQ3_XXS:latest": {
-          "name": "yolo0perris/Qwen3.5-27B-UD-IQ3_XXS:latest",
+        "gemma4:e4b-32k": {
+          "name": "gemma4:e4b-32k",
+          "_launch": true,
           "tool_call": true,
-          "limit": {
-            "context": 32768,
-            "output": 8192
-          }
+          "options": {
+            "temperature": 0.1
+          },
+          "maxTokens": 16384
         },
-        "gemma4:e4b": {
-          "name": "gemma4:e4b",
+        "gemma4:e4b-125k": {
+          "name": "gemma4:e4b-125k",
+          "_launch": true,
           "tool_call": true,
-          "reasoning": true,
-          "limit": {
-            "context": 32768,
-            "output": 8192
-          }
+          "options": {
+            "temperature": 0.1
+          },
+          "maxTokens": 125000
         },
-        "gemma4:26b": {
-          "name": "gemma4:26b",
+        "gemma4:26b-62k": {
+          "name": "gemma4:26b-62k",
+          "_launch": true,
           "tool_call": true,
-          "limit": {
-            "context": 32768,
-            "output": 8192
-          }
+          "options": {
+            "temperature": 0.1
+          },
+          "maxTokens": 62000
         },
-        "gemma4:31b": {
-          "name": "gemma4:31b",
-          "tool_call": true,
-          "limit": {
-            "context": 32768,
-            "output": 8192
-          }
-        },
-        "gemma4:latest": {
-          "name": "gemma4:latest",
-          "tool_call": true,
-          "limit": {
-            "context": 32768,
-            "output": 8192
-          }
-        },
-        "qwen2.5-coder:14b": {
-          "name": "qwen2.5-coder:14b",
-          "tool_call": true,
-          "limit": {
-            "context": 32768,
-            "output": 8192
-          }
-        },
-        "qwen2.5:7b-instruct": {
-          "name": "qwen2.5:7b-instruct",
-          "tool_call": true,
-          "limit": {
-            "context": 32768,
-            "output": 8192
-          }
-        },
-
+        "ministral-3:8b-OC32k": {
+          "_launch": true,
+          "id": "ministral-3:8b-OC32k",
+          "name": "Ministral 3 8B (32k)",
+          "options": {
+            "temperature": 0.1
+          },
+          "maxTokens": 16384
+        }
       }
+    }
+  },
+  "agent": {
+    "explore": {
+      "disable": true
     },
+    "general": {
+      "disable": true
+    }
+  },
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "@playwright/mcp@latest"],
+      "enabled": true
+    },
+    "context7": {
+      "type": "local",
+      "command": ["npx", "@upstash/context7-mcp@latest"],
+      "enabled": true
+    },
+    "better-icons": {
+      "type": "local",
+      "command": ["npx", "better-icons"],
+      "enabled": true
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
+      "enabled": true
+    },
+    "contextplus": {
+      "type": "local",
+      "command": ["npx", "-y", "contextplus"],
+      "enabled": true
+    }
   }
 }
