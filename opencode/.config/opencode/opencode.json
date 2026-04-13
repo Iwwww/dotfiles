@@ -19,9 +19,17 @@
       "name": "Ollama",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "http://firpc-1:11434/v1"
+        "baseURL": "http://firpc-1.tail31cf05.ts.net:11434/v1"
       },
       "models": {
+        "qwen3.5:9b": {
+          "name": "qwen3.5:9b",
+          "_launch": true,
+          "tool_call": true,
+          "options": {
+            "temperature": 0.1
+          },
+        },
         "gemma4:e4b-32k": {
           "name": "gemma4:e4b-32k",
           "_launch": true,
