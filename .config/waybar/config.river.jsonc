@@ -1,9 +1,12 @@
 [
   {
     "position": "right",
-    "modules-left": ["river/layout", "river/tags", "mpris"],
+    "modules-left": [
+      "river/layout",
+      "river/tags", "mpris"],
     "modules-right": [
       "group/stat",
+      "custom/codexbar",
       "pulseaudio",
       "power-profiles-daemon",
       "group/hardware",
@@ -82,6 +85,15 @@
         "power-saver": "󰎤",
       },
     },
+    "custom/codexbar": {
+      "exec": "codexbar --format '{session_reset}'",
+      "return-type": "json",
+      "interval": 300,
+      "signal": 12,
+      "rotate": 270,
+      "tooltip": true,
+      "on-click": "xdg-open https://chatgpt.com/codex/settings/usage",
+    },
     "tray": {
       "icon-size": 21,
       "spacing": 10,
@@ -111,15 +123,15 @@
           "critical": 90
       },
       "align": 0,
-      "format": "  {usage}",
+      "format": "\n{usage}",
     },
     "memory": {
       "states": {
-          "warning": 70,
-          "critical": 90
+          "warning": 85,
+          "critical": 95 
       },
-      "align": 0,
-      "format": "  {}",
+      "align": 1,
+      "format": "\n{}",
     },
     "temperature": {
       "thermal-zone": 2,
@@ -160,7 +172,7 @@
     },
     "pulseaudio": {
       "scroll-step": 5, // %, can be a float
-      "format": "{icon} {volume}",
+      "format": "{icon}",
       "format-bluetooth": " {icon} {volume}%",
       "format-bluetooth-muted": "  {icon} {format_source}",
       "format-muted": " ",

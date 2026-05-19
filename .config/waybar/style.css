@@ -47,7 +47,7 @@ window#waybar.hidden {
 #tags button {
   background-color: #333;
   color: #fcc;
-  min-width: 26px;
+  min-width: 18px;
   margin-bottom: 2px;
   margin-top: 0;
   font-weight: bold;
@@ -86,7 +86,7 @@ window#waybar.hidden {
 }
 
 #layout {
-  font-size: 0.8rem;
+  font-size: 0.5rem;
 }
 
 #clock,
@@ -100,6 +100,7 @@ window#waybar.hidden {
 #pulseaudio,
 #custom-media,
 #custom-launcher,
+#custom-codexbar,
 #custom-power,
 #custom-wallpaper,
 #custom-updater,
@@ -150,7 +151,7 @@ window#waybar.hidden {
 #clock {
   color: #ffffff;
   font-weight: 500;
-  font-size: 130%;
+  /* font-size: 130%; */
 }
 
 #battery {
@@ -255,9 +256,9 @@ label:focus {
   padding-bottom: 0.25rem;
 }
 
-#pulseaudio.muted {
-  color: red;
-}
+/* #pulseaudio.muted { */
+  /* color: red; */
+/* } */
 
 #custom-media {
   color: whitesmoke;
@@ -309,6 +310,31 @@ label:focus {
   );
   font-size: 20px;
   margin-left: 5px;
+}
+
+#custom-codexbar {
+  font-size: 12px;
+  min-width: 2.9em;
+  min-height: 2.9em;
+  padding: 0;
+  margin: 4px 2px;
+  border-radius: 999px;
+}
+
+#custom-codexbar.low {
+  color: #98c379;
+}
+
+#custom-codexbar.mid {
+  color: #e5c07b;
+}
+
+#custom-codexbar.high {
+  color: #d19a66;
+}
+
+#custom-codexbar.critical {
+  color: #e06c75;
 }
 
 #custom-wallpaper {
