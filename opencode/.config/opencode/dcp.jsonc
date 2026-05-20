@@ -7,9 +7,9 @@
   "compress": {
     "mode": "range",
     "permission": "allow",
-    "maxContextLimit": 100000,
-    "minContextLimit": 25000,
-    "nudgeFrequency": 5
+    "maxContextLimit": 1000000,
+    "minContextLimit": 125000,
+    "nudgeFrequency": 2
   },
   "strategies": {
     "deduplication": { "enabled": true },

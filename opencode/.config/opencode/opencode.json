@@ -15,71 +15,47 @@
     "@mohak34/opencode-notifier@latest"
   ],
   "provider": {
-    "ollama": {
-      "name": "Ollama",
+    "lmstudio": {
       "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio (local)",
       "options": {
-        "baseURL": "http://firpc-1.tail31cf05.ts.net:11434/v1"
+        "baseURL": "http://firpc-1.tail31cf05.ts.net:1234/v1"
       },
       "models": {
-        "qwen2.5-coder:14b-instruct-q4_K_M": {
-          "name": "qwen2.5-coder:14b-instruct-q4_K_M",
-          "_launch": true,
-          "tool_call": true,
-        },
-        "qwen3.5:9b": {
-          "name": "qwen3.5:9b",
-          "_launch": true,
-          "tool_call": true,
+        "omnicoder-9b-claude-opus-high-reasoning-distill": {
+          "name": "OmniCoder 9b opus",
+          "temperature": true,
           "options": {
-            "temperature": 0.1
-          },
+            "temperature": 0.3,
+            "topP": 0.95,
+            "maxTokens": 220000,
+            "frequencyPenalty": 0.1,
+            "presencePenalty": 0.15
+          }
         },
-        "gemma4:e4b-32k": {
-          "name": "gemma4:e4b-32k",
-          "_launch": true,
-          "tool_call": true,
+        "qwen3-14b-claude-4.5-opus-high-reasoning-distill": {
+          "name": "Qwen 3 14b opus",
+          "temperature": true,
           "options": {
-            "temperature": 0.1
-          },
-          "maxTokens": 16384
+            "temperature": 0.2,
+            "topP": 0.9,
+            "maxTokens": 40000,
+            "frequencyPenalty": 0.1,
+            "presencePenalty": 0.1
+          }
         },
-        "gemma4:e4b-125k": {
-          "name": "gemma4:e4b-125k",
-          "_launch": true,
-          "tool_call": true,
+        "qwen/qwen3.6-35b-a3b": {
+          "name": "Qwen 3.6 35b a3b",
+          "temperature": true,
           "options": {
-            "temperature": 0.1
-          },
-          "maxTokens": 125000
-        },
-        "gemma4:26b-62k": {
-          "name": "gemma4:26b-62k",
-          "_launch": true,
-          "tool_call": true,
-          "options": {
-            "temperature": 0.1
-          },
-          "maxTokens": 62000
-        },
-        "ministral-3:8b-OC32k": {
-          "_launch": true,
-          "id": "ministral-3:8b-OC32k",
-          "name": "Ministral 3 8B (32k)",
-          "options": {
-            "temperature": 0.1
-          },
-          "maxTokens": 16384
+            "temperature": 0.2,
+            "topP": 0.9,
+            "maxTokens": 64000,
+            "frequencyPenalty": 0.1,
+            "presencePenalty": 0.1
+          }
         }
       }
-    }
-  },
-  "agent": {
-    "explore": {
-      "disable": true
-    },
-    "general": {
-      "disable": true
     }
   },
   "mcp": {
@@ -91,11 +67,6 @@
     "context7": {
       "type": "local",
       "command": ["npx", "@upstash/context7-mcp@latest"],
-      "enabled": true
-    },
-    "better-icons": {
-      "type": "local",
-      "command": ["npx", "better-icons"],
       "enabled": true
     },
     "chrome-devtools": {
