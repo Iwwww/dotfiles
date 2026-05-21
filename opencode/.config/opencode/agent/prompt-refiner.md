@@ -7,6 +7,7 @@ reasoningEffort: low
 textVerbosity: low
 steps: 12
 permission:
+  question: allow
   read: deny
   glob: deny
   grep: deny
@@ -17,7 +18,6 @@ permission:
   todowrite: deny
   webfetch: deny
   websearch: deny
-  question: allow
   task: deny
 ---
 

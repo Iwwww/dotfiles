@@ -5,7 +5,7 @@ model: openai/gpt-5.4-mini
 temperature: 0.1
 reasoningEffort: low
 textVerbosity: low
-steps: 20
+steps: 40
 permission:
   read: allow
   glob: allow
@@ -14,7 +14,7 @@ permission:
   lsp: allow
   edit: deny
   question: deny
-  todowrite: deny
+  todowrite: allow
   webfetch: deny
   websearch: deny
   bash:

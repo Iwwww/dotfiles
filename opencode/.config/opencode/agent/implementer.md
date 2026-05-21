@@ -5,7 +5,7 @@ model: openai/gpt-5.4-mini
 temperature: 0.1
 reasoningEffort: medium
 textVerbosity: low
-steps: 30
+steps: 80
 permission:
   read: allow
   glob: allow
@@ -14,7 +14,7 @@ permission:
   lsp: allow
   edit: ask
   question: deny
-  todowrite: deny
+  todowrite: allow
   webfetch: ask
   websearch: ask
   bash:
@@ -29,23 +29,23 @@ permission:
     "git diff --cached*": allow
     "git log*": allow
     "git show*": allow
-    "npm test*": ask
-    "npm run *": ask
-    "pnpm test*": ask
-    "pnpm run *": ask
-    "yarn test*": ask
-    "yarn run *": ask
-    "bun test*": ask
-    "bun run *": ask
-    "pytest *": ask
-    "python -m pytest*": ask
-    "go test*": ask
-    "cargo test*": ask
-    "make *": ask
-    "cmake *": ask
-    "ninja *": ask
-    "mvn test*": ask
-    "gradle test*": ask
+    "npm test*": allow
+    "npm run *": allow
+    "pnpm test*": allow
+    "pnpm run *": allow
+    "yarn test*": allow
+    "yarn run *": allow
+    "bun test*": allow
+    "bun run *": allow
+    "pytest *": allow
+    "python -m pytest*": allow
+    "go test*": allow
+    "cargo test*": allow
+    "make *": allow
+    "cmake *": allow
+    "ninja *": allow
+    "mvn test*": allow
+    "gradle test*": allow
   task:
     "*": deny
     "explorer": ask
