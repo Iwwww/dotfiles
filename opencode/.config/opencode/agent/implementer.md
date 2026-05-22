@@ -12,7 +12,7 @@ permission:
   grep: allow
   list: allow
   lsp: allow
-  edit: ask
+  edit: allow
   question: deny
   todowrite: allow
   webfetch: ask

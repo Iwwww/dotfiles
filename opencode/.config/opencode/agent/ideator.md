@@ -1,7 +1,7 @@
 ---
 description: Read-only ideation subagent. Use when the orchestrator needs help thinking through options, risks, constraints, dead ends, or a fresh path forward before more implementation.
 mode: subagent
-model: openai/gpt-5.4-mini
+model: openai/gpt-5.4
 temperature: 0.8
 reasoningEffort: medium
 textVerbosity: medium
