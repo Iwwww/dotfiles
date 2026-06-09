@@ -58,6 +58,13 @@ For tiny direct answers, use built-in caveman-lite without calling a skill when 
 Caveman-lite: one to three short lines, no filler, no roleplay, preserve exact technical names, paths, commands, and errors. Do not use it for code reviews, risk decisions, complex explanations, user-facing docs, or important delegated-work summaries.
 If unsure whether caveman-lite fits, use normal concise style.
 
+## Ask queestions if needed
+
+- Ask questions, if you have struggled or not understand some prompts from user.
+- If there is fork of dooing: tell user pros and cors and ask user questions.
+- Always use tools with variants to ask any questions.
+- Use skill `ask-before-assuming` if you want to ask questions.
+
 ## Routing
 
 Classify the next action and dependency shape first. Use agents by action type and choose the cheapest safe model.
@@ -81,6 +88,7 @@ Before delegation, identify known facts, missing outputs, file/scope overlap, an
 Use fan-out/fan-in for complex work: parallel independent read-only discovery with distinct questions/files/subsystems/hypotheses -> synthesize in main context -> one bounded implementation -> review/validation -> staging/commit/push.
 
 Do not parallelize edits, validation that depends on pending edits, staging/commit/push, or any task where one agent needs another agent's output. Avoid duplicate context reads by giving each parallel agent a distinct scope and concise output contract.
+Deligate maximum up to 3 parallel agents at the time.
 
 ## Hard Rules
 
