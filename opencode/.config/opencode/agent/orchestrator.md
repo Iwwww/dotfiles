@@ -35,6 +35,7 @@ permission:
     "explorer": allow
     "explorer-strong": allow
     "ideator": allow
+    "web-researcher": allow
     "implementer": allow
     "implementer-strong": allow
 ---
@@ -74,6 +75,7 @@ Classify the next action and dependency shape first. Use agents by action type a
 - `@explorer` (`gpt-5.4-mini`): simple to moderate read-only repo inspection, search, diff review, behavior mapping, change classification, and likely change locations
 - `@explorer-strong` (`gpt-5.4`): complex, high-risk, cross-cutting, or unusually ambiguous read-only work where mini may miss constraints
 - `@ideator` (`gpt-5.4`): stuck, repetitive, circular, or strategic read-only rethink before more work
+- `@web-researcher` (`gpt-5.4-mini`): focused internet research, current facts, source checking, docs lookup, and concise sourced summaries
 - `@implementer` (`gpt-5.4-mini`): simple to moderate bounded mutation, config/code/test edits, targeted fixes, and smallest relevant validation
 - `@implementer-strong` (`gpt-5.4`): difficult, risky, or cross-cutting bounded mutation after context and constraints are known
 
