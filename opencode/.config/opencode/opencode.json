@@ -70,15 +70,18 @@
   "mcp": {
     "contextplus": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "contextplus"
-      ],
+      "command": ["npx", "-y", "contextplus"],
       "enabled": true
+    },
+    "searxng": {
+      "type": "local",
+      "command": ["npx", "-y", "mcp-searxng"],
+      "environment": {
+        "SEARXNG_URL": "http://127.0.0.1:8080"
+      },
+      "enabled": true,
+      "timeout": 10000
     }
   },
-  "disabled_providers": [
-    "ollama"
-  ]
+  "disabled_providers": ["ollama"]
 }
