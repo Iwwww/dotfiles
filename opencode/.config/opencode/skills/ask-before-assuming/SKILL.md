@@ -21,7 +21,7 @@ Do not ask just because multiple internal implementations are possible.
 2. If the choice is local and low-risk, proceed with the smallest correct change.
 3. If the choice affects behavior, scope, architecture, data, compatibility, or UX, stop and ask.
 4. Prefer the `question` tool.
-5. Offer 2-4 concrete options.
+5. Offer 2 or more concrete options.
 6. Put the recommended option first with `(Recommended)`.
 7. Continue only after the user answers.
 
