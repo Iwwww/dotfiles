@@ -1,21 +1,20 @@
 .clock {
-  color: $fg-primary;
-  font-size: $font-size-2xl;
-  font-weight: 700;
+    color: $fg-primary;
+    font-size: $font-size-2xl;
+    font-weight: 700;
 }
 
 .clock .hour {
-  border-top: 1px solid $border-subtle;
-  font-size: $font-size-xl;
+    font-size: $font-size-xl;
 }
 
 .clock .minute {
-  border-top: 1px solid $border-subtle;
-  font-size: $font-size-xl;
+    border-top: 1px solid $border-subtle;
+    font-size: $font-size-xl;
 }
 
 .clock .date {
-  color: $fg-muted;
-  font-size: $font-size-xl;
-  padding-top: $space-xs;
+    color: $fg-muted;
+    font-size: $font-size-xl;
+    padding-top: $space-xs;
 }
