@@ -1,5 +1,10 @@
 .bar {
-  background: linear-gradient(180deg, $bg-window 0%, $bg-window-soft 48%, $bg-window 100%);
-  color: $fg-primary;
-  padding: $space-md 5px;
+    background: linear-gradient(
+        180deg,
+        $bg-window 0%,
+        $bg-window-soft 95%,
+        $bg-window 100%
+    );
+    color: $fg-primary;
+    padding: $space-md 5px;
 }
