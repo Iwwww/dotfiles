@@ -1,0 +1,3 @@
+(defwidget tray []
+  (eventbox :class "tray"
+    (systray :class "tray-icons" :orientation "v" :spacing 6 :icon-size 21)))

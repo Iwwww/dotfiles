@@ -1,0 +1,36 @@
+.tray {
+  padding: $space-xs 0;
+}
+
+tooltip,
+tooltip.background {
+  background: $popup-bg;
+  border: 1px solid $popup-border;
+  border-radius: $radius-sm;
+  color: $popup-fg;
+}
+
+tooltip label {
+  background: $popup-bg;
+  color: $popup-fg;
+  padding: $space-sm $space-md;
+}
+
+menu {
+  background: $popup-bg;
+  border: 1px solid $popup-border;
+  border-radius: $radius-md;
+  padding: $space-md;
+  color: $popup-fg;
+}
+
+menuitem {
+  background: $popup-bg;
+  border-radius: $radius-sm;
+  padding: 5px 8px;
+  color: $popup-fg;
+}
+
+menuitem:hover {
+  background: $bg-hover;
+}
