@@ -1,0 +1,13 @@
+.power-profile.performance {
+  background: $power-performance-bg;
+  border: 1px solid $power-performance-border;
+}
+
+.power-profile.balanced {
+  background: $power-balanced-bg;
+}
+
+.power-profile.power-saver {
+  background: $power-saver-bg;
+  color: $power-saver-fg;
+}

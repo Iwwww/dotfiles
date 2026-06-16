@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+set -eu
+
+if ! command -v powerprofilesctl >/dev/null 2>&1; then
+  printf '%s\n' '{"available":false,"text":"","class":"missing","profile":""}'
+  exit 0
+fi
+
+if ! profile=$(powerprofilesctl get 2>/dev/null); then
+  printf '%s\n' '{"available":false,"text":"","class":"missing","profile":""}'
+  exit 0
+fi
+
+case "$profile" in
+  performance) icon=󰎪 ;;
+  power-saver) icon=󰎤 ;;
+  *) profile=balanced; icon=󰎧 ;;
+esac
+
+jq -cn --arg text "$icon" --arg class "$profile" --arg profile "$profile" \
+  '{available:true, text:$text, class:$class, profile:$profile}'

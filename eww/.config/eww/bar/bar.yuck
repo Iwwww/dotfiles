@@ -1,0 +1,33 @@
+(defwidget bar-top []
+  (box :orientation "v" :spacing 6 :vexpand false :space-evenly false :valign "start"
+    (layout)
+    (tag-list)))
+
+(defwidget bar-bottom []
+  (box :orientation "v" :spacing 6 :vexpand false :space-evenly false :valign "end"
+    (media)
+    (system-stats)
+    (volume)
+    (power-profile)
+    (tray)
+    (clock)))
+
+(defwidget river-bar []
+  (box :class "bar" :orientation "v" :spacing 6 :space-evenly false
+    (bar-top)
+    (box :vexpand true)
+    (bar-bottom)))
+
+(defwindow river-bar
+  :monitor 0
+  :geometry (geometry
+    :x "0%"
+    :y "0%"
+    :width "46px"
+    :height "100%"
+    :anchor "right center")
+  :stacking "fg"
+  :exclusive true
+  :focusable false
+  :namespace "eww-river-bar"
+  (river-bar))

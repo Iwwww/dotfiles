@@ -1,0 +1,53 @@
+.volume {
+  min-width: $volume-width;
+  padding: 0;
+}
+
+.volume.muted {
+  background: $volume-muted-bg;
+  color: $volume-muted-fg;
+}
+
+.volume-text {
+  color: $volume-text;
+  font-size: $font-size-md;
+  font-weight: 800;
+  min-width: $volume-width;
+  padding: 0;
+  text-shadow:
+    0 1px 2px $volume-fill,
+    1px 0 2px $volume-fill,
+    0 -1px 2px $volume-fill,
+    -1px 0 2px $volume-fill;
+}
+
+.volume-level {
+  min-width: $volume-width;
+  min-height: $volume-height;
+}
+
+.volume-level trough {
+  min-width: $volume-width;
+}
+
+.volume-level trough {
+  background: transparent;
+  min-height: $volume-height;
+}
+
+.volume-level progress {
+  border-radius: $radius-sm 0 0 $radius-sm;
+  min-height: $volume-height;
+}
+
+.volume.full progress {
+  border-radius: $radius-sm;
+}
+
+.volume.low progress {
+  background: $volume-fill;
+}
+
+.volume.high progress {
+  background: $volume-fill;
+}

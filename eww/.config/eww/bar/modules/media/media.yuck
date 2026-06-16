@@ -1,0 +1,9 @@
+(defpoll media_state :interval "5s" :initial "{\"class\":\"stopped\",\"text\":\"\"}" "eww-media-state")
+
+(defwidget media []
+  (button
+    :visible {media_state.class != "stopped"}
+    :class "module media ${media_state.class}"
+    :tooltip {media_state.text == "" ? "no media" : media_state.text}
+    :onclick "playerctl play-pause"
+    (label :text {media_state.class == "playing" ? "󰎈" : media_state.class == "paused" ? "󰏤" : "󰐊"})))

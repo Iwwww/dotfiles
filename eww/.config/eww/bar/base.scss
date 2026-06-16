@@ -1,0 +1,23 @@
+* {
+  all: unset;
+  font-family: $font-family-main;
+  font-size: $font-size-sm;
+  min-height: 0;
+}
+
+.module,
+.tag {
+  border-radius: $radius-sm;
+  padding: $space-sm 3px;
+  color: $module-fg;
+}
+
+.module {
+  background: $module-bg;
+}
+
+.module:hover,
+.tag:hover {
+  background: $module-bg-hover;
+  transition: $transition-fast;
+}

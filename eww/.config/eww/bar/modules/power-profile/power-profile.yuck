@@ -1,0 +1,5 @@
+(defpoll power_profile_state :interval "30s" :initial "{\"available\":false,\"class\":\"missing\",\"profile\":\"\",\"text\":\"\"}" "~/.config/eww/bar/modules/power-profile/eww-power-profile-state")
+
+(defwidget power-profile []
+  (box :visible {power_profile_state.available} :class "module power-profile ${power_profile_state.class}"
+    (label :text {power_profile_state.text})))

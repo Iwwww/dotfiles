@@ -1,0 +1,24 @@
+.tag {
+  background: $tag-bg;
+  border: 1px solid $module-border;
+  color: $tag-fg;
+  font-weight: 700;
+  min-width: 26px;
+}
+
+.tag.occupied {
+  color: $tag-occupied-fg;
+}
+
+.tag.focused {
+  background: $tag-focused-bg;
+  border-color: $tag-focused-bg;
+  color: $tag-focused-fg;
+  font-weight: 900;
+}
+
+.tag.urgent {
+  background: $tag-urgent-bg;
+  border-color: $tag-urgent-border;
+  color: $tag-urgent-fg;
+}

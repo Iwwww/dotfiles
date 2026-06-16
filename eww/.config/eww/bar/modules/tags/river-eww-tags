@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+set -eu
+
+exec ristate --tags --views-tag --urgency | jq --unbuffered -c '
+  def flat_values: [ .[]?[]? ] | unique;
+
+  (.tags // {} | flat_values | map(tostring)) as $focused
+  | (.viewstag // {} | flat_values | map(tostring)) as $occupied
+  | (.urgency // {} | flat_values | map(tostring)) as $urgent
+  | [range(1; 21)
+    | tostring as $id
+    | select(($focused | index($id)) or ($occupied | index($id)) or ($urgent | index($id)))
+    | {
+        id: $id,
+        class: ([
+          "tag",
+          (if ($focused | index($id)) then "focused" else empty end),
+          (if ($occupied | index($id)) then "occupied" else empty end),
+          (if ($urgent | index($id)) then "urgent" else empty end)
+        ] | join(" "))
+      }
+  ]
+'

@@ -1,13 +1,13 @@
 .warning {
-  background: $state-warning-bg;
-  border: 1px solid $state-warning-border;
-  box-shadow: $state-warning-shadow;
-  color: $state-warning-fg;
+    background: $state-warning-bg;
+    border: 1px solid $state-warning-border;
+    box-shadow: $state-warning-shadow;
+    color: $state-warning-fg;
 }
 
 .critical {
-  background: $state-critical-bg;
-  border: 1px solid $state-critical-border;
-  box-shadow: $state-critical-shadow;
-  color: $state-critical-fg;
+    background: $state-critical-bg;
+    border: 1px solid $state-critical-border;
+    box-shadow: $state-critical-shadow;
+    color: $state-critical-fg;
 }

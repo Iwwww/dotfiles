@@ -1,0 +1,10 @@
+(deflisten river_tags :initial "[]" "~/.config/eww/bar/modules/tags/river-eww-tags")
+
+(defwidget tag-list []
+  (box :class "tags" :orientation "v" :spacing 3 :vexpand false :space-evenly false :valign "start"
+    (for tag in river_tags
+      (button
+        :class {tag.class}
+        :tooltip "tag ${tag.id}"
+        :onclick "river-tag-switch ${tag.id}"
+        (label :text {tag.id})))))
