@@ -1,3 +1,5 @@
+(defvar calendar_popup_visible false)
+
 (defwindow calendar-popup-window
   :monitor 0
   :geometry (geometry
@@ -13,9 +15,13 @@
   (calendar-popup))
 
 (defwidget calendar-popup []
-  (box :class "calendar-popup" :orientation "v" :space-evenly false
-    (box :class "calendar-popup-header" :orientation "h" :space-evenly false
-      (label :class "calendar-popup-title" :hexpand true :text "Calendar")
-      (button :class "calendar-popup-close" :onclick "/home/mikhail/.config/eww/bar/modules/calendar/close-calendar"
-        (label :text "x")))
-    (calendar :class "calendar" :show-heading true :show-day-names true :show-week-numbers false)))
+  (revealer
+    :reveal calendar_popup_visible
+    :transition "crossfade"
+    :duration "160ms"
+    (box :class "calendar-popup" :orientation "v" :space-evenly false
+      (box :class "calendar-popup-header" :orientation "h" :space-evenly false
+        (label :class "calendar-popup-title" :hexpand true :text "Calendar")
+        (button :class "calendar-popup-close" :onclick "/home/mikhail/.config/eww/bar/modules/calendar/close-calendar"
+          (label :text "x")))
+      (calendar :class "calendar" :show-heading true :show-day-names true :show-week-numbers false))))

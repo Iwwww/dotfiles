@@ -1,7 +1,6 @@
 (defwidget clock []
   (eventbox
     :onclick "/home/mikhail/.config/eww/bar/modules/calendar/toggle-calendar"
-    :timeout "2s"
     (box :class "clock" :orientation "v" :spacing 0
       (label :class "hour" :text {formattime(EWW_TIME, "%H")})
       (label :class "minute" :text {formattime(EWW_TIME, "%M")})

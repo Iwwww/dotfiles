@@ -4,4 +4,10 @@ set -eu
 eww_bin=/etc/profiles/per-user/mikhail/bin/eww
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
 
-exec "$eww_bin" --config "$config_dir" open --toggle calendar-popup-window
+if "$eww_bin" --config "$config_dir" active-windows | grep -q '^calendar-popup-window:'; then
+  exec "$config_dir/bar/modules/calendar/close-calendar"
+fi
+
+"$eww_bin" --config "$config_dir" update calendar_popup_visible=false || true
+"$eww_bin" --config "$config_dir" open calendar-popup-window
+exec "$eww_bin" --config "$config_dir" update calendar_popup_visible=true
