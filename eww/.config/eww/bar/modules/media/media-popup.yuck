@@ -52,7 +52,7 @@
           :onclick "playerctl ${media_active_player != '' ? '-p ' + media_active_player + ' ' : ''}next"
           (label :text "󰒭")))
       (box :class "media-popup-players" :orientation "h" :halign "center" :spacing 6
-        :visible {arraylength(media_detail.players) > 1}
+        :visible {arraylength(media_detail.players) > 0}
         (for p in {media_detail.players}
           (button :class "media-popup-player-btn ${p.name == media_detail.player || (media_active_player != '' && p.name == media_active_player) ? 'active' : ''}"
             :onclick "/home/mikhail/.config/eww/bar/modules/media/switch-media-player '${p.name}'"
