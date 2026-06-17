@@ -1,24 +1,44 @@
 .tag {
-  background: $tag-bg;
-  border: 1px solid $module-border;
-  color: $tag-fg;
-  font-weight: 700;
-  min-width: 26px;
+    background: $tag-bg;
+    border: 1px solid $module-border;
+    color: $tag-fg;
+    font-weight: 700;
+    min-width: 26px;
 }
 
 .tag.occupied {
-  color: $tag-occupied-fg;
+    color: $tag-occupied-fg;
 }
 
 .tag.focused {
-  background: $tag-focused-bg;
-  border-color: $tag-focused-bg;
-  color: $tag-focused-fg;
-  font-weight: 900;
+    background: $tag-focused-bg;
+    border-color: $tag-focused-bg;
+    color: $tag-focused-fg;
+    font-weight: 900;
+}
+
+@keyframes tag-urgent-flash {
+    0% {
+        box-shadow: inset 0 0 30px $tag-urgent-flash-bg;
+        color: $tag-urgent-flash-fg;
+    }
+    50% {
+        box-shadow: inset 0 0 30px $tag-urgent-flash-bg;
+        color: $tag-urgent-flash-fg;
+    }
+    80% {
+        box-shadow: inset 0 0 10px $tag-urgent-flash-bg;
+        color: $tag-urgent-fg;
+    }
+    100% {
+        box-shadow: inset 0 0 0 transparent;
+        color: $tag-urgent-fg;
+    }
 }
 
 .tag.urgent {
-  background: $tag-urgent-bg;
-  border-color: $tag-urgent-border;
-  color: $tag-urgent-fg;
+    background: $tag-urgent-bg;
+    border-color: $tag-urgent-border;
+    color: $tag-urgent-fg;
+    animation: tag-urgent-flash 2000ms ease-out;
 }

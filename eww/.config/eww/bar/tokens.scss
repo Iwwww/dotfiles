@@ -80,6 +80,8 @@ $tag-focused-fg: $fg-inverse;
 $tag-urgent-bg: $state-danger-bg-strong;
 $tag-urgent-border: $state-danger-border-strong;
 $tag-urgent-fg: $state-danger-fg;
+$tag-urgent-flash-bg: $state-critical;
+$tag-urgent-flash-fg: $fg-inverse;
 
 $power-performance-bg: $state-danger-bg;
 $power-performance-border: $state-danger-border;
