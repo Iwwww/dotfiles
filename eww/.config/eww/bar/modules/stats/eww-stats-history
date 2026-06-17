@@ -7,8 +7,16 @@ max_entries=60
 state_file="${XDG_RUNTIME_DIR:-/tmp}/eww-stats-history.json"
 
 if [ ! -f "$state_file" ]; then
-  printf '{"cpu":[],"ram":[],"temp":[]}\n' > "$state_file"
+  printf '{"cpu":[],"ram":[],"temp":[],"top_cpu":[],"top_ram":[]}\n' > "$state_file"
 fi
+
+get_top_procs() {
+  ps -eo comm,"$1" --sort="-$1" --no-headers \
+    | grep -v '^\(ps\|head\|grep\) ' \
+    | head -3 \
+    | awk '{name=$1; val=$2+0; printf "%s\t%s\n", name, val}' \
+    | jq -Rsc '[split("\n")[] | select(length > 0) | split("\t") | {name: .[0], val: (.[1] | tonumber)}]'
+}
 
 while :; do
   cpu_raw=$("$eww_bin" --config "$config_dir" get EWW_CPU 2>/dev/null || printf '{"avg":0}')
@@ -19,8 +27,14 @@ while :; do
   ram=$(printf '%s' "$ram_raw" | jq -r '.used_mem_perc // 0 | round')
   temp=$(printf '%s' "$temp_raw" | jq -r '.value // 0 | round')
 
-  jq -c --argjson cpu "$cpu" --argjson ram "$ram" --argjson temp "$temp" --argjson max "$max_entries" \
-    '.cpu = (.cpu + [$cpu])[-$max:] | .ram = (.ram + [$ram])[-$max:] | .temp = (.temp + [$temp])[-$max:]' \
+  top_cpu=$(get_top_procs %cpu)
+  top_ram=$(get_top_procs %mem)
+
+  jq -c \
+    --argjson cpu "$cpu" --argjson ram "$ram" --argjson temp "$temp" \
+    --argjson max "$max_entries" \
+    --argjson top_cpu "$top_cpu" --argjson top_ram "$top_ram" \
+    '.cpu = (.cpu + [$cpu])[-$max:] | .ram = (.ram + [$ram])[-$max:] | .temp = (.temp + [$temp])[-$max:] | .top_cpu = $top_cpu | .top_ram = $top_ram' \
     "$state_file" > "${state_file}.tmp" && mv "${state_file}.tmp" "$state_file"
 
   cat "$state_file"

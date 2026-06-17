@@ -1,7 +1,8 @@
 (defvar stats_popup_visible false)
+(defvar stats_popup_pinned false)
 
 (deflisten stats_history
-  :initial "{\"cpu\":[],\"ram\":[],\"temp\":[]}"
+  :initial "{\"cpu\":[],\"ram\":[],\"temp\":[],\"top_cpu\":[],\"top_ram\":[]}"
   "/home/mikhail/.config/eww/bar/modules/stats/eww-stats-history")
 
 (defwindow stats-popup-window
@@ -10,7 +11,7 @@
     :x "8px"
     :y "8px"
     :width "300px"
-    :height "340px"
+    :height "520px"
     :anchor "bottom right")
   :stacking "overlay"
   :exclusive false
@@ -26,6 +27,13 @@
       (box :class "stats-bar ${color}" :valign "end" :hexpand true
         :style "min-height: ${val * stats_chart_height / 100}px;"))))
 
+(defwidget stats-process-list [procs]
+  (box :class "stats-process-list" :orientation "v" :space-evenly false
+    (for proc in procs
+      (box :class "stats-process-row" :orientation "h" :space-evenly false
+        (label :class "stats-process-name" :hexpand true :halign "start" :limit-width 20 :text {proc.name})
+        (label :class "stats-process-val" :halign "end" :text "${proc.val}%")))))
+
 (defwidget stats-popup []
   (revealer
     :reveal stats_popup_visible
@@ -34,7 +42,7 @@
     (box :class "stats-popup" :orientation "v" :space-evenly false
       (box :class "stats-popup-header" :orientation "h" :space-evenly false
         (label :class "stats-popup-title" :hexpand true :text "System Stats")
-        (button :class "stats-popup-close" :onclick "/home/mikhail/.config/eww/bar/modules/stats/close-stats-popup"
+        (button :class "stats-popup-close" :onclick "/home/mikhail/.config/eww/bar/modules/stats/force-close-stats-popup"
           (label :text "x")))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
         (label :class "stats-popup-label" :halign "start" :text " CPU ${round(EWW_CPU.avg, 0)}%")
@@ -44,4 +52,10 @@
         (stats-chart :values {stats_history.ram} :color "ram"))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
         (label :class "stats-popup-label" :halign "start" :text " Temp ${temperature_state.value}°")
-        (stats-chart :values {stats_history.temp} :color "temp")))))
+        (stats-chart :values {stats_history.temp} :color "temp"))
+      (box :class "stats-popup-section" :orientation "v" :space-evenly false
+        (label :class "stats-popup-label" :halign "start" :text " Top CPU")
+        (stats-process-list :procs {stats_history.top_cpu}))
+      (box :class "stats-popup-section" :orientation "v" :space-evenly false
+        (label :class "stats-popup-label" :halign "start" :text " Top RAM")
+        (stats-process-list :procs {stats_history.top_ram})))))

@@ -55,3 +55,23 @@
 .stats-bar.temp {
   background: $state-critical;
 }
+
+.stats-process-list {
+  background: $bg-surface;
+  border-radius: $radius-md;
+  padding: $space-sm $space-lg;
+}
+
+.stats-process-row {
+  padding: $space-xs 0;
+}
+
+.stats-process-name {
+  color: $fg-primary;
+  font-size: $font-size-sm;
+}
+
+.stats-process-val {
+  color: $fg-muted;
+  font-size: $font-size-sm;
+}

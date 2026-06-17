@@ -10,6 +10,7 @@
   (eventbox
     :onhover "/home/mikhail/.config/eww/bar/modules/stats/toggle-stats-popup"
     :onhoverlost "/home/mikhail/.config/eww/bar/modules/stats/close-stats-popup"
+    :onclick "/home/mikhail/.config/eww/bar/modules/stats/pin-stats-popup"
   (box :class "stats" :orientation "v" :spacing 4
     (label
       :visible {EWW_CPU.avg >= stats_warning_threshold}
