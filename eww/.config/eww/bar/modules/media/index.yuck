@@ -1,1 +1,2 @@
 (include "bar/modules/media/media.yuck")
+(include "bar/modules/media/media-popup.yuck")

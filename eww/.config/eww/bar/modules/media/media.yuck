@@ -1,9 +1,15 @@
-(defpoll media_state :interval "5s" :initial "{\"class\":\"stopped\",\"text\":\"\"}" "eww-media-state")
+(deflisten media_detail
+  :initial "{\"class\":\"stopped\",\"text\":\"\",\"title\":\"\",\"artist\":\"\",\"album\":\"\",\"art\":\"\",\"player\":\"\",\"length\":0,\"position\":0,\"progress\":0,\"players\":[]}"
+  "/home/mikhail/.config/eww/bar/modules/media/eww-media-listen")
 
 (defwidget media []
-  (button
-    :visible {media_state.class != "stopped"}
-    :class "module media ${media_state.class}"
-    :tooltip {media_state.text == "" ? "no media" : media_state.text}
-    :onclick "playerctl play-pause"
-    (label :text {media_state.class == "playing" ? "󰎈" : media_state.class == "paused" ? "󰏤" : "󰐊"})))
+  (eventbox
+    :onhover "/home/mikhail/.config/eww/bar/modules/media/toggle-media-popup"
+    :onhoverlost "/home/mikhail/.config/eww/bar/modules/media/close-media-popup"
+    :onclick "/home/mikhail/.config/eww/bar/modules/media/pin-media-popup"
+    (button
+      :visible {media_detail.class != "stopped"}
+      :class "module media ${media_detail.class}"
+      :tooltip {media_detail.text == "" ? "no media" : media_detail.text}
+      :onrightclick "playerctl ${media_active_player != '' ? '-p ' + media_active_player + ' ' : ''}play-pause"
+      (label :text {media_detail.class == "playing" ? "󰎈" : media_detail.class == "paused" ? "󰏤" : "󰐊"}))))

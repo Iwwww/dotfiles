@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+set -eu
+
+eww_bin=/etc/profiles/per-user/mikhail/bin/eww
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
+
+pinned=$("$eww_bin" --config "$config_dir" get media_popup_pinned 2>/dev/null || printf 'false')
+
+if [ "$pinned" = "true" ]; then
+  exec "$eww_bin" --config "$config_dir" update media_popup_pinned=false
+fi
+
+if ! "$eww_bin" --config "$config_dir" active-windows | grep -q '^media-popup-window:'; then
+  "$eww_bin" --config "$config_dir" update media_popup_visible=false || true
+  "$eww_bin" --config "$config_dir" open media-popup-window
+  "$eww_bin" --config "$config_dir" update media_popup_visible=true
+fi
+
+exec "$eww_bin" --config "$config_dir" update media_popup_pinned=true

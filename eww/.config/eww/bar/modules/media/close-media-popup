@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+set -eu
+
+eww_bin=/etc/profiles/per-user/mikhail/bin/eww
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
+
+pinned=$("$eww_bin" --config "$config_dir" get media_popup_pinned 2>/dev/null || printf 'false')
+if [ "$pinned" = "true" ]; then
+  exit 0
+fi
+
+"$eww_bin" --config "$config_dir" update media_popup_visible=false || true
+exec "$eww_bin" --config "$config_dir" close media-popup-window

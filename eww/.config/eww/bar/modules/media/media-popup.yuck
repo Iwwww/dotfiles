@@ -1,0 +1,59 @@
+(defvar media_popup_visible false)
+(defvar media_popup_pinned false)
+(defvar media_active_player "")
+
+(defwindow media-popup-window
+  :monitor 0
+  :geometry (geometry
+    :x "0px"
+    :y "0px"
+    :width "280px"
+    :height "320px"
+    :anchor "right center")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :namespace "eww-media-popup"
+  (media-popup))
+
+(defwidget media-popup []
+  (revealer
+    :reveal media_popup_visible
+    :transition "crossfade"
+    :duration "160ms"
+    (box :class "media-popup" :orientation "v" :space-evenly false
+      (box :class "media-popup-header" :orientation "h" :space-evenly false
+        (label :class "media-popup-title" :hexpand true :halign "start" :text {media_detail.player})
+        (button :class "media-popup-close" :visible media_popup_pinned
+          :onclick "/home/mikhail/.config/eww/bar/modules/media/force-close-media-popup"
+          (label :text "x")))
+      (box :class "media-popup-art-container" :halign "center"
+        :visible {media_detail.art != ""}
+        (image :path {media_detail.art}
+          :image-width 160
+          :image-height 160))
+      (box :class "media-popup-info" :orientation "v" :space-evenly false
+        (label :class "media-popup-track-title" :halign "center" :limit-width 30
+          :text {media_detail.title})
+        (label :class "media-popup-track-artist" :halign "center" :limit-width 35
+          :text {media_detail.artist}))
+      (box :class "media-progress-track" :visible {media_detail.length > 0}
+        (box :class "media-progress-fill"
+          :hexpand false
+          :style "min-width: ${media_detail.progress}%;"))
+      (box :class "media-popup-controls" :orientation "h" :halign "center" :spacing 12
+        (button :class "media-popup-btn"
+          :onclick "playerctl ${media_active_player != '' ? '-p ' + media_active_player + ' ' : ''}previous"
+          (label :text "󰒮"))
+        (button :class "media-popup-btn play"
+          :onclick "playerctl ${media_active_player != '' ? '-p ' + media_active_player + ' ' : ''}play-pause"
+          (label :text {media_detail.class == "playing" ? "󰏤" : "󰐊"}))
+        (button :class "media-popup-btn"
+          :onclick "playerctl ${media_active_player != '' ? '-p ' + media_active_player + ' ' : ''}next"
+          (label :text "󰒭")))
+      (box :class "media-popup-players" :orientation "h" :halign "center" :spacing 6
+        :visible {arraylength(media_detail.players) > 1}
+        (for p in {media_detail.players}
+          (button :class "media-popup-player-btn ${p.name == media_detail.player || (media_active_player != '' && p.name == media_active_player) ? 'active' : ''}"
+            :onclick "/home/mikhail/.config/eww/bar/modules/media/switch-media-player '${p.name}'"
+            (label :text {p.name})))))))

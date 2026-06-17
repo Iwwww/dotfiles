@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+set -eu
+
+eww_bin=/etc/profiles/per-user/mikhail/bin/eww
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
+
+if "$eww_bin" --config "$config_dir" active-windows | grep -q '^media-popup-window:'; then
+  exec "$config_dir/bar/modules/media/close-media-popup"
+fi
+
+"$eww_bin" --config "$config_dir" update media_popup_visible=false || true
+"$eww_bin" --config "$config_dir" open media-popup-window
+exec "$eww_bin" --config "$config_dir" update media_popup_visible=true

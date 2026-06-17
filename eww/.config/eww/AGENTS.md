@@ -122,6 +122,12 @@ eww --config "$HOME/.config/eww" open --toggle window-name
 - `bar/modules/power-profile/eww-power-profile-state`
 - `bar/modules/calendar/toggle-calendar`
 - `bar/modules/calendar/close-calendar`
+- `bar/modules/media/eww-media-listen`
+- `bar/modules/media/toggle-media-popup`
+- `bar/modules/media/close-media-popup`
+- `bar/modules/media/pin-media-popup`
+- `bar/modules/media/force-close-media-popup`
+- `bar/modules/media/switch-media-player`
 
 ## Validation
 
