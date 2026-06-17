@@ -49,12 +49,18 @@ $state-danger-fg: $fg-primary;
 $state-warning-bg: $color-warning-surface-strong;
 $state-warning-border: $state-warning;
 $state-warning-fg: $fg-primary;
-$state-warning-shadow: inset 0 0 3px rgba($color-warning, 0.28);
+$state-warning-shadow:
+    inset 0 0 0 1px $state-warning-border,
+    inset 0 0 3px rgba($color-warning, 0.28);
 $state-critical-bg: $bg-danger-strong;
 $state-critical-border: $state-critical;
 $state-critical-fg: $fg-primary;
-$state-critical-shadow: inset 0 0 6px rgba($state-critical, 0.32);
-$state-critical-shadow-pulse: inset 0 0 10px rgba($state-critical, 0.68);
+$state-critical-shadow:
+    inset 0 0 0 1px $state-critical-border,
+    inset 0 0 6px rgba($state-critical, 0.32);
+$state-critical-shadow-pulse:
+    inset 0 0 0 1px $state-critical-border,
+    inset 0 0 10px rgba($state-critical, 0.68);
 $state-success-fg: $fg-inverse;
 
 $module-bg: $bg-surface;
