@@ -1,4 +1,4 @@
-(defpoll volume_state :interval "2s" :initial "{\"class\":\"unknown\",\"muted\":false,\"text\":\"?\",\"value\":0}" "~/.config/eww/bar/modules/volume/eww-volume-state")
+(deflisten volume_state :initial "{\"class\":\"unknown\",\"muted\":false,\"text\":\"?\",\"value\":0}" "/home/mikhail/.config/eww/bar/modules/volume/eww-volume-listen")
 
 (defwidget volume []
   (eventbox

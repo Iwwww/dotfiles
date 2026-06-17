@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+set -eu
+
+state="/home/mikhail/.config/eww/bar/modules/volume/eww-volume-state"
+last=""
+
+emit() {
+  current=$("$state")
+
+  if [ "$current" != "$last" ]; then
+    printf '%s\n' "$current"
+    last="$current"
+  fi
+}
+
+emit
+
+if command -v pactl >/dev/null 2>&1; then
+  pactl subscribe | while IFS= read -r event; do
+    case "$event" in
+      *" on sink "*|*" on server "*) emit ;;
+    esac
+  done
+elif command -v pw-dump >/dev/null 2>&1; then
+  while :; do
+    pw-dump --monitor --no-colors | while IFS= read -r line; do
+      case "$line" in
+        *'"mute"'*|*'"volume"'*|*'"channelVolumes"'*|*'"softMute"'*|*'"softVolumes"'*) emit ;;
+      esac
+    done
+
+    sleep 1
+  done
+else
+  while :; do
+    emit
+    sleep 2
+  done
+fi
