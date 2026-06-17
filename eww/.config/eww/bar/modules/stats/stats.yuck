@@ -11,11 +11,11 @@
     (label
       :visible {EWW_CPU.avg >= stats_warning_threshold}
       :class {EWW_CPU.avg >= stats_critical_threshold ? "module critical ${cpu_critical_pulse}" : "module warning"}
-      :text " ${round(EWW_CPU.avg, 0)}")
+      :text " ${round(EWW_CPU.avg, 0) == 100 ? "00" : round(EWW_CPU.avg, 0)}")
     (label
       :visible {EWW_RAM.used_mem_perc >= stats_warning_threshold}
       :class {EWW_RAM.used_mem_perc >= stats_critical_threshold ? "module critical ${ram_critical_pulse}" : "module warning"}
-      :text " ${round(EWW_RAM.used_mem_perc, 0)}")
+      :text " ${round(EWW_RAM.used_mem_perc, 0) == 100 ? "00" : round(EWW_RAM.used_mem_perc, 0)}")
     (label
       :visible {temperature_state.class != "normal"}
       :class {temperature_state.class == "critical" ? "module temp critical ${temp_critical_pulse}" : "module temp ${temperature_state.class}"}
