@@ -3,11 +3,12 @@
 (defwidget volume []
   (eventbox
     :onscroll "eww-volume-scroll {}"
-    :onclick "pavucontrol"
+    :onclick "pamixer --toggle-mute"
+    :onrightclick "pavucontrol"
     (overlay :class {"module volume ${volume_state.class} ${volume_state.value >= 100 ? "full" : ""} ${volume_state.value >= 70 ? "high" : "low"}"} :width 10
       (progress
         :class "volume-level"
         :orientation "h"
         :width 10
         :value {volume_state.value})
-      (label :class "volume-text" :width 10 :limit-width 2 :text {volume_state.text}))))
+      (label :class "volume-text" :width 10 :limit-width 2 :text {volume_state.muted ? "󰝟" : volume_state.text}))))
