@@ -1,0 +1,47 @@
+(defvar stats_popup_visible false)
+
+(deflisten stats_history
+  :initial "{\"cpu\":[],\"ram\":[],\"temp\":[]}"
+  "/home/mikhail/.config/eww/bar/modules/stats/eww-stats-history")
+
+(defwindow stats-popup-window
+  :monitor 0
+  :geometry (geometry
+    :x "8px"
+    :y "8px"
+    :width "300px"
+    :height "340px"
+    :anchor "bottom right")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :namespace "eww-stats-popup"
+  (stats-popup))
+
+(defvar stats_chart_height 56)
+
+(defwidget stats-chart [values color]
+  (box :class "stats-chart-container" :orientation "h" :space-evenly true :valign "end" :vexpand true
+    (for val in values
+      (box :class "stats-bar ${color}" :valign "end" :hexpand true
+        :style "min-height: ${val * stats_chart_height / 100}px;"))))
+
+(defwidget stats-popup []
+  (revealer
+    :reveal stats_popup_visible
+    :transition "crossfade"
+    :duration "160ms"
+    (box :class "stats-popup" :orientation "v" :space-evenly false
+      (box :class "stats-popup-header" :orientation "h" :space-evenly false
+        (label :class "stats-popup-title" :hexpand true :text "System Stats")
+        (button :class "stats-popup-close" :onclick "/home/mikhail/.config/eww/bar/modules/stats/close-stats-popup"
+          (label :text "x")))
+      (box :class "stats-popup-section" :orientation "v" :space-evenly false
+        (label :class "stats-popup-label" :halign "start" :text " CPU ${round(EWW_CPU.avg, 0)}%")
+        (stats-chart :values {stats_history.cpu} :color "cpu"))
+      (box :class "stats-popup-section" :orientation "v" :space-evenly false
+        (label :class "stats-popup-label" :halign "start" :text " RAM ${round(EWW_RAM.used_mem_perc, 0)}%")
+        (stats-chart :values {stats_history.ram} :color "ram"))
+      (box :class "stats-popup-section" :orientation "v" :space-evenly false
+        (label :class "stats-popup-label" :halign "start" :text " Temp ${temperature_state.value}°")
+        (stats-chart :values {stats_history.temp} :color "temp")))))

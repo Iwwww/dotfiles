@@ -1,1 +1,2 @@
 (include "bar/modules/stats/stats.yuck")
+(include "bar/modules/stats/stats-popup.yuck")

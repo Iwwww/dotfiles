@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+set -eu
+
+eww_bin=/etc/profiles/per-user/mikhail/bin/eww
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
+
+if "$eww_bin" --config "$config_dir" active-windows | grep -q '^stats-popup-window:'; then
+  exec "$config_dir/bar/modules/stats/close-stats-popup"
+fi
+
+"$eww_bin" --config "$config_dir" update stats_popup_visible=false || true
+"$eww_bin" --config "$config_dir" open stats-popup-window
+exec "$eww_bin" --config "$config_dir" update stats_popup_visible=true

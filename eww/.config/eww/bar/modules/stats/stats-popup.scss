@@ -1,0 +1,57 @@
+.stats-popup {
+  background: $popup-bg;
+  border: 2px solid $popup-border;
+  border-radius: $radius-xl;
+  padding: $space-xl;
+}
+
+.stats-popup-header {
+  margin-bottom: $space-lg;
+}
+
+.stats-popup-title {
+  font-weight: 700;
+}
+
+.stats-popup-close {
+  border-radius: $radius-md;
+  padding: $space-xs $space-lg;
+}
+
+.stats-popup-close:hover {
+  background: $bg-hover;
+}
+
+.stats-popup-section {
+  margin-bottom: $space-lg;
+  min-height: 70px;
+}
+
+.stats-popup-label {
+  color: $fg-muted;
+  font-size: $font-size-sm;
+  margin-bottom: $space-xs;
+}
+
+.stats-chart-container {
+  background: $bg-surface;
+  border-radius: $radius-md;
+  min-height: 56px;
+}
+
+.stats-bar {
+  border-radius: $space-2xs $space-2xs 0 0;
+  min-width: 3px;
+}
+
+.stats-bar.cpu {
+  background: $state-warning;
+}
+
+.stats-bar.ram {
+  background: $state-accent;
+}
+
+.stats-bar.temp {
+  background: $state-critical;
+}

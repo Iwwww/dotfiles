@@ -7,6 +7,9 @@
 (defpoll temp_critical_pulse :interval "500ms" :initial "" "/home/mikhail/.config/eww/bar/modules/stats/critical-pulse-state temp")
 
 (defwidget system-stats []
+  (eventbox
+    :onhover "/home/mikhail/.config/eww/bar/modules/stats/toggle-stats-popup"
+    :onhoverlost "/home/mikhail/.config/eww/bar/modules/stats/close-stats-popup"
   (box :class "stats" :orientation "v" :spacing 4
     (label
       :visible {EWW_CPU.avg >= stats_warning_threshold}
@@ -19,4 +22,4 @@
     (label
       :visible {temperature_state.class != "normal"}
       :class {temperature_state.class == "critical" ? "module temp critical ${temp_critical_pulse}" : "module temp ${temperature_state.class}"}
-      :text {temperature_state.text})))
+      :text {temperature_state.text}))))

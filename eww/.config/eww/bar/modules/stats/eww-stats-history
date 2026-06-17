@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+set -eu
+
+eww_bin=/etc/profiles/per-user/mikhail/bin/eww
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
+max_entries=60
+state_file="${XDG_RUNTIME_DIR:-/tmp}/eww-stats-history.json"
+
+if [ ! -f "$state_file" ]; then
+  printf '{"cpu":[],"ram":[],"temp":[]}\n' > "$state_file"
+fi
+
+while :; do
+  cpu_raw=$("$eww_bin" --config "$config_dir" get EWW_CPU 2>/dev/null || printf '{"avg":0}')
+  ram_raw=$("$eww_bin" --config "$config_dir" get EWW_RAM 2>/dev/null || printf '{"used_mem_perc":0}')
+  temp_raw=$("$eww_bin" --config "$config_dir" get temperature_state 2>/dev/null || printf '{"value":0}')
+
+  cpu=$(printf '%s' "$cpu_raw" | jq -r '.avg // 0 | round')
+  ram=$(printf '%s' "$ram_raw" | jq -r '.used_mem_perc // 0 | round')
+  temp=$(printf '%s' "$temp_raw" | jq -r '.value // 0 | round')
+
+  jq -c --argjson cpu "$cpu" --argjson ram "$ram" --argjson temp "$temp" --argjson max "$max_entries" \
+    '.cpu = (.cpu + [$cpu])[-$max:] | .ram = (.ram + [$ram])[-$max:] | .temp = (.temp + [$temp])[-$max:]' \
+    "$state_file" > "${state_file}.tmp" && mv "${state_file}.tmp" "$state_file"
+
+  cat "$state_file"
+  sleep 2
+done
