@@ -1,5 +1,9 @@
 .stats-popup {
-    background: $popup-bg;
+    background: linear-gradient(
+        110deg,
+        rgba(30, 30, 30, 0.85) 0%,
+        $bg-window-soft 95%
+    );
     border: 2px solid $popup-border;
     border-right: none;
     border-radius: $radius-xl 0 0 $radius-xl;
@@ -77,18 +81,18 @@
 
 .stats-process-header {
     color: $fg-muted;
-    font-size: $font-size-xs;
+    font-size: $font-size-md;
     min-width: 52px;
 }
 
 .stats-process-name {
     color: $fg-primary;
-    font-size: $font-size-sm;
+    font-size: $font-size-md;
 }
 
 .stats-process-val {
     color: $fg-muted;
-    font-size: $font-size-sm;
+    font-size: $font-size-md;
     min-width: 52px;
 }
 

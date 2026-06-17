@@ -11,12 +11,13 @@ if [ ! -f "$state_file" ]; then
 fi
 
 get_top() {
+  min_thresh=$("$eww_bin" --config "$config_dir" get stats_proc_min_threshold 2>/dev/null || printf 5)
   ps -eo comm,%cpu,%mem --no-headers \
     | grep -v '^\(ps\|head\|grep\|awk\) ' \
     | awk '{cpu[$1]+=$2; mem[$1]+=$3} END {for(n in cpu) printf "%s\t%.1f\t%.1f\n", n, cpu[n], mem[n]}' \
     | sort -t'	' -k2,2nr -k3,3nr \
     | head -4 \
-    | jq -Rsc '[split("\n")[] | select(length > 0) | split("\t") | {name: .[0], cpu: (.[1] | tonumber | round), ram: (.[2] | tonumber | round)}] | sort_by(-(2 * .cpu + .ram)) | [.[] | select(.cpu >= 5 or .ram >= 5)][:4]'
+    | jq -Rsc --argjson min "$min_thresh" '[split("\n")[] | select(length > 0) | split("\t") | {name: .[0], cpu: (.[1] | tonumber | round), ram: (.[2] | tonumber | round)}] | sort_by(-(2 * .cpu + .ram)) | [.[] | select(.cpu >= $min or .ram >= $min)][:4]'
 }
 
 while :; do

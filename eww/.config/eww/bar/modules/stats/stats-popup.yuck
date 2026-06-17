@@ -1,5 +1,8 @@
 (defvar stats_popup_visible false)
 (defvar stats_popup_pinned false)
+(defvar stats_proc_warning_threshold 25)
+(defvar stats_proc_critical_threshold 60)
+(defvar stats_proc_min_threshold 15)
 
 (deflisten stats_history
   :initial "{\"cpu\":[],\"ram\":[],\"temp\":[],\"top\":[]}"
@@ -36,8 +39,8 @@
     (for proc in procs
       (box :class "stats-process-row" :orientation "h" :space-evenly false
         (label :class "stats-process-name" :hexpand true :halign "start" :limit-width 16 :text {proc.name})
-        (label :class {proc.cpu >= 50 ? "stats-process-val level-critical" : proc.cpu >= 15 ? "stats-process-val level-warning" : "stats-process-val"} :halign "end" :text "${proc.cpu}%")
-        (label :class {proc.ram >= 50 ? "stats-process-val level-critical" : proc.ram >= 15 ? "stats-process-val level-warning" : "stats-process-val"} :halign "end" :text "${proc.ram}%")))))
+        (label :class {proc.cpu >= stats_proc_critical_threshold ? "stats-process-val level-critical" : proc.cpu >= stats_proc_warning_threshold ? "stats-process-val level-warning" : "stats-process-val"} :halign "end" :text "${proc.cpu}%")
+        (label :class {proc.ram >= stats_proc_critical_threshold ? "stats-process-val level-critical" : proc.ram >= stats_proc_warning_threshold ? "stats-process-val level-warning" : "stats-process-val"} :halign "end" :text "${proc.ram}%")))))
 
 (defwidget stats-popup []
   (revealer
@@ -50,10 +53,10 @@
         (button :class "stats-popup-close" :visible stats_popup_pinned :onclick "/home/mikhail/.config/eww/bar/modules/stats/force-close-stats-popup"
           (label :text "x")))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
-        (label :class {EWW_CPU.avg >= 90 ? "stats-popup-label level-critical" : EWW_CPU.avg >= 75 ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " CPU ${round(EWW_CPU.avg, 0)}%")
+        (label :class {EWW_CPU.avg >= stats_critical_threshold ? "stats-popup-label level-critical" : EWW_CPU.avg >= stats_warning_threshold ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " CPU ${round(EWW_CPU.avg, 0)}%")
         (stats-chart :values {stats_history.cpu} :color "cpu"))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
-        (label :class {EWW_RAM.used_mem_perc >= 90 ? "stats-popup-label level-critical" : EWW_RAM.used_mem_perc >= 75 ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " RAM ${round(EWW_RAM.used_mem_perc, 0)}%")
+        (label :class {EWW_RAM.used_mem_perc >= stats_critical_threshold ? "stats-popup-label level-critical" : EWW_RAM.used_mem_perc >= stats_warning_threshold ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " RAM ${round(EWW_RAM.used_mem_perc, 0)}%")
         (stats-chart :values {stats_history.ram} :color "ram"))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
         (label :class {temperature_state.class == "critical" ? "stats-popup-label level-critical" : temperature_state.class == "warning" ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " Temp ${temperature_state.value}°")
