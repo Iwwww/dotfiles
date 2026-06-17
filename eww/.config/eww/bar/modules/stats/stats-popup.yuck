@@ -2,7 +2,7 @@
 (defvar stats_popup_pinned false)
 
 (deflisten stats_history
-  :initial "{\"cpu\":[],\"ram\":[],\"temp\":[],\"top_cpu\":[],\"top_ram\":[]}"
+  :initial "{\"cpu\":[],\"ram\":[],\"temp\":[],\"top\":[]}"
   "/home/mikhail/.config/eww/bar/modules/stats/eww-stats-history")
 
 (defwindow stats-popup-window
@@ -11,7 +11,7 @@
     :x "8px"
     :y "8px"
     :width "300px"
-    :height "520px"
+    :height "420px"
     :anchor "bottom right")
   :stacking "overlay"
   :exclusive false
@@ -29,10 +29,15 @@
 
 (defwidget stats-process-list [procs]
   (box :class "stats-process-list" :orientation "v" :space-evenly false
+    (box :class "stats-process-row header" :orientation "h" :space-evenly false
+      (label :class "stats-process-name" :hexpand true :halign "start" :text "")
+      (label :class "stats-process-header" :halign "end" :text "cpu")
+      (label :class "stats-process-header" :halign "end" :text "mem"))
     (for proc in procs
       (box :class "stats-process-row" :orientation "h" :space-evenly false
-        (label :class "stats-process-name" :hexpand true :halign "start" :limit-width 20 :text {proc.name})
-        (label :class "stats-process-val" :halign "end" :text "${proc.val}%")))))
+        (label :class "stats-process-name" :hexpand true :halign "start" :limit-width 16 :text {proc.name})
+        (label :class {proc.cpu >= 50 ? "stats-process-val level-critical" : proc.cpu >= 15 ? "stats-process-val level-warning" : "stats-process-val"} :halign "end" :text "${proc.cpu}%")
+        (label :class {proc.ram >= 50 ? "stats-process-val level-critical" : proc.ram >= 15 ? "stats-process-val level-warning" : "stats-process-val"} :halign "end" :text "${proc.ram}%")))))
 
 (defwidget stats-popup []
   (revealer
@@ -45,17 +50,14 @@
         (button :class "stats-popup-close" :onclick "/home/mikhail/.config/eww/bar/modules/stats/force-close-stats-popup"
           (label :text "x")))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
-        (label :class "stats-popup-label" :halign "start" :text " CPU ${round(EWW_CPU.avg, 0)}%")
+        (label :class {EWW_CPU.avg >= 90 ? "stats-popup-label level-critical" : EWW_CPU.avg >= 75 ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " CPU ${round(EWW_CPU.avg, 0)}%")
         (stats-chart :values {stats_history.cpu} :color "cpu"))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
-        (label :class "stats-popup-label" :halign "start" :text " RAM ${round(EWW_RAM.used_mem_perc, 0)}%")
+        (label :class {EWW_RAM.used_mem_perc >= 90 ? "stats-popup-label level-critical" : EWW_RAM.used_mem_perc >= 75 ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " RAM ${round(EWW_RAM.used_mem_perc, 0)}%")
         (stats-chart :values {stats_history.ram} :color "ram"))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
-        (label :class "stats-popup-label" :halign "start" :text " Temp ${temperature_state.value}°")
+        (label :class {temperature_state.class == "critical" ? "stats-popup-label level-critical" : temperature_state.class == "warning" ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " Temp ${temperature_state.value}°")
         (stats-chart :values {stats_history.temp} :color "temp"))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
-        (label :class "stats-popup-label" :halign "start" :text " Top CPU")
-        (stats-process-list :procs {stats_history.top_cpu}))
-      (box :class "stats-popup-section" :orientation "v" :space-evenly false
-        (label :class "stats-popup-label" :halign "start" :text " Top RAM")
-        (stats-process-list :procs {stats_history.top_ram})))))
+        (label :class "stats-popup-label" :halign "start" :text "Top")
+        (stats-process-list :procs {stats_history.top})))))

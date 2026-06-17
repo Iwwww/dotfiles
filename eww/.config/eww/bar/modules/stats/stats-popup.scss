@@ -33,9 +33,18 @@
   margin-bottom: $space-xs;
 }
 
+.stats-popup-label.level-warning {
+  color: $state-warning;
+}
+
+.stats-popup-label.level-critical {
+  color: $state-critical;
+}
+
 .stats-chart-container {
   background: $bg-surface;
   border-radius: $radius-md;
+  border-top: 1px solid $border-subtle;
   min-height: 56px;
 }
 
@@ -66,6 +75,12 @@
   padding: $space-xs 0;
 }
 
+.stats-process-header {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  min-width: 52px;
+}
+
 .stats-process-name {
   color: $fg-primary;
   font-size: $font-size-sm;
@@ -74,4 +89,13 @@
 .stats-process-val {
   color: $fg-muted;
   font-size: $font-size-sm;
+  min-width: 52px;
+}
+
+.stats-process-val.level-warning {
+  color: $state-warning;
+}
+
+.stats-process-val.level-critical {
+  color: $state-critical;
 }
