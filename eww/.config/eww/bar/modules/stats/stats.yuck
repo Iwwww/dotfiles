@@ -1,4 +1,4 @@
-(defvar stats_warning_threshold 70)
+(defvar stats_warning_threshold 75)
 (defvar stats_critical_threshold 90)
 
 (defpoll temperature_state :interval "10s" :initial "{\"class\":\"normal\",\"text\":\"-\",\"value\":0}" "eww-temperature-state")
