@@ -10,4 +10,9 @@
     border: 1px solid $state-critical-border;
     box-shadow: $state-critical-shadow;
     color: $state-critical-fg;
+    transition: box-shadow 700ms ease-in-out;
+}
+
+.critical.pulse-on {
+    box-shadow: $state-critical-shadow-pulse;
 }

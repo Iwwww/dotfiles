@@ -1,16 +1,22 @@
+(defvar stats_warning_threshold 70)
+(defvar stats_critical_threshold 90)
+
 (defpoll temperature_state :interval "10s" :initial "{\"class\":\"normal\",\"text\":\"-\",\"value\":0}" "eww-temperature-state")
+(defpoll cpu_critical_pulse :interval "500ms" :initial "" "/home/mikhail/.config/eww/bar/modules/stats/critical-pulse-state cpu")
+(defpoll ram_critical_pulse :interval "500ms" :initial "" "/home/mikhail/.config/eww/bar/modules/stats/critical-pulse-state ram")
+(defpoll temp_critical_pulse :interval "500ms" :initial "" "/home/mikhail/.config/eww/bar/modules/stats/critical-pulse-state temp")
 
 (defwidget system-stats []
   (box :class "stats" :orientation "v" :spacing 4
     (label
-      :visible {EWW_CPU.avg >= 70}
-      :class {EWW_CPU.avg >= 90 ? "module critical" : "module warning"}
+      :visible {EWW_CPU.avg >= stats_warning_threshold}
+      :class {EWW_CPU.avg >= stats_critical_threshold ? "module critical ${cpu_critical_pulse}" : "module warning"}
       :text " ${round(EWW_CPU.avg, 0)}")
     (label
-      :visible {EWW_RAM.used_mem_perc >= 70}
-      :class {EWW_RAM.used_mem_perc >= 90 ? "module critical" : "module warning"}
+      :visible {EWW_RAM.used_mem_perc >= stats_warning_threshold}
+      :class {EWW_RAM.used_mem_perc >= stats_critical_threshold ? "module critical ${ram_critical_pulse}" : "module warning"}
       :text " ${round(EWW_RAM.used_mem_perc, 0)}")
     (label
       :visible {temperature_state.class != "normal"}
-      :class "module temp ${temperature_state.class}"
+      :class {temperature_state.class == "critical" ? "module temp critical ${temp_critical_pulse}" : "module temp ${temperature_state.class}"}
       :text {temperature_state.text})))

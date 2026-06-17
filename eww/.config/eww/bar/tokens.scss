@@ -54,6 +54,7 @@ $state-critical-bg: $bg-danger-strong;
 $state-critical-border: $state-critical;
 $state-critical-fg: $fg-primary;
 $state-critical-shadow: inset 0 0 6px rgba($state-critical, 0.32);
+$state-critical-shadow-pulse: inset 0 0 10px rgba($state-critical, 0.68);
 $state-success-fg: $fg-inverse;
 
 $module-bg: $bg-surface;
