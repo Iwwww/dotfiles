@@ -1,101 +1,101 @@
 .stats-popup {
-  background: $popup-bg;
-  border: 2px solid $popup-border;
-  border-radius: $radius-xl;
-  padding: $space-xl;
+    background: $popup-bg;
+    border: 2px solid $popup-border;
+    border-right: none;
+    border-radius: $radius-xl 0 0 $radius-xl;
+    padding: $space-xl;
 }
 
 .stats-popup-header {
-  margin-bottom: $space-lg;
+    margin-bottom: $space-lg;
 }
 
 .stats-popup-title {
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .stats-popup-close {
-  border-radius: $radius-md;
-  padding: $space-xs $space-lg;
+    border-radius: $radius-md;
+    padding: $space-xs $space-lg;
 }
 
 .stats-popup-close:hover {
-  background: $bg-hover;
+    background: $bg-hover;
 }
 
 .stats-popup-section {
-  margin-bottom: $space-lg;
-  min-height: 70px;
+    margin-bottom: $space-lg;
+    min-height: 70px;
 }
 
 .stats-popup-label {
-  color: $fg-muted;
-  font-size: $font-size-sm;
-  margin-bottom: $space-xs;
+    color: $fg-muted;
+    font-size: $font-size-sm;
+    margin-bottom: $space-xs;
 }
 
 .stats-popup-label.level-warning {
-  color: $state-warning;
+    color: $state-warning;
 }
 
 .stats-popup-label.level-critical {
-  color: $state-critical;
+    color: $state-critical;
 }
 
 .stats-chart-container {
-  background: $bg-surface;
-  border-radius: $radius-md;
-  border-top: 1px solid $border-subtle;
-  min-height: 56px;
+    background: $bg-surface;
+    border-top: 1px solid $border-subtle;
+    min-height: 56px;
 }
 
 .stats-bar {
-  border-radius: $space-2xs $space-2xs 0 0;
-  min-width: 3px;
+    border-radius: $space-2xs $space-2xs 0 0;
+    min-width: 3px;
 }
 
 .stats-bar.cpu {
-  background: $state-warning;
+    background: $state-warning;
 }
 
 .stats-bar.ram {
-  background: $state-accent;
+    background: $state-accent;
 }
 
 .stats-bar.temp {
-  background: $state-critical;
+    background: $state-critical;
 }
 
 .stats-process-list {
-  background: $bg-surface;
-  border-radius: $radius-md;
-  padding: $space-sm $space-lg;
+    background: $bg-surface;
+    border-radius: $radius-md;
+    padding: $space-sm $space-lg;
 }
 
 .stats-process-row {
-  padding: $space-xs 0;
+    padding: $space-xs 0;
 }
 
 .stats-process-header {
-  color: $fg-muted;
-  font-size: $font-size-xs;
-  min-width: 52px;
+    color: $fg-muted;
+    font-size: $font-size-xs;
+    min-width: 52px;
 }
 
 .stats-process-name {
-  color: $fg-primary;
-  font-size: $font-size-sm;
+    color: $fg-primary;
+    font-size: $font-size-sm;
 }
 
 .stats-process-val {
-  color: $fg-muted;
-  font-size: $font-size-sm;
-  min-width: 52px;
+    color: $fg-muted;
+    font-size: $font-size-sm;
+    min-width: 52px;
 }
 
 .stats-process-val.level-warning {
-  color: $state-warning;
+    color: $state-warning;
 }
 
 .stats-process-val.level-critical {
-  color: $state-critical;
+    color: $state-critical;
 }

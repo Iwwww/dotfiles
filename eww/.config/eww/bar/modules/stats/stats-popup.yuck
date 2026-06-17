@@ -8,8 +8,8 @@
 (defwindow stats-popup-window
   :monitor 0
   :geometry (geometry
-    :x "8px"
-    :y "8px"
+    :x "0px"
+    :y "0px"
     :width "300px"
     :height "420px"
     :anchor "bottom right")
@@ -30,7 +30,7 @@
 (defwidget stats-process-list [procs]
   (box :class "stats-process-list" :orientation "v" :space-evenly false
     (box :class "stats-process-row header" :orientation "h" :space-evenly false
-      (label :class "stats-process-name" :hexpand true :halign "start" :text "")
+      (label :class "stats-popup-label" :hexpand true :halign "start" :text "Top")
       (label :class "stats-process-header" :halign "end" :text "cpu")
       (label :class "stats-process-header" :halign "end" :text "mem"))
     (for proc in procs
@@ -47,7 +47,7 @@
     (box :class "stats-popup" :orientation "v" :space-evenly false
       (box :class "stats-popup-header" :orientation "h" :space-evenly false
         (label :class "stats-popup-title" :hexpand true :text "System Stats")
-        (button :class "stats-popup-close" :onclick "/home/mikhail/.config/eww/bar/modules/stats/force-close-stats-popup"
+        (button :class "stats-popup-close" :visible stats_popup_pinned :onclick "/home/mikhail/.config/eww/bar/modules/stats/force-close-stats-popup"
           (label :text "x")))
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
         (label :class {EWW_CPU.avg >= 90 ? "stats-popup-label level-critical" : EWW_CPU.avg >= 75 ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " CPU ${round(EWW_CPU.avg, 0)}%")
@@ -58,6 +58,4 @@
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
         (label :class {temperature_state.class == "critical" ? "stats-popup-label level-critical" : temperature_state.class == "warning" ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " Temp ${temperature_state.value}°")
         (stats-chart :values {stats_history.temp} :color "temp"))
-      (box :class "stats-popup-section" :orientation "v" :space-evenly false
-        (label :class "stats-popup-label" :halign "start" :text "Top")
-        (stats-process-list :procs {stats_history.top})))))
+      (stats-process-list :procs {stats_history.top}))))
