@@ -1,0 +1,62 @@
+#!/usr/bin/env sh
+set -eu
+
+prev_total=0
+prev_idle=0
+cpu_hist=
+ram_hist=
+temp_hist=
+
+trim_hist() {
+  awk -F, '{s=NF>60?NF-59:1; for(i=s;i<=NF;i++) printf (i==s?"":",") $i}'
+}
+
+while :; do
+  set -- $(sed -n 's/^cpu  //p' /proc/stat)
+  idle=$4
+  total=0
+  for value in "$@"; do
+    total=$((total + value))
+  done
+
+  if [ "$prev_total" -eq 0 ]; then
+    cpu=0
+  else
+    dt=$((total - prev_total))
+    di=$((idle - prev_idle))
+    cpu=$((dt > 0 ? (100 * (dt - di) / dt) : 0))
+  fi
+
+  prev_total=$total
+  prev_idle=$idle
+  ram=$(free | awk '/Mem:/ {printf "%d", ($3/$2)*100}')
+  temp=$(sensors 2>/dev/null | awk '/Package id 0|Tctl|CPU/ {gsub(/[+°C]/,"",$2); printf "%d", $2; exit}')
+  [ -z "$temp" ] && temp=0
+
+  cpu_hist=${cpu_hist:+$cpu_hist,}$cpu
+  ram_hist=${ram_hist:+$ram_hist,}$ram
+  temp_hist=${temp_hist:+$temp_hist,}$temp
+  cpu_hist=$(printf '%s' "$cpu_hist" | trim_hist)
+  ram_hist=$(printf '%s' "$ram_hist" | trim_hist)
+  temp_hist=$(printf '%s' "$temp_hist" | trim_hist)
+
+  top=$(
+    ps -eo comm,%cpu,%mem --no-headers \
+      | awk '{cpu[$1]+=$2; mem[$1]+=$3} END {for(n in cpu) printf "%s\t%.0f\t%.0f\n", n, cpu[n], mem[n]}' \
+      | sort -k2,2nr -k3,3nr \
+      | head -4 \
+      | jq -Rsc '[split("\n")[] | select(length > 0) | split("\t") | {name:.[0], cpu:(.[1]|tonumber), ram:(.[2]|tonumber)}]'
+  )
+
+  jq -cn \
+    --argjson cpu "[$cpu_hist]" \
+    --argjson ram "[$ram_hist]" \
+    --argjson temp "[$temp_hist]" \
+    --argjson top "$top" \
+    --argjson cpuNow "$cpu" \
+    --argjson ramNow "$ram" \
+    --argjson tempNow "$temp" \
+    '{cpu:$cpu,ram:$ram,temp:$temp,top:$top,cpuNow:$cpuNow,ramNow:$ramNow,tempNow:$tempNow,tempClass:(if $tempNow>=90 then "critical" elif $tempNow>=75 then "warning" else "normal" end)}' > "/tmp/quickshell-stats-$$.tmp" && mv "/tmp/quickshell-stats-$$.tmp" /tmp/quickshell-stats.json
+
+  sleep 2
+done
