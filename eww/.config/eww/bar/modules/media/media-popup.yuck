@@ -1,4 +1,3 @@
-(defvar media_popup_visible false)
 (defvar media_popup_pinned false)
 (defvar media_active_player "")
 
@@ -14,14 +13,7 @@
   :exclusive false
   :focusable false
   :namespace "eww-media-popup"
-  (media-popup))
-
-(defwidget media-popup []
-  (revealer
-    :reveal media_popup_visible
-    :transition "crossfade"
-    :duration "160ms"
-    (box :class "media-popup" :orientation "v" :space-evenly false
+  (box :class "media-popup" :orientation "v" :space-evenly false
       (box :class "media-popup-header" :orientation "h" :space-evenly false
         (label :class "media-popup-title" :hexpand true :halign "start" :text {media_detail.player})
         (button :class "media-popup-close" :visible media_popup_pinned
@@ -56,4 +48,4 @@
         (for p in {media_detail.players}
           (button :class "media-popup-player-btn ${p.name == media_detail.player || (media_active_player != '' && p.name == media_active_player) ? 'active' : ''}"
             :onclick "/home/mikhail/.config/eww/bar/modules/media/switch-media-player '${p.name}'"
-            (label :text {p.name})))))))
+            (label :text {p.name}))))))

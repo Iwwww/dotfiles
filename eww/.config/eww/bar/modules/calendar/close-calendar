@@ -4,5 +4,4 @@ set -eu
 eww_bin=/etc/profiles/per-user/mikhail/bin/eww
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
 
-"$eww_bin" --config "$config_dir" update calendar_popup_visible=false || true
 exec "$eww_bin" --config "$config_dir" close calendar-popup-window

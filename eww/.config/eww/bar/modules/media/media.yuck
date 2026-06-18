@@ -4,9 +4,9 @@
 
 (defwidget media []
   (eventbox
-    :onhover "/home/mikhail/.config/eww/bar/modules/media/toggle-media-popup"
-    :onhoverlost "/home/mikhail/.config/eww/bar/modules/media/close-media-popup"
-    :onclick "/home/mikhail/.config/eww/bar/modules/media/pin-media-popup"
+      :onhover "/home/mikhail/.config/eww/bar/modules/media/open-media-popup"
+      :onhoverlost "/home/mikhail/.config/eww/bar/modules/media/close-media-popup"
+      :onclick "/home/mikhail/.config/eww/bar/modules/media/toggle-media-popup"
     (button
       :visible {media_detail.class != "stopped"}
       :class "module media ${media_detail.class}"

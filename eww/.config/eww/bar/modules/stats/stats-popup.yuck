@@ -1,4 +1,3 @@
-(defvar stats_popup_visible false)
 (defvar stats_popup_pinned false)
 (defvar stats_proc_warning_threshold 25)
 (defvar stats_proc_critical_threshold 60)
@@ -7,20 +6,6 @@
 (deflisten stats_history
   :initial "{\"cpu\":[],\"ram\":[],\"temp\":[],\"top\":[]}"
   "/home/mikhail/.config/eww/bar/modules/stats/eww-stats-history")
-
-(defwindow stats-popup-window
-  :monitor 0
-  :geometry (geometry
-    :x "0px"
-    :y "0px"
-    :width "300px"
-    :height "420px"
-    :anchor "bottom right")
-  :stacking "overlay"
-  :exclusive false
-  :focusable false
-  :namespace "eww-stats-popup"
-  (stats-popup))
 
 (defvar stats_chart_height 56)
 
@@ -42,12 +27,19 @@
         (label :class {proc.cpu >= stats_proc_critical_threshold ? "stats-process-val level-critical" : proc.cpu >= stats_proc_warning_threshold ? "stats-process-val level-warning" : "stats-process-val"} :halign "end" :text "${proc.cpu}%")
         (label :class {proc.ram >= stats_proc_critical_threshold ? "stats-process-val level-critical" : proc.ram >= stats_proc_warning_threshold ? "stats-process-val level-warning" : "stats-process-val"} :halign "end" :text "${proc.ram}%")))))
 
-(defwidget stats-popup []
-  (revealer
-    :reveal stats_popup_visible
-    :transition "crossfade"
-    :duration "160ms"
-    (box :class "stats-popup" :orientation "v" :space-evenly false
+(defwindow stats-popup-window
+  :monitor 0
+  :geometry (geometry
+    :x "0px"
+    :y "0px"
+    :width "300px"
+    :height "420px"
+    :anchor "bottom right")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :namespace "eww-stats-popup"
+  (box :class "stats-popup" :orientation "v" :space-evenly false
       (box :class "stats-popup-header" :orientation "h" :space-evenly false
         (label :class "stats-popup-title" :hexpand true :text "System Stats")
         (button :class "stats-popup-close" :visible stats_popup_pinned :onclick "/home/mikhail/.config/eww/bar/modules/stats/force-close-stats-popup"
@@ -61,4 +53,4 @@
       (box :class "stats-popup-section" :orientation "v" :space-evenly false
         (label :class {temperature_state.class == "critical" ? "stats-popup-label level-critical" : temperature_state.class == "warning" ? "stats-popup-label level-warning" : "stats-popup-label"} :halign "start" :text " Temp ${temperature_state.value}°")
         (stats-chart :values {stats_history.temp} :color "temp"))
-      (stats-process-list :procs {stats_history.top}))))
+      (stats-process-list :procs {stats_history.top})))
