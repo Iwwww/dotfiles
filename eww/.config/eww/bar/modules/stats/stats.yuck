@@ -11,14 +11,12 @@
     :onhover "/home/mikhail/.config/eww/bar/modules/stats/open-stats-popup"
     :onhoverlost "/home/mikhail/.config/eww/bar/modules/stats/close-stats-popup"
     :onclick "/home/mikhail/.config/eww/bar/modules/stats/toggle-stats-popup"
-  (box :class "stats" :orientation "v" :spacing 4
+    (box :class "stats" :orientation "v" :spacing 4
     (label
-      :visible {EWW_CPU.avg >= stats_warning_threshold}
-      :class {EWW_CPU.avg >= stats_critical_threshold ? "module critical ${cpu_critical_pulse}" : "module warning"}
+      :class {EWW_CPU.avg >= stats_critical_threshold ? "module module-bordered critical ${cpu_critical_pulse}" : EWW_CPU.avg >= stats_warning_threshold ? "module module-bordered warning" : "module module-bordered"}
       :text " ${round(EWW_CPU.avg, 0) == 100 ? "00" : round(EWW_CPU.avg, 0)}")
     (label
-      :visible {EWW_RAM.used_mem_perc >= stats_warning_threshold}
-      :class {EWW_RAM.used_mem_perc >= stats_critical_threshold ? "module critical ${ram_critical_pulse}" : "module warning"}
+      :class {EWW_RAM.used_mem_perc >= stats_critical_threshold ? "module module-bordered critical ${ram_critical_pulse}" : EWW_RAM.used_mem_perc >= stats_warning_threshold ? "module module-bordered warning" : "module module-bordered"}
       :text " ${round(EWW_RAM.used_mem_perc, 0) == 100 ? "00" : round(EWW_RAM.used_mem_perc, 0)}")
     (label
       :visible {temperature_state.class != "normal"}

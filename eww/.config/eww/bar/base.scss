@@ -16,6 +16,10 @@
   background: $module-bg;
 }
 
+.module-bordered {
+  box-shadow: inset 0 0 0 1px $module-border;
+}
+
 .module:hover,
 .tag:hover {
   background: $module-bg-hover;
