@@ -19,8 +19,7 @@ StyledClippingRect {
     implicitWidth: Tokens.sizes.bar.innerWidth
     implicitHeight: layout.implicitHeight + Tokens.padding.small
 
-    color: Colours.tPalette.m3surfaceContainer
-    radius: Tokens.rounding.full
+    color: "transparent"
 
     function parseTags(text) {
         try {
@@ -48,7 +47,7 @@ StyledClippingRect {
         id: layout
 
         anchors.centerIn: parent
-        spacing: Math.floor(Tokens.spacing.extraSmall)
+        spacing: 3
 
         Repeater {
             model: root.tags
@@ -76,47 +75,67 @@ StyledClippingRect {
                 }
                 Component.onCompleted: _prevClass = tagClass
 
-                StyledText {
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    Layout.preferredHeight: Tokens.sizes.bar.innerWidth - Tokens.padding.small
+                Rectangle {
+                    id: tagBg
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.preferredWidth: Tokens.sizes.bar.innerWidth - 4
+                    Layout.preferredHeight: 28
 
-                    text: tagDelegate.tagId
-                    color: tagDelegate.isFocused ? Colours.palette.m3onPrimary
-                         : tagDelegate.isOccupied ? Colours.palette.m3onSurface
-                         : Colours.layer(Colours.palette.m3outlineVariant, 2)
-                    verticalAlignment: Qt.AlignVCenter
-                    font.family: Tokens.font.workspaces
+                    radius: 6
+                    border.width: 1
+                    border.color: tagDelegate.isFocused ? "#f3a131"
+                               : tagDelegate.isUrgent ? "#f56c7c"
+                               : "#bd586e75"
+                    color: tagDelegate.isFocused ? "#f3a131"
+                         : tagDelegate.isUrgent ? "#f0661c20"
+                         : "#a3151a1f"
 
-                    Rectangle {
-                        anchors.fill: parent
-                        z: -1
-                        radius: Tokens.rounding.medium
-                        color: tagDelegate.isFocused ? Colours.palette.m3primary
-                             : tagDelegate.isUrgent ? Colours.palette.m3error
-                             : "transparent"
-                        opacity: tagDelegate.isUrgent && !tagDelegate.isFocused ? 0.3 : 1
+                    Behavior on color { ColorAnimation { duration: 200 } }
+                    Behavior on border.color { ColorAnimation { duration: 200 } }
 
-                        Behavior on color { ColorAnimation { duration: 200 } }
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                    StyledText {
+                        id: tagText
+                        anchors.centerIn: parent
+                        z: 1
+                        text: tagDelegate.tagId
+                        color: tagDelegate.isFocused ? "#000000"
+                             : tagDelegate.isOccupied || tagDelegate.isUrgent ? "#fdf6e3"
+                             : "#b8b8b8"
+                        verticalAlignment: Qt.AlignVCenter
+                        horizontalAlignment: Qt.AlignHCenter
+                        font.weight: tagDelegate.isFocused ? Font.Black : Font.Bold
+                        font.pixelSize: 13
+
+                        Behavior on color { ColorAnimation { duration: 300 } }
                     }
 
                     Rectangle {
                         id: flashOverlay
                         anchors.fill: parent
-                        radius: Tokens.rounding.medium
-                        color: Colours.palette.m3error
+                        radius: parent.radius
+                        color: "#f56c7c"
                         opacity: 0
                     }
 
                     SequentialAnimation {
                         id: urgentFlash
                         PropertyAction { target: flashOverlay; property: "opacity"; value: 0.85 }
-                        PauseAnimation { duration: 800 }
-                        NumberAnimation { target: flashOverlay; property: "opacity"; to: 0; duration: 600; easing.type: Easing.OutCubic }
+                        PropertyAction { target: tagText; property: "color"; value: "#000000" }
+                        PauseAnimation { duration: 1000 }
+                        ParallelAnimation {
+                            NumberAnimation { target: flashOverlay; property: "opacity"; to: 0.25; duration: 600; easing.type: Easing.OutCubic }
+                            ColorAnimation { target: tagText; property: "color"; to: "#fdf6e3"; duration: 600 }
+                        }
+                        NumberAnimation { target: flashOverlay; property: "opacity"; to: 0; duration: 400; easing.type: Easing.OutCubic }
                     }
 
                     MouseArea {
                         anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: if (!tagDelegate.isFocused) tagBg.color = "#f52c6285"
+                        onExited: tagBg.color = tagDelegate.isFocused ? "#f3a131"
+                                              : tagDelegate.isUrgent ? "#f0661c20"
+                                              : "#a3151a1f"
                         onClicked: commandRunner.exec(["riverctl", "set-focused-tags", String(1 << (parseInt(tagDelegate.tagId) - 1))])
                     }
                 }
