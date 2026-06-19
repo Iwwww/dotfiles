@@ -248,6 +248,17 @@
         "--daemon-url",
         "http://127.0.0.1:7456"
       ],
+      "enabled": false
+    },
+    "nixos": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-nixos"
+      ],
+      "env": {
+        "ALL_PROXY": ""
+      },
       "enabled": true
     }
   }
