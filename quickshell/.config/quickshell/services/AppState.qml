@@ -26,6 +26,7 @@ Item {
 
   property alias tags: tagModel
   property string layoutName: "river"
+  property string _rawLayout: ""
   property string mediaActivePlayer: ""
   property var media: ({ class: "stopped", text: "", title: "", artist: "", album: "", art: "", player: "", length: 0, position: 0, progress: 0, players: [] })
   property var volume: ({ muted: false, text: "?", value: 0 })
@@ -112,6 +113,24 @@ Item {
   function toggleMute() { run(["pamixer", "--toggle-mute"]); refreshVolume(); }
 
   Process { id: commandRunner }
+
+  Process {
+    id: layoutProcess
+    running: true
+    command: ["sh", state.configDir + "/scripts/river-layout-stream"]
+    onRunningChanged: if (!running) running = true
+  }
+  FileView {
+    id: layoutFile
+    path: "/tmp/quickshell-layout.txt"
+    watchChanges: true
+    onFileChanged: reload()
+    onLoaded: {
+      var l = String(text()).trim();
+      state._rawLayout = l;
+      if (l.length > 0) state.layoutName = l;
+    }
+  }
 
   Process {
     id: tagsProcess

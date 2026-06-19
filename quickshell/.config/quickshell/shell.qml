@@ -1,3 +1,4 @@
+//@ pragma UseQApplication
 //@ pragma IconTheme Papirus
 //@ pragma NativeTextRendering
 //@ pragma AppId river-quickshell-bar

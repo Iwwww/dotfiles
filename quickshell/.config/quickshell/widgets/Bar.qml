@@ -1,5 +1,7 @@
 import QtQuick
+import QtQuick.Effects
 import Quickshell
+import Quickshell.Services.Mpris
 import Quickshell.Services.SystemTray
 import Quickshell.Widgets
 
@@ -8,8 +10,8 @@ PanelWindow {
   required property var appState
 
   anchors { top: true; bottom: true; right: true }
-  implicitWidth: 46
-  exclusiveZone: 46
+  implicitWidth: 50
+  exclusiveZone: 50
   focusable: false
   color: "transparent"
 
@@ -24,12 +26,13 @@ PanelWindow {
 
     Item {
       anchors.fill: parent
-      anchors.margins: 6
+      anchors.margins: 0, 4
 
+      // layout indicator
       Column {
         anchors.top: parent.top
         width: parent.width
-        spacing: 6
+        spacing: 4
 
         ModuleBox {
           appState: bar.appState
@@ -37,44 +40,73 @@ PanelWindow {
           height: 18
           Text {
             anchors.centerIn: parent
-            text: appState.layoutName.slice(0, 4)
+            text: appState.layoutName.slice(0, 6)
             color: appState.fg
             font.family: appState.fontFamily
-            font.pixelSize: 10
+            font.pixelSize: 12
             font.bold: true
           }
         }
 
+        // tags
         Column {
           width: parent.width
           spacing: 3
           Repeater {
             model: appState.tags
             delegate: Rectangle {
+              id: tagDelegate
               required property string tagId
               required property string tagClass
               readonly property string tagClassResolved: tagClass || "tag"
+              readonly property bool isUrgent: tagClassResolved.indexOf("urgent") >= 0
+              readonly property bool isFocused: tagClassResolved.indexOf("focused") >= 0
+              property string _prevClass: ""
               width: parent.width
               height: 28
               radius: 6
               border.width: 1
-              border.color: tagClassResolved.indexOf("focused") >= 0 ? appState.accent : tagClassResolved.indexOf("urgent") >= 0 ? appState.critical : appState.border
-              color: tagClassResolved.indexOf("focused") >= 0 ? appState.accent : tagClassResolved.indexOf("urgent") >= 0 ? appState.dangerBg : appState.surface
+              border.color: isFocused ? appState.accent : isUrgent ? appState.critical : appState.border
+              color: isFocused ? appState.accent : isUrgent ? appState.dangerBg : appState.surface
+
+              onTagClassChanged: {
+                var wasUrgent = _prevClass.indexOf("urgent") >= 0;
+                _prevClass = tagClassResolved;
+                if (isUrgent && !wasUrgent) urgentFlash.restart();
+              }
+              Component.onCompleted: _prevClass = tagClassResolved
+
+              Rectangle {
+                id: flashOverlay
+                anchors.fill: parent
+                radius: parent.radius
+                color: appState.critical
+                opacity: 0
+              }
+
+              SequentialAnimation {
+                id: urgentFlash
+                PropertyAction { target: flashOverlay; property: "opacity"; value: 0.85 }
+                PauseAnimation { duration: 1000 }
+                NumberAnimation { target: flashOverlay; property: "opacity"; to: 0.25; duration: 600; easing.type: Easing.OutCubic }
+                NumberAnimation { target: flashOverlay; property: "opacity"; to: 0; duration: 400; easing.type: Easing.OutCubic }
+              }
 
               Text {
                 anchors.centerIn: parent
+                z: 1
                 text: tagId
-                color: tagClassResolved.indexOf("focused") >= 0 ? appState.inverse : tagClassResolved.indexOf("occupied") >= 0 || tagClassResolved.indexOf("urgent") >= 0 ? appState.fg : appState.muted
+                color: isFocused ? appState.inverse : tagClassResolved.indexOf("occupied") >= 0 || isUrgent ? appState.fg : appState.muted
                 font.family: appState.fontFamily
                 font.pixelSize: 13
-                font.weight: tagClassResolved.indexOf("focused") >= 0 ? Font.Black : Font.Bold
+                font.weight: isFocused ? Font.Black : Font.Bold
               }
 
               MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                onEntered: parent.color = tagClassResolved.indexOf("focused") >= 0 ? appState.accent : appState.hover
-                onExited: parent.color = tagClassResolved.indexOf("focused") >= 0 ? appState.accent : tagClassResolved.indexOf("urgent") >= 0 ? appState.dangerBg : appState.surface
+                onEntered: tagDelegate.color = isFocused ? appState.accent : appState.hover
+                onExited: tagDelegate.color = isFocused ? appState.accent : isUrgent ? appState.dangerBg : appState.surface
                 onClicked: appState.switchTag(tagId)
               }
             }
@@ -82,36 +114,61 @@ PanelWindow {
         }
       }
 
+      // media
       Column {
         anchors.bottom: parent.bottom
         width: parent.width
         spacing: 6
 
         ModuleBox {
+          id: mediaBox
           appState: bar.appState
-          visible: appState.media.class !== "stopped"
           width: parent.width
-          height: visible ? 30 : 0
+          height: 30
+          readonly property var activePlayer: Mpris.players.values.length > 0 ? Mpris.players.values[0] : null
+          readonly property bool isPlaying: activePlayer && activePlayer.playbackState === MprisPlaybackState.Playing
+          readonly property real progress: activePlayer && activePlayer.length > 0 ? activePlayer.position / activePlayer.length : 0
+
+          Timer {
+            running: mediaBox.isPlaying
+            interval: 1000
+            repeat: true
+            onTriggered: if (mediaBox.activePlayer) mediaBox.activePlayer.positionChanged()
+          }
+
+          Rectangle {
+            anchors.left: parent.left
+            anchors.top: parent.top
+            height: parent.height
+            width: parent.width * mediaBox.progress
+            radius: parent.radius
+            color: appState.accent
+            opacity: 0.15
+          }
+
           Text {
             anchors.centerIn: parent
-            text: appState.media.class === "playing" ? "󰎈" : appState.media.class === "paused" ? "󰏤" : "󰐊"
-            color: appState.media.class === "playing" ? appState.success : appState.muted
+            text: mediaBox.isPlaying ? "󰏤" : mediaBox.activePlayer ? "󰐊" : "󰎈"
+            color: mediaBox.isPlaying ? appState.success : appState.muted
             font.family: appState.fontFamily
             font.pixelSize: 15
           }
           MouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton | Qt.BackButton | Qt.ForwardButton
             onEntered: appState.mediaPopupHovered = true
             onExited: appState.closeMediaPopupIfUnpinned()
             onClicked: function(mouse) {
-              if (mouse.button === Qt.RightButton) appState.playerctl("play-pause");
+              if (mouse.button === Qt.MiddleButton) { if (mediaBox.activePlayer) mediaBox.activePlayer.togglePlaying(); }
+              else if (mouse.button === Qt.RightButton || mouse.button === Qt.ForwardButton) { if (mediaBox.activePlayer) mediaBox.activePlayer.next(); }
+              else if (mouse.button === Qt.BackButton) { if (mediaBox.activePlayer) mediaBox.activePlayer.previous(); }
               else appState.mediaPopupPinned = !appState.mediaPopupPinned;
             }
           }
         }
 
+        // stats
         Column {
           width: parent.width
           spacing: 4
@@ -134,27 +191,37 @@ PanelWindow {
         }
 
         Rectangle {
-          width: 10
+          width: parent.width
           height: 24
           radius: 6
-          anchors.horizontalCenter: parent.horizontalCenter
           color: appState.volume.muted ? appState.surface : "transparent"
           clip: true
           Rectangle {
             anchors.left: parent.left
-            anchors.bottom: parent.bottom
-            width: parent.width
-            height: parent.height * appState.clampPercent(appState.volume.value) / 100
-            radius: appState.volume.value >= 100 ? 6 : 0
+            anchors.top: parent.top
+            height: parent.height
+            width: parent.width * appState.clampPercent(appState.volume.value) / 100
+            radius: 6
             color: appState.volume.muted ? appState.muted : appState.accent
           }
           Text {
             anchors.centerIn: parent
             text: appState.volume.muted ? "󰝟" : appState.volume.text
-            color: appState.volume.muted ? appState.muted : appState.inverse
+            color: appState.inverse
             font.family: appState.fontFamily
             font.pixelSize: appState.volume.muted ? 16 : 14
             font.bold: true
+
+            layer.enabled: true
+            layer.effect: MultiEffect {
+              shadowEnabled: true
+              shadowColor: appState.volume.muted ? appState.muted : appState.accent
+              shadowBlur: 0.3
+              shadowScale: 1.1
+              shadowOpacity: 1.0
+              shadowHorizontalOffset: 0
+              shadowVerticalOffset: 0
+            }
           }
           MouseArea {
             anchors.fill: parent
@@ -188,8 +255,8 @@ PanelWindow {
             delegate: Item {
               required property var modelData
               width: parent.width
-              height: 23
-              IconImage { anchors.centerIn: parent; width: 21; height: 21; source: modelData.icon }
+              height: 24
+              IconImage { anchors.centerIn: parent; width: 22; height: 22; source: modelData.icon }
               MouseArea {
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
