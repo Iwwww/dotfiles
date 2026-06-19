@@ -47,7 +47,6 @@ StyledWindow {
     }
 
     onHasFullscreenChanged: {
-        visibilities.launcher = false;
         visibilities.session = false;
         visibilities.dashboard = false;
         panels.popouts.close();
@@ -56,7 +55,7 @@ StyledWindow {
     name: "drawers"
     WlrLayershell.exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: (fsTransitionProg > 0 && contentItem.Config.general.showOverFullscreen) || (hasSpecialWorkspace && hasFullscreenOnNormalWs) ? WlrLayer.Overlay : WlrLayer.Top
-    WlrLayershell.keyboardFocus: visibilities.launcher || visibilities.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+    WlrLayershell.keyboardFocus: visibilities.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
 
     mask: hasFullscreen ? emptyRegion : regions
 
@@ -153,13 +152,6 @@ StyledWindow {
         }
 
         PanelBg {
-            id: launcherBg
-
-            panel: panels.launcher
-            deformAmount: 0.1
-        }
-
-        PanelBg {
             id: sessionBg
 
             panel: panels.sessionWrapper
@@ -249,9 +241,6 @@ StyledWindow {
 
             dashboard.transform: Matrix4x4 {
                 matrix: dashBg.deformMatrix
-            }
-            launcher.transform: Matrix4x4 {
-                matrix: launcherBg.deformMatrix
             }
             session.transform: Matrix4x4 {
                 matrix: sessionBg.deformMatrix
