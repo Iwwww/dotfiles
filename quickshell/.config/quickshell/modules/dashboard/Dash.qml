@@ -18,17 +18,9 @@ GridLayout {
     Rect {
         Layout.column: 2
         Layout.columnSpan: 3
-        Layout.preferredWidth: Tokens.sizes.dashboard.userWidth
-        Layout.fillHeight: true
-
-        radius: Tokens.rounding.extraLarge
-
-        User {
-            id: user
-
-            visibilities: root.visibilities
-            facePicker: root.facePicker
-        }
+        Layout.preferredWidth: 0
+        Layout.preferredHeight: 0
+        visible: false
     }
 
     Rect {
@@ -46,19 +38,14 @@ GridLayout {
 
     Rect {
         Layout.row: 1
-        Layout.preferredWidth: dateTime.implicitWidth
-        Layout.fillHeight: true
-
-        radius: Tokens.rounding.large
-
-        DateTime {
-            id: dateTime
-        }
+        Layout.preferredWidth: 0
+        Layout.preferredHeight: 0
+        visible: false
     }
 
     Rect {
         Layout.row: 1
-        Layout.column: 1
+        Layout.column: 0
         Layout.columnSpan: 3
         Layout.fillWidth: true
         Layout.preferredHeight: calendar.implicitHeight

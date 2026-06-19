@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+set -eu
+
+RISTATE=${RISTATE:-/etc/profiles/per-user/mikhail/bin/ristate}
+JQ=${JQ:-/run/current-system/sw/bin/jq}
+
+if [ ! -x "$RISTATE" ]; then RISTATE=$(command -v ristate || true); fi
+if [ ! -x "$JQ" ]; then JQ=$(command -v jq || true); fi
+if [ -z "${RISTATE:-}" ] || [ -z "${JQ:-}" ]; then exit 1; fi
+
+jqf=$(mktemp)
+outf=$(mktemp)
+trap 'rm -f "$jqf" "$outf"' EXIT
+
+cat > "$jqf" << 'JQEOF'
+def flat_values: [ .[]?[]? ] | unique;
+(.tags // {} | flat_values | map(tostring)) as $focused
+| (.viewstag // {} | flat_values | map(tostring)) as $occupied
+| (.urgency // {} | flat_values | map(tostring)) as $urgent
+| [range(1; 21)
+  | tostring as $id
+  | select(($focused | index($id)) or ($occupied | index($id)) or ($urgent | index($id)))
+  | {
+      id: $id,
+      class: ([
+        "tag",
+        (if ($focused | index($id)) then "focused" else empty end),
+        (if ($occupied | index($id)) then "occupied" else empty end),
+        (if ($urgent | index($id)) then "urgent" else empty end)
+      ] | join(" "))
+    }]
+JQEOF
+
+"$RISTATE" --tags --views-tag --urgency 2>/dev/null \
+  | "$JQ" --unbuffered -cf "$jqf" \
+  | while IFS= read -r line; do
+      [ "$line" = "[]" ] && continue
+      printf '%s\n' "$line" > "$outf" && mv "$outf" /tmp/quickshell-tags.json
+    done

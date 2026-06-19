@@ -43,11 +43,12 @@ StyledWindow {
     property color surfaceColour: Colours.tPalette.m3surface
 
     readonly property int dragMaskPadding: {
-        if (focusGrab.active || panels.popouts.isDetached)
+        if (panels.popouts.isDetached)
             return 0;
 
-        if (monitor?.lastIpcObject.specialWorkspace?.name || monitor?.activeWorkspace.lastIpcObject.windows > 0)
-            return 0;
+        // River stub: no monitor/workspace info
+        return 0;
+        if (false)
 
         const thresholds = [];
         for (const panel of ["dashboard", "launcher", "session", "sidebar"])
@@ -107,20 +108,13 @@ StyledWindow {
         win: root
     }
 
-    Item {
-        id: focusGrab
-
-        active: (visibilities.launcher && root.contentItem.Config.launcher.enabled) || (visibilities.session && root.contentItem.Config.session.enabled) || (visibilities.sidebar && root.contentItem.Config.sidebar.enabled) || (!root.contentItem.Config.dashboard.showOnHover && visibilities.dashboard && root.contentItem.Config.dashboard.enabled) || (panels.popouts.currentName.startsWith("traymenu") && (panels.popouts.current as StackView)?.depth > 1)
-        windows: [root]
-        onCleared: {
-            visibilities.launcher = false;
-            visibilities.session = false;
-            visibilities.sidebar = false;
-            visibilities.dashboard = false;
-            panels.popouts.hasCurrent = false;
-            bar.closeTray();
-        }
-    }
+    // HyprlandFocusGrab stubbed for River
+    // Item {
+    //     id: focusGrab
+    //     active: ...
+    //     windows: [root]
+    //     onCleared: { ... }
+    // }
 
     StyledRect {
         anchors.fill: parent

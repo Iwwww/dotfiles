@@ -90,11 +90,12 @@ Item {
         onDetachRequested: mode => root.detach(mode)
     }
 
-    Item {
-        active: root.isDetached
-        windows: [QsWindow.window]
-        onCleared: root.close()
-    }
+    // HyprlandFocusGrab stubbed for River
+    // Item {
+    //     active: root.isDetached
+    //     windows: [QsWindow.window]
+    //     onCleared: root.close()
+    // }
 
     Binding {
         when: root.isDetached || (root.hasCurrent && root.currentName === "wirelesspassword")

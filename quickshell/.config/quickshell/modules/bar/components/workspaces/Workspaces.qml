@@ -1,9 +1,9 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Io
 import Caelestia.Config
 import qs.components
 import qs.services
@@ -14,18 +14,7 @@ StyledClippingRect {
     required property ShellScreen screen
     required property bool fullscreen
 
-    readonly property bool onSpecial: (GlobalConfig.bar.workspaces.perMonitorWorkspaces ? Hypr.monitorFor(screen) : Hypr.focusedMonitor)?.lastIpcObject.specialWorkspace?.name !== ""
-    readonly property int activeWsId: GlobalConfig.bar.workspaces.perMonitorWorkspaces ? (Hypr.monitorFor(screen).activeWorkspace?.id ?? 1) : Hypr.activeWsId
-
-    readonly property var occupied: {
-        const occ = {};
-        for (const ws of Hypr.workspaces.values)
-            occ[ws.id] = ws.lastIpcObject.windows > 0;
-        return occ;
-    }
-    readonly property int groupOffset: Math.floor((activeWsId - 1) / Config.bar.workspaces.shown) * Config.bar.workspaces.shown
-
-    property real blur: onSpecial ? 1 : 0
+    property var tags: []
 
     implicitWidth: Tokens.sizes.bar.innerWidth
     implicitHeight: layout.implicitHeight + Tokens.padding.small
@@ -33,120 +22,109 @@ StyledClippingRect {
     color: Colours.tPalette.m3surfaceContainer
     radius: Tokens.rounding.full
 
-    Item {
-        anchors.fill: parent
-        scale: root.onSpecial ? 0.8 : 1
-        opacity: root.onSpecial ? 0.5 : 1
-        visible: !root.fullscreen
+    function parseTags(text) {
+        try {
+            var trimmed = String(text).trim();
+            if (trimmed.length > 0) root.tags = JSON.parse(trimmed);
+        } catch(e) {}
+    }
 
-        layer.enabled: root.blur > 0
-        layer.effect: MultiEffect {
-            blurEnabled: true
-            blur: root.blur
-            blurMax: 32
-        }
+    Process {
+        id: tagsProc
+        running: true
+        command: ["sh", Quickshell.shellPath("scripts/river-tags-stream")]
+        onRunningChanged: if (!running) running = true
+    }
 
-        Loader {
-            asynchronous: true
-            active: Config.bar.workspaces.occupiedBg
+    FileView {
+        id: tagsFile
+        path: "/tmp/quickshell-tags.json"
+        watchChanges: true
+        onFileChanged: reload()
+        onLoaded: root.parseTags(text())
+    }
 
-            anchors.fill: parent
-            anchors.margins: Tokens.padding.extraSmall
+    ColumnLayout {
+        id: layout
 
-            sourceComponent: OccupiedBg {
-                workspaces: workspaces
-                occupied: root.occupied
-                groupOffset: root.groupOffset
-            }
-        }
+        anchors.centerIn: parent
+        spacing: Math.floor(Tokens.spacing.extraSmall)
 
-        ColumnLayout {
-            id: layout
+        Repeater {
+            model: root.tags
 
-            anchors.centerIn: parent
-            spacing: Math.floor(Tokens.spacing.extraSmall)
+            delegate: ColumnLayout {
+                id: tagDelegate
 
-            Repeater {
-                id: workspaces
+                required property var modelData
+                required property int index
 
-                model: Config.bar.workspaces.shown
+                readonly property string tagId: modelData.id
+                readonly property string tagClass: modelData.class || "tag"
+                readonly property bool isFocused: tagClass.indexOf("focused") >= 0
+                readonly property bool isOccupied: tagClass.indexOf("occupied") >= 0
+                readonly property bool isUrgent: tagClass.indexOf("urgent") >= 0
 
-                Workspace {
-                    activeWsId: root.activeWsId
-                    occupied: root.occupied
-                    groupOffset: root.groupOffset
+                Layout.alignment: Qt.AlignHCenter
+
+                property string _prevClass: ""
+
+                onTagClassChanged: {
+                    var wasUrgent = _prevClass.indexOf("urgent") >= 0;
+                    _prevClass = tagClass;
+                    if (isUrgent && !wasUrgent) urgentFlash.restart();
+                }
+                Component.onCompleted: _prevClass = tagClass
+
+                StyledText {
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+                    Layout.preferredHeight: Tokens.sizes.bar.innerWidth - Tokens.padding.small
+
+                    text: tagDelegate.tagId
+                    color: tagDelegate.isFocused ? Colours.palette.m3onPrimary
+                         : tagDelegate.isOccupied ? Colours.palette.m3onSurface
+                         : Colours.layer(Colours.palette.m3outlineVariant, 2)
+                    verticalAlignment: Qt.AlignVCenter
+                    font.family: Tokens.font.workspaces
+
+                    Rectangle {
+                        anchors.fill: parent
+                        z: -1
+                        radius: Tokens.rounding.medium
+                        color: tagDelegate.isFocused ? Colours.palette.m3primary
+                             : tagDelegate.isUrgent ? Colours.palette.m3error
+                             : "transparent"
+                        opacity: tagDelegate.isUrgent && !tagDelegate.isFocused ? 0.3 : 1
+
+                        Behavior on color { ColorAnimation { duration: 200 } }
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                    }
+
+                    Rectangle {
+                        id: flashOverlay
+                        anchors.fill: parent
+                        radius: Tokens.rounding.medium
+                        color: Colours.palette.m3error
+                        opacity: 0
+                    }
+
+                    SequentialAnimation {
+                        id: urgentFlash
+                        PropertyAction { target: flashOverlay; property: "opacity"; value: 0.85 }
+                        PauseAnimation { duration: 800 }
+                        NumberAnimation { target: flashOverlay; property: "opacity"; to: 0; duration: 600; easing.type: Easing.OutCubic }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: commandRunner.exec(["riverctl", "set-focused-tags", String(1 << (parseInt(tagDelegate.tagId) - 1))])
+                    }
                 }
             }
         }
-
-        Loader {
-            asynchronous: true
-            anchors.horizontalCenter: parent.horizontalCenter
-            active: Config.bar.workspaces.activeIndicator
-
-            sourceComponent: ActiveIndicator {
-                activeWsId: root.activeWsId
-                workspaces: workspaces
-                mask: layout
-                fullscreen: root.fullscreen
-            }
-        }
-
-        MouseArea {
-            anchors.fill: layout
-            onClicked: event => {
-                const ws = (layout.childAt(event.x, event.y) as Workspace)?.ws;
-                if (!ws)
-                    return;
-                if (Hypr.activeWsId !== ws)
-                    Hypr.dispatch(Hypr.usingLua ? `hl.dsp.focus({ workspace = "${ws}" })` : `workspace ${ws}`);
-                else
-                    Hypr.dispatch(Hypr.usingLua ? 'hl.dsp.workspace.toggle_special("special")' : "togglespecialworkspace special");
-            }
-        }
-
-        Behavior on scale {
-            Anim {}
-        }
-
-        Behavior on opacity {
-            Anim {
-                type: Anim.DefaultEffects
-            }
-        }
     }
 
-    Loader {
-        id: specialWs
-
-        asynchronous: true
-
-        anchors.fill: parent
-        anchors.margins: Tokens.padding.extraSmall
-
-        active: opacity > 0
-
-        scale: root.onSpecial ? 1 : 0.5
-        opacity: root.onSpecial ? 1 : 0
-
-        sourceComponent: SpecialWorkspaces {
-            screen: root.screen
-        }
-
-        Behavior on scale {
-            Anim {}
-        }
-
-        Behavior on opacity {
-            Anim {
-                type: Anim.DefaultEffects
-            }
-        }
-    }
-
-    Behavior on blur {
-        Anim {
-            type: Anim.StandardSmall
-        }
+    Process {
+        id: commandRunner
     }
 }
