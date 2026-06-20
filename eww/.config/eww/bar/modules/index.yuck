@@ -4,6 +4,7 @@
 (include "bar/modules/stats/index.yuck")
 (include "bar/modules/volume/index.yuck")
 (include "bar/modules/power-profile/index.yuck")
+(include "bar/modules/battery/index.yuck")
 (include "bar/modules/tray/index.yuck")
 (include "bar/modules/calendar/index.yuck")
 (include "bar/modules/clock/index.yuck")

@@ -1,4 +1,4 @@
-(deflisten volume_state :initial "{\"class\":\"unknown\",\"muted\":false,\"text\":\"?\",\"value\":0}" "/home/mikhail/.config/eww/bar/modules/volume/eww-volume-listen")
+(deflisten volume_state :initial "{\"class\":\"unknown\",\"muted\":false,\"text\":\"?\",\"value\":0}" "$HOME/.config/eww/bar/modules/volume/eww-volume-listen")
 
 (defwidget volume []
   (eventbox

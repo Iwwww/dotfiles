@@ -9,6 +9,7 @@
     (system-stats)
     (volume)
     (power-profile)
+    (battery)
     (tray)
     (clock)))
 

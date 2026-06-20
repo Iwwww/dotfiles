@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+set -eu
+
+batt="/sys/class/power_supply/BAT1"
+
+if [ ! -d "$batt" ]; then
+  printf '{"icon":"?","text":"?","class":"missing","value":0,"pct_text":"?"}\n'
+  exit 0
+fi
+
+capacity=$(cat "$batt/capacity" 2>/dev/null || echo 0)
+status=$(cat "$batt/status" 2>/dev/null || echo "Unknown")
+
+case "$status" in
+  "Charging"|"Full") cls="charging" ;;
+  "Discharging")
+    if [ "$capacity" -le 10 ]; then
+      cls="critical"
+    elif [ "$capacity" -le 30 ]; then
+      cls="warning"
+    else
+      cls="discharging"
+    fi
+    ;;
+  *) cls="unknown" ;;
+esac
+
+# Nerd Font battery icon based on level
+if [ "$capacity" -ge 90 ]; then
+  icon=""
+elif [ "$capacity" -ge 60 ]; then
+  icon=""
+elif [ "$capacity" -ge 30 ]; then
+  icon=""
+elif [ "$capacity" -ge 10 ]; then
+  icon=""
+else
+  icon=""
+fi
+
+# Prepend charging indicator
+if [ "$status" = "Charging" ]; then
+  icon="󱐋$icon"
+fi
+
+printf '{"icon":"%s","text":"%s%%","class":"%s","value":%s}\n' "$icon" "$capacity" "$cls" "$capacity"

@@ -1,0 +1,21 @@
+.battery {
+  min-width: 40px;
+  padding: 6px 2px 4px;
+  border: 1px solid $module-border;
+}
+
+.battery.warning {
+  border: none;
+}
+
+.battery.critical {
+  border: none;
+}
+
+.battery-icon {
+  font-size: $font-size-lg;
+}
+
+.battery-pct {
+  font-size: $font-size-xs;
+}

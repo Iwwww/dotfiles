@@ -1,0 +1,6 @@
+(defpoll battery_state :interval "30s" :initial "{\"icon\":\"?\",\"text\":\"?\",\"class\":\"missing\",\"value\":0}" "$HOME/.config/eww/bar/modules/battery/eww-battery-state")
+
+(defwidget battery []
+  (box :class "module battery ${battery_state.class}" :orientation "v" :space-evenly false
+    (label :class "battery-icon" :text {battery_state.icon})
+    (label :class "battery-pct" :text {battery_state.text})))

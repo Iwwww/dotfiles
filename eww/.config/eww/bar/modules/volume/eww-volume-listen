@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 set -eu
-state="/home/mikhail/.config/eww/bar/modules/volume/eww-volume-state"
+state="$HOME/.config/eww/bar/modules/volume/eww-volume-state"
 last=""
 reset_pid=""
 
