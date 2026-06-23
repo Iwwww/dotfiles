@@ -260,6 +260,14 @@
         "ALL_PROXY": ""
       },
       "enabled": true
+    },
+    "wireshark": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-wireshark"
+      ],
+      "enabled": true
     }
   }
 }
