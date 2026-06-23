@@ -1,23 +1,58 @@
 #!/usr/bin/env sh
 set -eu
 
-exec ristate --tags --views-tag --urgency | jq --unbuffered -c '
-  def flat_values: [ .[]?[]? ] | unique;
+script_dir=$(dirname "$0")
+cache_dir=${XDG_CACHE_HOME:-"$HOME/.cache"}/river-tag-state
+build_dir=$cache_dir/build
+binary=$cache_dir/river-tag-state
+protocol_xml=$script_dir/river-status-unstable-v1.xml
+source_c=$script_dir/river-tag-state.c
+protocol_h=$build_dir/river-status-unstable-v1-client-protocol.h
+protocol_code=$build_dir/river-status-unstable-v1-protocol.c
 
-  (.tags // {} | flat_values | map(tostring)) as $focused
-  | (.viewstag // {} | flat_values | map(tostring)) as $occupied
-  | (.urgency // {} | flat_values | map(tostring)) as $urgent
-  | [range(1; 21)
-    | tostring as $id
-    | select(($focused | index($id)) or ($occupied | index($id)) or ($urgent | index($id)))
-    | {
-        id: $id,
-        class: ([
-          "tag",
-          (if ($focused | index($id)) then "focused" else empty end),
-          (if ($occupied | index($id)) then "occupied" else empty end),
-          (if ($urgent | index($id)) then "urgent" else empty end)
-        ] | join(" "))
-      }
-  ]
-'
+mkdir -p "$build_dir"
+
+scanner=${WAYLAND_SCANNER:-}
+if [ -z "$scanner" ]; then
+  scanner=$(command -v wayland-scanner || true)
+fi
+if [ -z "$scanner" ]; then
+  for candidate in /nix/store/*-wayland-scanner-*/bin/wayland-scanner; do
+    if [ -x "$candidate" ]; then
+      scanner=$candidate
+      break
+    fi
+  done
+fi
+
+pkg_config=${PKG_CONFIG:-}
+if [ -z "$pkg_config" ]; then
+  pkg_config=$(command -v pkg-config || true)
+fi
+
+wayland_pc=
+for candidate in /nix/store/*-wayland-*-dev/lib/pkgconfig/wayland-client.pc; do
+  if [ -f "$candidate" ]; then
+    wayland_pc=$candidate
+    break
+  fi
+done
+
+if [ -z "$scanner" ] || [ -z "$pkg_config" ] || [ -z "$wayland_pc" ]; then
+  printf '%s\n' 'river-eww-tags: missing build dependencies' >&2
+  exit 1
+fi
+
+export PKG_CONFIG_PATH="$(dirname "$wayland_pc")${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+
+if [ ! -x "$binary" ] || [ "$binary" -ot "$source_c" ] || [ "$binary" -ot "$protocol_xml" ]; then
+  "$scanner" client-header "$protocol_xml" "$protocol_h"
+  "$scanner" private-code "$protocol_xml" "$protocol_code"
+  gcc -O2 -Wall -Wextra -std=c11 \
+    -I"$build_dir" \
+    "$source_c" "$protocol_code" \
+    $($pkg_config --cflags --libs wayland-client) \
+    -o "$binary"
+fi
+
+exec "$binary"

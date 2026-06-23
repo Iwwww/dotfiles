@@ -1,37 +1,11 @@
 #!/usr/bin/env sh
 set -eu
 
-RISTATE=${RISTATE:-/etc/profiles/per-user/mikhail/bin/ristate}
-JQ=${JQ:-/run/current-system/sw/bin/jq}
+HELPER=${EWW_TAGS_HELPER:-$HOME/.config/eww/bar/modules/tags/river-eww-tags}
 
-if [ ! -x "$RISTATE" ]; then
-  RISTATE=$(command -v ristate || true)
-fi
-
-if [ ! -x "$JQ" ]; then
-  JQ=$(command -v jq || true)
-fi
-
-if [ -z "${RISTATE:-}" ] || [ -z "${JQ:-}" ]; then
-  printf '%s\n' 'river-tags: missing ristate or jq' >&2
+if [ ! -x "$HELPER" ]; then
+  printf '%s\n' 'river-tags: missing Eww tags helper' >&2
   exit 1
 fi
 
-exec "$RISTATE" --tags --views-tag --urgency | "$JQ" --unbuffered -c '
-  def flat_values: [ .[]?[]? ] | unique;
-  (.tags // {} | flat_values | map(tostring)) as $focused
-  | (.viewstag // {} | flat_values | map(tostring)) as $occupied
-  | (.urgency // {} | flat_values | map(tostring)) as $urgent
-  | [range(1; 21)
-    | tostring as $id
-    | select(($focused | index($id)) or ($occupied | index($id)) or ($urgent | index($id)))
-    | {
-        id: $id,
-        class: ([
-          "tag",
-          (if ($focused | index($id)) then "focused" else empty end),
-          (if ($occupied | index($id)) then "occupied" else empty end),
-          (if ($urgent | index($id)) then "urgent" else empty end)
-        ] | join(" "))
-      }]
-'
+exec "$HELPER"
