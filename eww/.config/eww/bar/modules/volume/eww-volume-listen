@@ -1,16 +1,31 @@
 #!/usr/bin/env sh
 set -eu
-
 state="/home/mikhail/.config/eww/bar/modules/volume/eww-volume-state"
 last=""
+reset_pid=""
+
+emit_raw() {
+  changing="${1:-false}"
+  base=$("$state")
+  # вставляем "changing":... перед закрывающей }
+  printf '%s\n' "${base%\}},\"changing\":$changing}"
+}
 
 emit() {
-  current=$("$state")
-
+  current=$(emit_raw false)
   if [ "$current" != "$last" ]; then
     printf '%s\n' "$current"
     last="$current"
   fi
+}
+
+emit_changing() {
+  [ -n "$reset_pid" ] && kill "$reset_pid" 2>/dev/null || true
+  current=$(emit_raw true)
+  printf '%s\n' "$current"
+  last="$current"
+  ( sleep 0.2; emit ) &
+  reset_pid=$!
 }
 
 emit
@@ -18,22 +33,21 @@ emit
 if command -v pactl >/dev/null 2>&1; then
   pactl subscribe | while IFS= read -r event; do
     case "$event" in
-      *" on sink "*|*" on server "*) emit ;;
+      *" on sink "*|*" on server "*) emit_changing ;;
     esac
   done
 elif command -v pw-dump >/dev/null 2>&1; then
   while :; do
     pw-dump --monitor --no-colors | while IFS= read -r line; do
       case "$line" in
-        *'"mute"'*|*'"volume"'*|*'"channelVolumes"'*|*'"softMute"'*|*'"softVolumes"'*) emit ;;
+        *'"mute"'*|*'"volume"'*|*'"channelVolumes"'*|*'"softMute"'*|*'"softVolumes"'*) emit_changing ;;
       esac
     done
-
-    sleep 1
+    sleep 0.1
   done
 else
   while :; do
     emit
-    sleep 2
+    sleep 0.2
   done
 fi

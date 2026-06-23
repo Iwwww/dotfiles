@@ -11,4 +11,4 @@
         :orientation "h"
         :width 10
         :value {volume_state.value})
-      (label :class "volume-text" :width 10 :limit-width 2 :text {volume_state.muted ? "󰝟" : volume_state.text}))))
+      (label :class {"volume-text ${volume_state.changing ? "changing" : ""}"} :width 10 :limit-width 2 :text {volume_state.muted ? "󰝟" : volume_state.text}))))

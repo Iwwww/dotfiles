@@ -1,66 +1,80 @@
 .volume {
-  min-width: $volume-width;
-  padding: 0;
+    min-width: $volume-width;
+    padding: 0;
 }
 
 .volume.muted {
-  background: $volume-muted-bg;
-  color: $volume-muted-fg;
+    background: $volume-muted-bg;
+    color: $volume-muted-fg;
 }
 
 .volume-text {
-  color: $volume-text;
-  font-size: $font-size-md;
-  font-weight: 800;
-  min-width: $volume-width;
-  padding: 0;
-  text-shadow:
-    0 1px 2px $volume-fill,
-    1px 0 2px $volume-fill,
-    0 -1px 2px $volume-fill,
-    -1px 0 2px $volume-fill;
+    color: $volume-text;
+    font-size: $font-size-md;
+    font-weight: 800;
+    min-width: $volume-width;
+    padding: 0;
+    text-shadow:
+        0 1px 2px $volume-fill,
+        1px 0 2px $volume-fill,
+        0 -1px 2px $volume-fill,
+        -1px 0 2px $volume-fill;
+    transition: text-shadow 0.4s;
+}
+
+.volume-text.changing {
+    text-shadow:
+        0 1px 2px $volume-fill,
+        1px 0 2px $volume-fill,
+        0 -1px 2px $volume-fill,
+        -1px 0 2px $volume-fill,
+        0 1px 4px scale-color($volume-fill, $lightness: 10%),
+        1px 0 4px scale-color($volume-fill, $lightness: 10%),
+        0 -1px 4px scale-color($volume-fill, $lightness: 10%),
+        -1px 0 4px scale-color($volume-fill, $lightness: 10%);
+    transition: text-shadow 0.1s;
 }
 
 .volume-level {
-  min-width: $volume-width;
-  min-height: $volume-height;
+    min-width: $volume-width;
+    min-height: $volume-height;
 }
 
 .volume-level trough {
-  min-width: $volume-width;
+    min-width: $volume-width;
 }
 
 .volume-level trough {
-  background: transparent;
-  min-height: $volume-height;
+    background: transparent;
+    min-height: $volume-height;
 }
 
 .volume-level progress {
-  border-radius: $radius-sm 0 0 $radius-sm;
-  min-height: $volume-height;
+    border-radius: $radius-sm 0 0 $radius-sm;
+    min-height: $volume-height;
 }
 
 .volume.full progress {
-  border-radius: $radius-sm;
+    border-radius: $radius-sm;
 }
 
 .volume.low progress {
-  background: $volume-fill;
+    background: $volume-fill;
 }
 
 .volume.high progress {
-  background: $volume-fill;
+    background: $volume-fill;
 }
 
 .volume.muted progress {
-  background: $volume-muted-fill;
+    background: $volume-muted-fill;
 }
 
 .volume.muted .volume-text {
-  font-size: $font-size-xl;
-  text-shadow:
-    0 1px 2px $volume-muted-fill,
-    1px 0 2px $volume-muted-fill,
-    0 -1px 2px $volume-muted-fill,
-    -1px 0 2px $volume-muted-fill;
+    font-size: $font-size-xl;
+    text-shadow:
+        0 1px 2px $volume-muted-fill,
+        1px 0 2px $volume-muted-fill,
+        0 -1px 2px $volume-muted-fill,
+        -1px 0 2px $volume-muted-fill;
 }
