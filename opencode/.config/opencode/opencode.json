@@ -253,12 +253,10 @@
     "nixos": {
       "type": "local",
       "command": [
-        "uvx",
-        "mcp-nixos"
+        "bash",
+        "-c",
+        "unset ALL_PROXY && exec uvx mcp-nixos"
       ],
-      "env": {
-        "ALL_PROXY": ""
-      },
       "enabled": true
     },
     "wireshark": {
