@@ -117,7 +117,8 @@ eww --config "$HOME/.config/eww" open --toggle window-name
 
 ## Current Helper Scripts
 
-- `bar/modules/tags/river-eww-tags`
+River tag helpers come from Home Manager and are resolved through the Eww service `PATH`.
+
 - `bar/modules/volume/eww-volume-state`
 - `bar/modules/power-profile/eww-power-profile-state`
 - `bar/modules/calendar/toggle-calendar`

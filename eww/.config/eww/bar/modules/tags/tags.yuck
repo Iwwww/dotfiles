@@ -1,4 +1,4 @@
-(deflisten river_tags :initial "[]" "~/.config/eww/bar/modules/tags/river-eww-tags")
+(deflisten river_tags :initial "[]" "river-eww-tags")
 
 (defwidget tag-list []
   (box :class "tags" :orientation "v" :spacing 3 :vexpand false :space-evenly false :valign "start"
