@@ -20,13 +20,17 @@
         "meow-memory",
         "@michengai/dsh-btw",
         "dsh-process-fold",
-        "@goodandready/dsh-russian-lang"
+        "@goodandready/dsh-russian-lang",
+        "@dsh-external/dsh-split-panes",
+        "@hytime/dsh-client-ui-shortcuts"
       ],
       "patchReload": "live"
     }
   },
   "dependencies": {
+    "@dsh-external/dsh-split-panes": "link:/home/mikhail/repos/dsh-split-panes",
     "@goodandready/dsh-russian-lang": "^0.2.25",
+    "@hytime/dsh-client-ui-shortcuts": "0.1.20",
     "@lancecheney/dsh-deepseek-balance": "^0.1.3",
     "@michengai/dsh-btw": "^0.1.10",
     "@michengai/dsh-skills-manager": "^0.1.53",
