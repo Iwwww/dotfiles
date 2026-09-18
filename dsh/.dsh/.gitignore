@@ -1,0 +1,17 @@
+# Secrets — never commit
+.credentials.yaml
+.credentials*.yaml
+.anonymous-user-id
+
+# Runtime data / caches
+sessions/
+cache/
+attachments/
+storages/
+plugins/
+.mcp_data/
+llm-deepseek/
+profiles/backups/
+.dsh-market/
+**/node_modules/
+*.log

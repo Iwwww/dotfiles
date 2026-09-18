@@ -1,0 +1,51 @@
+ui-onboarding:
+  welcomeNoticeVersion: 2026-08-13.1
+ui-chat:
+  transcriptView: compact
+llm-pi-ai:
+  providers:
+    pandora:
+      displayName: Pandora
+      apiKeyEnv: PANDORA_API_KEY
+      api: openai-completions
+      baseURL: https://ai.pandora.pri/litellm/v1
+      reasoning: medium
+      compat:
+        thinkingFormat: openai
+        supportsReasoningEffort: true
+
+        supportsDeveloperRole: false
+      models:
+        - id: Qwen3.8-27B-FP8
+          name: Qwen3.8 27B
+          contextWindow: 262144
+          maxTokens: 32768
+          input: [ text, image ]
+
+          reasoningEfforts:
+            off: none
+            low: low
+            medium: medium
+            xhigh: xhigh
+agent-default-model:
+  provider: deepseek-official
+  model: deepseek-flash
+  reasoningEffort: low
+ui-theme:
+  preference: system
+  fontSize: 16
+subagent-model-selection:
+  enabled: true
+  allowedModels:
+    - provider: deepseek-official
+      model: deepseek-flash
+dsh-tui:
+  lang: en
+reasoning-fold:
+  keep: 3
+locale:
+  preference: en
+agent-presets:
+  default: standard
+dsh-better-sidebar:
+  workspaceFence: false

@@ -1,0 +1,46 @@
+{
+  "name": "dsh-profile-web",
+  "private": true,
+  "dsh": {
+    "profile": {
+      "bundles": [
+        "@deepseek-ai/dsh-base",
+        "@deepseek-ai/dsh-web-app",
+        "@tt-a1i/archify-dsh",
+        "@zseven-w/dsh-openpencil",
+        "dsh-session-rail",
+        "dsh-better-sidebar",
+        "dsh-reasoning-effort",
+        "dsh-sidebar-qa",
+        "dshmarket",
+        "dsh-video-preview",
+        "dsh-github-workbench",
+        "@michengai/dsh-skills-manager",
+        "@lancecheney/dsh-deepseek-balance",
+        "meow-memory",
+        "@michengai/dsh-btw",
+        "dsh-process-fold",
+        "@goodandready/dsh-russian-lang"
+      ],
+      "patchReload": "live"
+    }
+  },
+  "dependencies": {
+    "@goodandready/dsh-russian-lang": "0.2.17",
+    "@lancecheney/dsh-deepseek-balance": "^0.1.3",
+    "@michengai/dsh-btw": "^0.1.10",
+    "@michengai/dsh-skills-manager": "^0.1.53",
+    "@tt-a1i/archify-dsh": "0.1.0",
+    "@zseven-w/dsh-openpencil": "0.1.0-rc.9",
+    "@zseven-w/dsh-openpencil-linux-x64": "0.1.0-rc.9",
+    "dsh-better-sidebar": "^0.19.1",
+    "dsh-github-workbench": "github:meyaomiao/dsh-github-workbench",
+    "dsh-process-fold": "github:uigdwunm/dsh-process-fold",
+    "dsh-reasoning-effort": "github:HanaAyane/dsh-reasoning-effort#v0.7.2",
+    "dsh-session-rail": "link:/home/mikhail/repos/dsh-session-rail",
+    "dsh-sidebar-qa": "^0.5.0",
+    "dsh-video-preview": "^0.1.4",
+    "dshmarket": "^1.47.0",
+    "meow-memory": "^0.26.0"
+  }
+}

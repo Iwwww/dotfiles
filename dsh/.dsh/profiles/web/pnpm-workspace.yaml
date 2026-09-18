@@ -1,0 +1,10 @@
+packages:
+  - .
+
+nodeLinker: hoisted
+autoInstallPeers: false
+allowBuilds:
+  node-pty: true
+minimumReleaseAgeExclude:
+  - '@michengai/dsh-skills-manager@0.1.53'
+  - '@michengai/dsh-btw@0.1.10'
