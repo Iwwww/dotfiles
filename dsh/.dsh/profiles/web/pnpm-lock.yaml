@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@goodandready/dsh-russian-lang':
-        specifier: 0.2.17
-        version: 0.2.17
+        specifier: ^0.2.25
+        version: 0.2.25
       '@lancecheney/dsh-deepseek-balance':
         specifier: ^0.1.3
         version: 0.1.3
@@ -143,8 +143,8 @@ packages:
   '@deepseek-ai/schemastery@3.18.2':
     resolution: {integrity: sha512-njDtZsznjYxok7KLLlHOPyuv2efdWVbSflAHgztSfbMsg+CVraEoRe2DjOCgClYv3ZCSm7WXoaUkbB/+RY7tWQ==}
 
-  '@goodandready/dsh-russian-lang@0.2.17':
-    resolution: {integrity: sha512-ibwmrQ0HfcI97cnpRhngCggnnm6TJmoQH1vC5l5a/ewli+KjT88L6hTkbTnTA+e6unPZzvqknt7ZXTKzkeOqEQ==}
+  '@goodandready/dsh-russian-lang@0.2.25':
+    resolution: {integrity: sha512-GD9Dx2lDmAL99XtRHbz4c7lsImMec6tQcCJdtA5uY0Vy59HqPrxoUC3t7JH/fHmaCS1IZkr3cX4kglh1Y6hVSg==}
     engines: {node: '>=20'}
     peerDependencies:
       '@deepseek-ai/cordis': ^4.0.1
@@ -1020,7 +1020,7 @@ snapshots:
       '@deepseek-ai/cosmokit': 1.8.3
       '@standard-schema/spec': 1.1.0
 
-  '@goodandready/dsh-russian-lang@0.2.17':
+  '@goodandready/dsh-russian-lang@0.2.25':
     dependencies:
       '@deepseek-ai/schemastery': 3.18.2
 

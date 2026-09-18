@@ -26,7 +26,7 @@
     }
   },
   "dependencies": {
-    "@goodandready/dsh-russian-lang": "0.2.17",
+    "@goodandready/dsh-russian-lang": "^0.2.25",
     "@lancecheney/dsh-deepseek-balance": "^0.1.3",
     "@michengai/dsh-btw": "^0.1.10",
     "@michengai/dsh-skills-manager": "^0.1.53",

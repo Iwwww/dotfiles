@@ -8,3 +8,4 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@michengai/dsh-skills-manager@0.1.53'
   - '@michengai/dsh-btw@0.1.10'
+  - '@goodandready/dsh-russian-lang@0.2.25'
