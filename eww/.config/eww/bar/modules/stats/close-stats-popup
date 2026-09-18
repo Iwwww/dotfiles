@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+set -eu
+
+eww_bin=/etc/profiles/per-user/mikhail/bin/eww
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
+
+pinned=$("$eww_bin" --config "$config_dir" get stats_popup_pinned 2>/dev/null || printf 'false')
+if [ "$pinned" = "true" ]; then
+  exit 0
+fi
+
+exec "$eww_bin" --config "$config_dir" close stats-popup-window

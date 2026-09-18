@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+set -eu
+
+HELPER=${EWW_TAGS_HELPER:-$HOME/.config/eww/bar/modules/tags/river-eww-tags}
+
+if [ ! -x "$HELPER" ]; then
+  printf '%s\n' 'river-tags: missing Eww tags helper' >&2
+  exit 1
+fi
+
+exec "$HELPER"

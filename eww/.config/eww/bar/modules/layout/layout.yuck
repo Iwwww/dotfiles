@@ -1,0 +1,5 @@
+(deflisten river_layout :initial "" "river-eww-layout")
+
+(defwidget layout []
+  (box :class "module layout" :vexpand false :hexpand false :valign "start" :height 18
+    (label :class "layout-label" :text {river_layout == "" ? "river" : river_layout} :limit-width 4)))

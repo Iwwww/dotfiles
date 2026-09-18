@@ -1,0 +1,108 @@
+.media-popup {
+    background: linear-gradient(
+        110deg,
+        rgba(30, 30, 30, 0.85) 0%,
+        $bg-window-soft 95%
+    );
+    border: 2px solid $popup-border;
+    border-right: none;
+    border-radius: $radius-xl 0 0 $radius-xl;
+    padding: $space-xl;
+}
+
+.media-popup-header {
+    margin-bottom: $space-lg;
+}
+
+.media-popup-title {
+    font-size: $font-size-sm;
+    color: $fg-muted;
+}
+
+.media-popup-close {
+    border-radius: $radius-md;
+    padding: $space-xs $space-lg;
+}
+
+.media-popup-close:hover {
+    background: $bg-hover;
+}
+
+.media-popup-art-container {
+    margin-bottom: $space-lg;
+
+    image {
+        border-radius: $radius-md;
+    }
+}
+
+.media-popup-info {
+    margin-bottom: $space-lg;
+}
+
+.media-popup-track-title {
+    font-size: $font-size-lg;
+    font-weight: 700;
+    color: $fg-primary;
+}
+
+.media-popup-track-artist {
+    font-size: $font-size-sm;
+    color: $fg-muted;
+}
+
+.media-progress-track {
+    background: $bg-surface;
+    border-radius: $radius-sm;
+    min-height: 4px;
+    margin-bottom: $space-lg;
+}
+
+.media-progress-fill {
+    background: $state-accent;
+    border-radius: $radius-sm;
+    min-height: 4px;
+    transition: min-width $transition-fast;
+}
+
+.media-popup-controls {
+    padding: $space-sm 0;
+    margin-bottom: $space-sm;
+}
+
+.media-popup-btn {
+    font-size: $font-size-xl;
+    color: $fg-muted;
+    border-radius: $radius-md;
+    padding: $space-sm $space-lg;
+}
+
+.media-popup-btn:hover {
+    background: $bg-hover;
+    color: $fg-primary;
+}
+
+.media-popup-btn.play {
+    font-size: $font-size-2xl;
+    color: $fg-primary;
+}
+
+.media-popup-players {
+    padding-top: $space-sm;
+    border-top: 1px solid $border-subtle;
+}
+
+.media-popup-player-btn {
+    font-size: $font-size-sm;
+    color: $fg-muted;
+    border-radius: $radius-md;
+    padding: $space-xs $space-lg;
+}
+
+.media-popup-player-btn:hover {
+    background: $bg-hover;
+}
+
+.media-popup-player-btn.active {
+    color: $fg-accent;
+}

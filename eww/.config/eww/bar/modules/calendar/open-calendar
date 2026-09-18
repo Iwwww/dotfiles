@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+set -eu
+
+eww_bin=/etc/profiles/per-user/mikhail/bin/eww
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
+
+"$eww_bin" --config "$config_dir" active-windows | grep -q '^calendar-popup-window:' && exit 0
+
+exec "$eww_bin" --config "$config_dir" open calendar-popup-window

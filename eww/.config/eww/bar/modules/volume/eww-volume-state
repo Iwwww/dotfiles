@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+set -eu
+
+if ! volume=$(pamixer --get-volume 2>/dev/null); then
+  printf '%s\n' '{"text":"?","class":"unknown","value":0,"muted":false}'
+  exit 0
+fi
+
+muted=$(pamixer --get-mute 2>/dev/null || printf false)
+if [ "$muted" = true ]; then
+  printf '{"text":"%s","class":"muted","value":%s,"muted":true}\n' "$volume" "$volume"
+else
+  printf '{"text":"%s","class":"normal","value":%s,"muted":false}\n' "$volume" "$volume"
+fi

@@ -1,0 +1,43 @@
+#!/usr/bin/env sh
+set -eu
+
+eww_bin=/etc/profiles/per-user/mikhail/bin/eww
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
+max_entries=60
+state_file="${XDG_RUNTIME_DIR:-/tmp}/eww-stats-history.json"
+
+if [ ! -f "$state_file" ]; then
+  printf '{"cpu":[],"ram":[],"temp":[],"top":[]}\n' > "$state_file"
+fi
+
+get_top() {
+  min_thresh=$("$eww_bin" --config "$config_dir" get stats_proc_min_threshold 2>/dev/null || printf 5)
+  ps -eo comm,%cpu,%mem --no-headers \
+    | grep -v '^\(ps\|head\|grep\|awk\) ' \
+    | awk '{cpu[$1]+=$2; mem[$1]+=$3} END {for(n in cpu) printf "%s\t%.1f\t%.1f\n", n, cpu[n], mem[n]}' \
+    | sort -t'	' -k2,2nr -k3,3nr \
+    | head -4 \
+    | jq -Rsc --argjson min "$min_thresh" '[split("\n")[] | select(length > 0) | split("\t") | {name: .[0], cpu: (.[1] | tonumber | round), ram: (.[2] | tonumber | round)}] | sort_by(-(2 * .cpu + .ram)) | [.[] | select(.cpu >= $min or .ram >= $min)][:4]'
+}
+
+while :; do
+  cpu_raw=$("$eww_bin" --config "$config_dir" get EWW_CPU 2>/dev/null || printf '{"avg":0}')
+  ram_raw=$("$eww_bin" --config "$config_dir" get EWW_RAM 2>/dev/null || printf '{"used_mem_perc":0}')
+  temp_raw=$("$eww_bin" --config "$config_dir" get temperature_state 2>/dev/null || printf '{"value":0}')
+
+  cpu=$(printf '%s' "$cpu_raw" | jq -r '.avg // 0 | round')
+  ram=$(printf '%s' "$ram_raw" | jq -r '.used_mem_perc // 0 | round')
+  temp=$(printf '%s' "$temp_raw" | jq -r '.value // 0 | round')
+
+  top=$(get_top)
+
+  jq -c \
+    --argjson cpu "$cpu" --argjson ram "$ram" --argjson temp "$temp" \
+    --argjson max "$max_entries" \
+    --argjson top "$top" \
+    '.cpu = (.cpu + [$cpu])[-$max:] | .ram = (.ram + [$ram])[-$max:] | .temp = (.temp + [$temp])[-$max:] | .top = $top' \
+    "$state_file" > "${state_file}.tmp" && mv "${state_file}.tmp" "$state_file"
+
+  cat "$state_file"
+  sleep 2
+done

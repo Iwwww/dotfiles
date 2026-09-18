@@ -1,0 +1,14 @@
+.layout {
+  color: $fg-primary;
+  font-weight: 700;
+}
+
+.layout-label {
+  font-size: $font-size-xs;
+  font-weight: 700;
+}
+
+.module.layout {
+  min-height: 0;
+  padding: $space-xs $space-2xs;
+}

@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+set -eu
+
+HELPER=${EWW_TAGS_HELPER:-$HOME/.config/eww/bar/modules/tags/river-eww-tags}
+
+[ -x "$HELPER" ] || exit 1
+
+tmpf=$(mktemp)
+timeout 4 "$HELPER" | while IFS= read -r line; do
+    [ "$line" = "[]" ] && continue
+    printf '%s\n' "$line"
+    break
+  done > "$tmpf"
+
+[ -s "$tmpf" ] && mv "$tmpf" /tmp/quickshell-tags.json || rm -f "$tmpf"

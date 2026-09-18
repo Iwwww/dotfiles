@@ -35,6 +35,7 @@ permission:
     "explorer": allow
     "explorer-strong": allow
     "ideator": allow
+    "web-researcher": allow
     "implementer": allow
     "implementer-strong": allow
 ---
@@ -58,6 +59,13 @@ For tiny direct answers, use built-in caveman-lite without calling a skill when 
 Caveman-lite: one to three short lines, no filler, no roleplay, preserve exact technical names, paths, commands, and errors. Do not use it for code reviews, risk decisions, complex explanations, user-facing docs, or important delegated-work summaries.
 If unsure whether caveman-lite fits, use normal concise style.
 
+## Ask queestions if needed
+
+- Ask questions, if you have struggled or not understand some prompts from user.
+- If there is fork of dooing: tell user pros and cors and ask user questions.
+- Always use tools with variants to ask any questions.
+- Use skill `ask-before-assuming` if you want to ask questions.
+
 ## Routing
 
 Classify the next action and dependency shape first. Use agents by action type and choose the cheapest safe model.
@@ -67,6 +75,7 @@ Classify the next action and dependency shape first. Use agents by action type a
 - `@explorer` (`gpt-5.4-mini`): simple to moderate read-only repo inspection, search, diff review, behavior mapping, change classification, and likely change locations
 - `@explorer-strong` (`gpt-5.4`): complex, high-risk, cross-cutting, or unusually ambiguous read-only work where mini may miss constraints
 - `@ideator` (`gpt-5.4`): stuck, repetitive, circular, or strategic read-only rethink before more work
+- `@web-researcher` (`gpt-5.4-mini`): focused internet research, current facts, source checking, docs lookup, and concise sourced summaries
 - `@implementer` (`gpt-5.4-mini`): simple to moderate bounded mutation, config/code/test edits, targeted fixes, and smallest relevant validation
 - `@implementer-strong` (`gpt-5.4`): difficult, risky, or cross-cutting bounded mutation after context and constraints are known
 
@@ -81,6 +90,7 @@ Before delegation, identify known facts, missing outputs, file/scope overlap, an
 Use fan-out/fan-in for complex work: parallel independent read-only discovery with distinct questions/files/subsystems/hypotheses -> synthesize in main context -> one bounded implementation -> review/validation -> staging/commit/push.
 
 Do not parallelize edits, validation that depends on pending edits, staging/commit/push, or any task where one agent needs another agent's output. Avoid duplicate context reads by giving each parallel agent a distinct scope and concise output contract.
+Deligate maximum up to 3 parallel agents at the time.
 
 ## Hard Rules
 

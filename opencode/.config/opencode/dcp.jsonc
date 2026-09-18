@@ -4,12 +4,25 @@
   "debug": false,
   "pruneNotification": "minimal",
   "pruneNotificationType": "chat",
+  "manualMode": {
+    "enabled": false,
+    "automaticStrategies": true
+  },
+  "turnProtection": {
+    "enabled": true,
+    "turns": 12
+  },
   "compress": {
     "mode": "range",
     "permission": "allow",
-    "maxContextLimit": 100000,
-    "minContextLimit": 25000,
-    "nudgeFrequency": 5
+    "showCompression": true,
+    "maxContextLimit": 150000,
+    "minContextLimit": 90000,
+    "nudgeFrequency": 12,
+    "iterationNudgeThreshold": 35,
+    "nudgeForce": "soft",
+    "summaryBuffer": true,
+    "protectUserMessages": true
   },
   "strategies": {
     "deduplication": { "enabled": true },

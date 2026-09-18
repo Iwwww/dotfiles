@@ -1,0 +1,104 @@
+#!/usr/bin/env sh
+set -eu
+
+eww_bin=/etc/profiles/per-user/mikhail/bin/eww
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/eww"
+
+last=""
+
+build_players() {
+  if ! player_list=$(playerctl -l 2>/dev/null); then
+    printf '[]'
+    return
+  fi
+  printf '%s\n' "$player_list" \
+    | sed 's/\.instance.*//' \
+    | sort -u \
+    | while IFS= read -r p; do
+        pstatus=$(playerctl -p "$p" status 2>/dev/null || printf 'Stopped')
+        printf '%s\t%s\n' "$p" "$pstatus"
+      done \
+    | jq -Rsn '[inputs | split("\n")[] | select(length > 0) | split("\t") | {name:.[0], status:.[1]}]'
+}
+
+emit() {
+  active=$("$eww_bin" --config "$config_dir" get media_active_player 2>/dev/null || printf '')
+  pflag=""
+  if [ -n "$active" ]; then
+    pflag="-p $active"
+  fi
+
+  players=$(build_players)
+
+  if ! status=$(playerctl $pflag status 2>/dev/null); then
+    current=$(jq -cn --argjson players "$players" \
+      '{class:"stopped",text:"",title:"",artist:"",album:"",art:"",player:"",length:0,position:0,progress:0,players:$players}')
+  else
+    meta=$(playerctl $pflag metadata --format '{{artist}}	{{title}}	{{album}}	{{playerName}}	{{mpris:artUrl}}	{{mpris:length}}' 2>/dev/null || printf '\t\t\t\t\t')
+    artist=$(printf '%s' "$meta" | cut -f1)
+    title=$(printf '%s' "$meta" | cut -f2)
+    album=$(printf '%s' "$meta" | cut -f3)
+    player=$(printf '%s' "$meta" | cut -f4)
+    art_url=$(printf '%s' "$meta" | cut -f5)
+    length_us=$(printf '%s' "$meta" | cut -f6)
+
+    art=""
+    case "$art_url" in
+      file://*) art="${art_url#file://}" ;;
+      /*) art="$art_url" ;;
+    esac
+    if [ -n "$art" ] && [ ! -f "$art" ]; then art=""; fi
+
+    length=0
+    if [ -n "$length_us" ] && [ "$length_us" != "0" ]; then
+      length=$((length_us / 1000000))
+    fi
+
+    pos_raw=$(playerctl $pflag position 2>/dev/null || printf '0')
+    position=$(echo "$pos_raw" | awk '{printf "%d", $1}')
+
+    progress=0
+    if [ "$length" -gt 0 ]; then
+      progress=$((position * 100 / length))
+      if [ "$progress" -gt 100 ]; then progress=100; fi
+    fi
+
+    text=""
+    if [ -n "$artist" ] && [ -n "$title" ]; then text="$artist - $title"
+    elif [ -n "$title" ]; then text="$title"
+    else text="$status"
+    fi
+
+    case "$status" in
+      Playing) class=playing ;;
+      Paused) class=paused ;;
+      *) class=stopped ;;
+    esac
+
+    current=$(jq -cn \
+      --arg class "$class" \
+      --arg text "$text" \
+      --arg title "$title" \
+      --arg artist "$artist" \
+      --arg album "$album" \
+      --arg art "$art" \
+      --arg player "$player" \
+      --argjson length "$length" \
+      --argjson position "$position" \
+      --argjson progress "$progress" \
+      --argjson players "$players" \
+      '{class:$class,text:$text,title:$title,artist:$artist,album:$album,art:$art,player:$player,length:$length,position:$position,progress:$progress,players:$players}')
+  fi
+
+  if [ "$current" != "$last" ]; then
+    printf '%s\n' "$current"
+    last="$current"
+  fi
+}
+
+emit
+
+while true; do
+  sleep 1
+  emit
+done

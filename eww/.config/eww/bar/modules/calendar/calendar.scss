@@ -1,0 +1,34 @@
+.calendar-popup {
+  background: $popup-bg;
+  border: 2px solid $popup-border;
+  border-radius: $radius-xl;
+  padding: $space-xl;
+}
+
+.calendar-popup-header {
+  margin-bottom: $space-lg;
+}
+
+.calendar-popup-title {
+  font-weight: 700;
+}
+
+.calendar-popup-close {
+  border-radius: $radius-md;
+  padding: $space-xs $space-lg;
+}
+
+.calendar-popup-close:hover {
+  background: $bg-hover;
+}
+
+.calendar {
+  color: $popup-fg;
+  font-size: $font-size-lg;
+}
+
+.calendar:selected {
+  background: $calendar-today-bg;
+  color: $calendar-today-fg;
+  border-radius: $space-sm;
+}
