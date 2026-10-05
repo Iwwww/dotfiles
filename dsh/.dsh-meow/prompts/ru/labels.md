@@ -1,0 +1,51 @@
+# meow-memory короткие каркасные слова (строки ключ-значение: `- key: value`, разделитель — первое полуширинное двоеточие + пробел, value сохраняется как есть; отступ в два пробела в начале строки — продолжение; {name} заполняется кодом. Строки-комментарии и пустые строки игнорируются парсером)
+
+- inject.title: ===== Долгосрочная память =====
+- inject.end: ===== Конец долгосрочной памяти =====
+- inject.promptLabel: Prompt пользователя в этом раунде:
+- inject.sectionFormat: 【{label}】
+- inject.aboutYou: О тебе
+- inject.aboutUser: О пользователе
+- inject.rules: Принципы проектирования
+- inject.guide: Памятный гид
+- inject.guideSearchLine: По необходимости ищи через memory_search (обязательно передай query — поисковые слова, пустой запрос не работает) и читай через memory_read.
+- inject.guideProjectLine: Когда есть задача по проекту — сначала посмотри картину проекта через memory_project (не забудь имя проекта, пустой параметр не работает), чтобы получить целостное понимание проекта.
+- inject.guideProjects: Все project пользователя: {list}
+- project.global: Глобально
+- inject.hitHeader: Возможно связанные записи, справочно:
+- inject.reinjectSection: Сессия сжата
+- inject.reinjectIntro: Контекст этой сессии до этого был сжат. Ниже — записи, видимые до сжатия в этой сессии, но теперь потерянные из-за сжатия, пересобранные по последним данным базы:
+- inject.writtenSection: Записи, созданные в этой сессии
+- inject.writtenIntro: Ниже — записи, которые ты в этой сессии создал/слит через memory_remember, обновил через memory_update (включая, написанные от твоего имени субагентами; архивные/завершённые не воспроизводятся):
+- dream.title: Задача упорядочения памяти (dream)
+- dream.round.atomic: Атомарные записи памяти
+- dream.round.topic: Записи topic
+- dream.round.project-summary: Резюме проекта
+- dream.listHeader: 【Память этой группы】:
+- dream.groupHeader: 【project: {name}】
+- dream.groupUnlabeled: Без проекта — глобальная информация или нет метки проекта
+- dream.row.keywordsLabel: Ключевые слова:
+- dream.row.none: (нет)
+- dream.topic.empty: (В этой группе пока нет созданных записей topic — оглянись на историю диалога, если есть новый topic, создай по руководству 2 ниже)
+- project.unlabeled: Без метки
+- project.header: 【Проект: {name}】
+- project.empty: 【Проект: {name}】 В этом проекте пока нет записей.
+- project.section.overview: Обзор проекта
+- project.section.structure: Структура проекта
+- project.section.decisions: Технические решения
+- project.section.quotes: Прямые слова пользователя
+- project.section.ops: Развёртывание и данные
+- project.section.todo: Прогресс проекта
+- project.todoDone: Готово:
+- project.todoOpen: Список задач:
+- time.none: Без метки времени
+- time.justNow: только что
+- time.minutes: {n} мин. назад
+- time.hours: {n} ч. назад
+- time.days: {n} дн. назад
+- reflect.noProjects: (пока нет)
+- remember.error.content: memory_remember: параметр content обязателен — укажи, что запомнить, и попробуй снова
+- remember.error.project: memory_remember: параметр project обязателен — для глобальной информации впиши «{global}», для конкретного проекта — имя проекта (несколько проектов через английскую запятую), укажи и попробуй снова
+- remember.error.keywords: memory_remember: параметр keywords обязателен — выдели 8–13 содержательных ключевых слов для поиска (не используй имя проекта как ключевое слово), укажи и попробуй снова
+- remember.error.keywordsEmpty: memory_remember: параметр keywords получен, но не извлекается ни одного ключевого слова (получено {received}) — передай массив строк или текст ключевых слов через запятую и попробуй снова
+- remember.error.importance: memory_remember: параметр importance обязателен — оцени важность: 4=критическая красная линия/здоровье и безопасность, 3=подчёркнуто пользователем/применимо глобально, 2=обобщение по решению пользователя, 1=мелочь, укажи и попробуй снова

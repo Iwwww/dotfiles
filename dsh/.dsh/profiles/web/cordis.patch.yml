@@ -12,4 +12,138 @@
 # writes in (Russian), not from the English system prompt or file contents.
 - id: meow-memory
   config:
-    promptLang: 'ru'
+    promptLang: ru
+    dream:
+      timeZone: Europe/Moscow
+
+# Corporate RAGFlow MCP (streamable-HTTP). Bearer key read from ~/.ragflow-api
+# at plugin-activation time; the file is trimmed so no trailing newline leaks
+# into the Authorization header.
+- insert:
+    - id: mcp-ragflow
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: ragflow
+        transport: streamable-http
+        url: https://rag.pandora.pri/mcp
+        headers:
+          Authorization: !!js '`Bearer ` +
+            process.getBuiltinModule("node:fs").readFileSync(process.env.HOME +
+            "/.ragflow-api", "utf8").trim()'
+- id: dsh-russian-lang
+  disabled: true
+- id: github-workbench
+  disabled: true
+- id: dsh-split-panes
+  disabled: true
+- id: michengai-codex-ui-session-title
+  disabled: true
+- id: codex-ui
+  disabled: true
+- id: session-rail
+  disabled: true
+- id: ui-settings-general
+  name: "@deepseek-ai/dsh-client-ui-settings-general"
+  config:
+    welcomeNoticeVersion: 2026-09-28.1
+- id: ui-chat
+  name: "@deepseek-ai/dsh-client-ui-chat"
+  config:
+    transcriptView: standard
+    performanceUsage: compact
+- id: llm-pi-ai
+  name: "@deepseek-ai/dsh-llm-pi-ai"
+  config:
+    providers:
+      pandora:
+        displayName: Pandora
+        apiKeyEnv: PANDORA_API_KEY
+        api: openai-completions
+        baseURL: https://ai.pandora.pri/litellm/v1
+        reasoning: medium
+        compat:
+          thinkingFormat: openai
+          supportsReasoningEffort: true
+          supportsDeveloperRole: false
+        models:
+          - id: Qwen3.8-27B-FP8
+            name: Qwen3.8 27B
+            contextWindow: 262144
+            maxTokens: 32768
+            input:
+              - text
+              - image
+            reasoningEfforts:
+              off: none
+              low: low
+              medium: medium
+              xhigh: xhigh
+- id: agent-default-model
+  name: "@deepseek-ai/dsh-agent-default-model"
+  config:
+    provider: deepseek-official
+    model: deepseek-flash
+    reasoningEffort: low
+- id: ui-theme
+  name: "@deepseek-ai/dsh-client-ui-theme"
+  config:
+    preference: system
+    fontSize: 16
+- id: locale
+  name: "@deepseek-ai/dsh-client-locale"
+  config:
+    preference: ru
+- id: llm-deepseek
+  name: "@deepseek-ai/dsh-llm-deepseek-api-key"
+  config:
+    models:
+      - id: deepseek-flash
+        name: DeepSeek-V41-Flash
+        contextWindow: 1000000
+        inputModalities:
+          - text
+          - image
+        imagePixelBudget: 640000
+        imageMaxBytes: 1048576
+        systemPromptUpdate: in-history
+- id: better-sidebar
+  name: dsh-better-sidebar
+  config:
+    agentOpenTools: true
+    tabsEnabled:
+      terminal: false
+      dsh-git-forge: false
+      sidechat: true
+      subagent: true
+    autoOpenSubagent: true
+    autoOpenJobs: false
+    pluginSettings:
+      editor:
+        openWith:
+          sshHost: ""
+          customEditors: []
+          pinned: []
+- id: session-log-deepseek
+  name: "@deepseek-ai/dsh-session-log-deepseek"
+  config:
+    enabled: false
+- id: dsh-ui-shortcuts
+  disabled: true
+- id: workspace-archive-manager
+  disabled: true
+- id: session-projection-cache-archive-manager
+  disabled: true
+- id: ui-workspace-archive-manager
+  disabled: true
+- id: dsh-automation
+  disabled: true
+- id: dsh-openpencil
+  disabled: true
+- id: agency-agents-remote
+  disabled: true
+- id: agency-agents
+  disabled: true
+- id: dsh-live-canvas
+  disabled: true
+- id: ui-git-graph
+  disabled: true

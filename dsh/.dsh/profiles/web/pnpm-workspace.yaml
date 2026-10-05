@@ -4,8 +4,18 @@ packages:
 nodeLinker: hoisted
 autoInstallPeers: false
 allowBuilds:
+  protobufjs: false
+  koffi: false
   node-pty: true
 minimumReleaseAgeExclude:
   - '@michengai/dsh-skills-manager@0.1.53'
   - '@michengai/dsh-btw@0.1.10'
   - '@goodandready/dsh-russian-lang@0.2.25'
+  - '@michengai/dsh-skills-manager@1.1.0'
+  - '@goodandready/dsh-live-canvas@0.2.20'
+  - '@michengai/dsh-agency-agents@1.0.2'
+  - '@michengai/dsh-archive-manager@1.0.3'
+  - '@michengai/dsh-automation@0.1.46'
+  - dshmarket@1.58.0
+  - '@goodandready/dsh-russian-lang@0.3.36'
+  - '@michengai/dsh-skills-manager@1.1.9'
