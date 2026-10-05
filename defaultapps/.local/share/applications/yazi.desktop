@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Yazi File Manager
+GenericName=File Manager
+Comment=Терминальный файловый менеджер yazi в окне foot
+Comment[ru]=Терминальный файловый менеджер yazi в окне foot
+TryExec=foot-run
+Exec=foot-run yazi %f
+Icon=yazi
+Terminal=false
+StartupNotify=false
+Categories=System;FileManager;FileTools;
+Keywords=File;Manager;Explorer;Browser;Launcher;
+MimeType=inode/directory;

@@ -1,0 +1,15 @@
+#!/bin/sh
+# Обёртка над xdg-open для river/wayland.
+#
+# Причина: XDG_CURRENT_DESKTOP=river, поэтому /usr/bin/xdg-open уходит в ветку
+# open_generic, которая резолвит MIME-тип БЕЗ наследования подтипов. Из-за этого
+# text/x-script.python (что shared-mime-info выдаёт для .py) не находит
+# обработчика для text/x-python / text/plain, и файл улетает в браузер.
+# gio open наследование типов поддерживает, поэтому сначала пробуем его,
+# а к системному xdg-open откатываемся только если gio не справился.
+
+if command -v gio >/dev/null 2>&1; then
+    gio open "$@" 2>/dev/null && exit 0
+fi
+
+exec /usr/bin/xdg-open "$@"

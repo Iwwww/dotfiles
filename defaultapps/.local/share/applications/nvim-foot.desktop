@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Neovim (foot)
+GenericName=Text Editor
+Comment=Редактировать текст и код в Neovim внутри foot
+Comment[ru]=Редактировать текст и код в Neovim внутри foot
+TryExec=foot-run
+Exec=foot-run nvim %F
+Icon=nvim
+Terminal=false
+StartupNotify=false
+Categories=Utility;TextEditor;Development;
+MimeType=text/plain;text/english;text/markdown;text/x-markdown;text/x-python;text/x-shellscript;text/x-csrc;text/x-chdr;text/x-c++src;text/x-c++hdr;text/x-c;text/x-c++;text/x-java;text/x-tex;text/x-makefile;text/x-tcl;text/x-perl;text/x-ruby;text/x-lua;text/x-javascript;text/javascript;text/x-php;text/x-pascal;text/x-moc;text/x-diff;text/x-patch;text/x-log;text/x-org;text/rust;text/x-rust;text/x-go;text/x-sql;text/x-vim;text/x-nix;application/x-shellscript;application/json;application/x-yaml;application/yaml;application/toml;application/xml;application/x-zerosize;inode/x-empty;

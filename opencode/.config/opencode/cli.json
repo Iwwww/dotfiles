@@ -1,0 +1,339 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "material",
+    "mode": "dark"
+  },
+  "keybinds": {
+    "leader": [
+      "ctrl+x",
+      "ctrl+ч"
+    ],
+    "app.exit": [
+      "ctrl+c",
+      "ctrl+с",
+      "ctrl+d",
+      "ctrl+в",
+      "<leader>q",
+      "<leader>й"
+    ],
+    "command.palette.show": [
+      "ctrl+p",
+      "ctrl+з"
+    ],
+    "prompt.editor": [
+      "<leader>e",
+      "<leader>у"
+    ],
+    "theme.switch": [
+      "<leader>t",
+      "<leader>е"
+    ],
+    "session.sidebar.toggle": [
+      "<leader>b",
+      "<leader>и"
+    ],
+    "opencode.status": [
+      "<leader>s",
+      "<leader>ы"
+    ],
+    "session.export": [
+      "<leader>x",
+      "<leader>ч"
+    ],
+    "session.new": [
+      "<leader>n",
+      "<leader>т"
+    ],
+    "session.list": [
+      "<leader>l",
+      "<leader>д"
+    ],
+    "session.timeline": [
+      "<leader>g",
+      "<leader>п"
+    ],
+    "session.rename": [
+      "ctrl+r",
+      "ctrl+к"
+    ],
+    "session.delete": [
+      "ctrl+d",
+      "ctrl+в"
+    ],
+    "session.compact": [
+      "<leader>c",
+      "<leader>с"
+    ],
+    "stash.delete": [
+      "ctrl+d",
+      "ctrl+в"
+    ],
+    "model.dialog.provider": [
+      "ctrl+a",
+      "ctrl+ф"
+    ],
+    "model.dialog.favorite": [
+      "ctrl+f",
+      "ctrl+а"
+    ],
+    "model.list": [
+      "<leader>m",
+      "<leader>ь"
+    ],
+    "agent.list": [
+      "<leader>a",
+      "<leader>ф"
+    ],
+    "variant.cycle": [
+      "ctrl+t",
+      "ctrl+е"
+    ],
+    "session.page.up": [
+      "pageup",
+      "ctrl+alt+b",
+      "ctrl+alt+и"
+    ],
+    "session.page.down": [
+      "pagedown",
+      "ctrl+alt+f",
+      "ctrl+alt+а"
+    ],
+    "session.line.up": [
+      "ctrl+alt+y",
+      "ctrl+alt+н"
+    ],
+    "session.line.down": [
+      "ctrl+alt+e",
+      "ctrl+alt+у"
+    ],
+    "session.half.page.up": [
+      "ctrl+alt+u",
+      "ctrl+alt+г"
+    ],
+    "session.half.page.down": [
+      "ctrl+alt+d",
+      "ctrl+alt+в"
+    ],
+    "session.first": [
+      "ctrl+g",
+      "home",
+      "ctrl+п"
+    ],
+    "session.last": [
+      "ctrl+alt+g",
+      "end",
+      "ctrl+alt+п"
+    ],
+    "messages.copy": [
+      "<leader>y",
+      "<leader>н"
+    ],
+    "session.undo": [
+      "<leader>u",
+      "<leader>г"
+    ],
+    "session.redo": [
+      "<leader>r",
+      "<leader>к"
+    ],
+    "prompt.clear": [
+      "ctrl+c",
+      "ctrl+с"
+    ],
+    "prompt.paste": [
+      {
+        "key": "ctrl+v",
+        "preventDefault": false
+      },
+      {
+        "key": "ctrl+м",
+        "preventDefault": false
+      }
+    ],
+    "input.move.left": [
+      "left",
+      "ctrl+b",
+      "ctrl+и"
+    ],
+    "input.move.right": [
+      "right",
+      "ctrl+f",
+      "ctrl+а"
+    ],
+    "input.line.home": [
+      "ctrl+a",
+      "ctrl+ф"
+    ],
+    "input.line.end": [
+      "ctrl+e",
+      "ctrl+у"
+    ],
+    "input.select.line.home": [
+      "ctrl+shift+a",
+      "ctrl+shift+ф"
+    ],
+    "input.select.line.end": [
+      "ctrl+shift+e",
+      "ctrl+shift+у"
+    ],
+    "input.visual.line.home": [
+      "alt+a",
+      "alt+ф"
+    ],
+    "input.visual.line.end": [
+      "alt+e",
+      "alt+у"
+    ],
+    "input.select.visual.line.home": [
+      "alt+shift+a",
+      "alt+shift+ф"
+    ],
+    "input.select.visual.line.end": [
+      "alt+shift+e",
+      "alt+shift+у"
+    ],
+    "input.delete.line": [
+      "ctrl+shift+d",
+      "ctrl+shift+в"
+    ],
+    "input.delete.to.line.end": [
+      "ctrl+k",
+      "ctrl+л"
+    ],
+    "input.delete.to.line.start": [
+      "ctrl+u",
+      "ctrl+г"
+    ],
+    "input.delete": [
+      "ctrl+d",
+      "delete",
+      "shift+delete",
+      "ctrl+в"
+    ],
+    "input.undo": [
+      "ctrl+-",
+      "super+z",
+      "super+я"
+    ],
+    "input.redo": [
+      "ctrl+.",
+      "super+shift+z",
+      "ctrl+ю",
+      "super+shift+я"
+    ],
+    "input.word.forward": [
+      "alt+f",
+      "alt+right",
+      "ctrl+right",
+      "alt+а"
+    ],
+    "input.word.backward": [
+      "alt+b",
+      "alt+left",
+      "ctrl+left",
+      "alt+и"
+    ],
+    "input.select.word.forward": [
+      "alt+shift+f",
+      "alt+shift+right",
+      "alt+shift+а"
+    ],
+    "input.select.word.backward": [
+      "alt+shift+b",
+      "alt+shift+left",
+      "alt+shift+и"
+    ],
+    "input.delete.word.forward": [
+      "alt+d",
+      "alt+delete",
+      "ctrl+delete",
+      "alt+в"
+    ],
+    "input.delete.word.backward": [
+      "ctrl+w",
+      "ctrl+backspace",
+      "alt+backspace",
+      "ctrl+ц"
+    ],
+    "input.select.all": [
+      "super+a",
+      "super+ф"
+    ],
+    "dialog.select.prev": [
+      "up",
+      "ctrl+p",
+      "ctrl+з"
+    ],
+    "dialog.select.next": [
+      "down",
+      "ctrl+n",
+      "ctrl+т"
+    ],
+    "prompt.autocomplete.prev": [
+      "up",
+      "ctrl+p",
+      "ctrl+з"
+    ],
+    "prompt.autocomplete.next": [
+      "down",
+      "ctrl+n",
+      "ctrl+т"
+    ],
+    "permission.prompt.fullscreen": [
+      "ctrl+f",
+      "ctrl+а"
+    ],
+    "terminal.suspend": [
+      "ctrl+z",
+      "ctrl+я"
+    ]
+  },
+  "plugins": [
+    "oc-codex-multi-auth"
+  ],
+  "diffs": {
+    "wrap": "word",
+    "view": "auto",
+    "tree": true,
+    "single": false
+  },
+  "terminal": {
+    "title": true,
+    "copy": "select"
+  },
+  "session": {
+    "sidebar": "auto",
+    "scrollbar": true,
+    "thinking": "hide",
+    "markdown": "rendered",
+    "grouping": "auto",
+    "verbosity": "low",
+    "image_preview": true,
+    "tps": true,
+    "new_location": "launch",
+    "permissions": "autoaccept"
+  },
+  "animations": true,
+  "tabs": {
+    "mode": "auto",
+    "scope": "cwd",
+    "layout": "horizontal",
+    "indicators": "status"
+  },
+  "scroll": {
+    "speed": 3.25,
+    "acceleration": false
+  },
+  "prompt": {
+    "paste": "compact",
+    "image_preview": true
+  },
+  "attention": {
+    "notifications": true,
+    "sound": true
+  },
+  "debug": {
+    "devtools": false
+  }
+}

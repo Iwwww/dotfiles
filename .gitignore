@@ -3,3 +3,6 @@
 .config/nvim/plugin
 
 .mcp_data/
+
+# содержит пароль сервиса opencode — не коммитить
+opencode/.config/opencode/service.json

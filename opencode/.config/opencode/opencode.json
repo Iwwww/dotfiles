@@ -1,5 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "default_agent": "plan",
+  "compaction": { "auto": true, "prune": true, "reserved": 32768 },
   "plugin": [
     //"oc-codex-multi-auth"
     //"opencode-vibeguard",
@@ -237,6 +239,53 @@
           }
         }
       }
+    },
+    "Pandora": {
+      "name": "Pandora",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://ai.pandora.pri/litellm/v1"
+      },
+      "models": {
+        "Qwen3.8-27B-FP8": {
+          "name": "Qwen3.8 27B",
+          "tool_call": true,
+          "reasoning": true,
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          },
+          "options": {
+            "temperature": 1.0,
+            "top_p": 0.95,
+            "presence_penalty": 0.0,
+            "extra_body": {
+              "top_k": 20,
+              "min_p": 0.0
+            }
+          },
+          "variants": {
+            "low": { "reasoningEffort": "low" },
+            "medium": { "reasoningEffort": "medium" },
+            "xhigh": { "reasoningEffort": "xhigh" },
+            "none": {
+              "reasoningEffort": "none",
+              "temperature": 0.7,
+              "top_p": 0.8,
+              "extraBody": {
+                "top_k": 20,
+                "presence_penalty": 1.5,
+                "chat_template_kwargs": { "enable_thinking": false }
+              }
+            }
+          },
+          "attachment": true,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        }
+      }
     }
   },
   "mcp": {
@@ -266,6 +315,19 @@
         "mcp-wireshark"
       ],
       "enabled": true
+    },
+    "web-search": {
+      "type": "local",
+      "command": ["npx", "@zhafron/mcp-web-search"]
+    },
+    "ragflow": {
+      "type": "remote",
+      "url": "https://rag.pandora.pri/mcp",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {file:~/.ragflow-api}"
+      }
     }
   }
 }

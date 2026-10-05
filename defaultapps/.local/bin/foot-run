@@ -1,0 +1,16 @@
+#!/bin/sh
+# Запустить произвольную команду в окне foot.
+# Если поднят foot-сервер (foot.service) — переиспользуем его через footclient,
+# иначе поднимаем отдельный foot. Нужен потому, что GIO не умеет запускать
+# desktop-файлы с Terminal=true: он не находит "зарегистрированный" терминал.
+#
+# Использование: foot-run <команда> [аргументы...]
+
+runtime="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+sock="$runtime/foot-${WAYLAND_DISPLAY:-wayland-1}.sock"
+
+if [ -S "$sock" ] && command -v footclient >/dev/null 2>&1; then
+    exec footclient -e "$@"
+fi
+
+exec foot -e "$@"
